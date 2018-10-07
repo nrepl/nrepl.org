@@ -1,0 +1,20 @@
+{
+  "name": "nrepl.org",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nrepl/nREPL.org.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nrepl/nREPL.org/issues"
+  },
+  "homepage": "https://github.com/nrepl/nREPL.org#readme",
+  "dependencies": {
+    "@antora/cli": "^1.1.1",
+    "@antora/site-generator-default": "^1.1.1"
+  }
+}
