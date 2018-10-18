@@ -41,7 +41,22 @@
     <a class="nav-link" href="usage.html">Usage</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="design.html">Design</a>
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#">design/middleware.adoc</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="ops.html">Built-in Ops</a>
@@ -200,7 +215,7 @@ adding nREPL as a dependency to your project.</p>
 <td class="content">
 <div class="paragraph">
 <p>Prior to version 0.3, nREPL used to be hosted on Maven Central and had
-a different deployment artefact - <code>org.clojure/clojure.tools.nrepl</code>.</p>
+a different deployment artifact - <code>org.clojure/clojure.tools.nrepl</code>.</p>
 </div>
 </td>
 </tr>
@@ -234,7 +249,7 @@ a different deployment artefact - <code>org.clojure/clojure.tools.nrepl</code>.<
 <div class="ulist">
 <ul>
 <li>
-<p>The artefact id changed from <code>org.clojure/clojure.tools.nrepl</code> to <code>nrepl/nrepl</code>.</p>
+<p>The artifact id changed from <code>org.clojure/clojure.tools.nrepl</code> to <code>nrepl/nrepl</code>.</p>
 </li>
 <li>
 <p>The namespace prefix changed from <code>clojure.tools.nrepl</code> to <code>nrepl</code>.</p>

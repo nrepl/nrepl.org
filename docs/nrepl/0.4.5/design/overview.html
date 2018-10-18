@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.xyz/nrepl/0.4.5/design/overview.html">
+    <meta name="generator" content="Antora 1.1.1">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://nrepl.xyz">nREPL</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="nrepl" data-version="0.4.5">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">nREPL</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../usage.html">Usage</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#">design/middleware.adoc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../ops.html">Built-in Ops</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../third_party_middleware.html">Third-party Middleware</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/history.html">History</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/team.html">Team</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/support.html">Support</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/contributing.html">Contributing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/release_policy.html">Release Policy</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/license.html">License</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">nREPL</span>
+    <span class="version">0.4.5</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">nREPL</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">0.4.5</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">nREPL</a></li>
+    <li class="crumb">Design</li>
+    <li class="crumb"><a href="overview.html">Overview</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/design/overview.adoc">Edit this Page</a></div>
+</div>
+<article class="doc">
+<h1>Overview</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>nREPL largely consists of three abstractions: handlers, middleware, and
+transports.  These are roughly analogous to the handlers, middleware, and
+adapters of <a href="https://github.com/ring-clojure/ring">Ring</a>, though there are some
+important semantic differences. Finally, nREPL is fundamentally message-oriented
+and asynchronous (in contrast to most REPLs that build on top of streams
+provided by e.g.  terminals).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_messages"><a class="anchor" href="#_messages"></a>Messages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>nREPL messages are maps.  The keys and values that may be included in messages
+depends upon the transport being used; different transports may encode messages
+differently, and therefore may or may not be able to represent certain data
+types.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_requests"><a class="anchor" href="#_requests"></a>Requests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Each message sent to an nREPL endpoint constitutes a "request" to perform a
+particular operation, which is indicated by a <code>"op"</code> entry.  Each operation may
+further require the incoming message to contain other data.  Which data an
+operation requires or may accept varies; for example, a message to evaluate
+some code might look like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{"op" "eval" "code" "(+ 1 2 3)"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result(s) of performing each operation may be sent back to the nREPL client
+in one or more response messages, the contents of which again depend upon the
+operation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_responses"><a class="anchor" href="#_responses"></a>Responses</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The server may produce multiple messages in response to each client message (request).
+The structure of the response is unique per each message type, but there are a few
+fundamental properties that will always be around in the responses:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>id</code> The ID of the request for which the response was generated.</p>
+</li>
+<li>
+<p><code>session</code> The ID of the session for which the response was generated.</p>
+</li>
+<li>
+<p><code>status</code> The status of the response. Here there would either be something like "done"
+if a request has been fully processed or the reason for a failure (e.g. "namespace-not-found"). Not every
+response message would have the status key. If some request generated multiple response messages only the
+final one would have the status attached to it.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>As mentioned earlier each op would produce different response messages. Here&#8217;s what you can expect
+to see in responses generated as a result of an <code>eval</code> op invocation.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ns</code> The stringified value of <code><strong>ns</strong></code> at the time of the response message&#8217;s
+generation.</p>
+</li>
+<li>
+<p><code>out</code> Contains content written to <code><strong>out</strong></code> while the request&#8217;s code was being evaluated.  Messages containing <code><strong>out</strong></code> content may be sent at the discretion
+of the server, though at minimum corresponding with flushes of the underlying
+stream/writer.</p>
+</li>
+<li>
+<p><code>err</code> Same as <code>out</code>, but for <code><strong>err</strong></code>.</p>
+</li>
+<li>
+<p><code>value</code> The result of printing a result of evaluating a form in the code sent
+  in the corresponding request.  More than one value may be sent, if more than
+one form can be read from the request&#8217;s code string.  In contrast to the output
+written to <code><strong>out</strong></code> and <code><strong>err</strong></code>, this may be usefully/reliably read and utilized
+by the client, e.g. in tooling contexts, assuming the evaluated code returns a
+printable and readable value.  Interactive clients will likely want to simply
+stream `value&#8217;s content to their UI&#8217;s primary output / log.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note that evaluations that are interrupted may nevertheless result
+in multiple response messages being sent prior to the interrupt
+occurring.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Your favourite editor/nREPL client might have some utility to
+monitor the exchange of messages between the client and nREPL
+(e.g. CIDER has a <code><strong>nrepl-messages</strong></code> where you can monitor all
+requests and responses). That&#8217;s a great way to get a better understanding
+of nREPL server responses.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+  </body>
+</html>

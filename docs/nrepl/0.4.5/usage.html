@@ -41,7 +41,22 @@
     <a class="nav-link" href="usage.html">Usage</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="design.html">Design</a>
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="#">design/middleware.adoc</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="ops.html">Built-in Ops</a>
@@ -435,7 +450,7 @@ in <a href="#connecting-to-an-nrepl-server">Connecting to an nREPL server</a>.</
 default use of sockets.  nREPL provides a <em>transport</em> abstraction for
 implementing support for alternative protocols and connection methods.
 Alternative transport implementations are available, and implementing your own
-is not difficult; read more about transports <a href="design.html#transports" class="page">here</a>.</p>
+is not difficult; read more about transports <a href="design/transports.html" class="page">here</a>.</p>
 </div>
 </div>
 </div>
