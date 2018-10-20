@@ -336,12 +336,12 @@ like this will work:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (require '[nrepl.core :as repl])
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (require '[nrepl.core :as nrepl])
 nil
-=&gt; (with-open [conn (repl/connect :port 59258)]
-     (-&gt; (repl/client conn 1000)    ; message receive timeout required
-       (repl/message {:op "eval" :code "(+ 2 3)"})
-       repl/response-values))</code></pre>
+=&gt; (with-open [conn (nrepl/connect :port 59258)]
+     (-&gt; (nrepl/client conn 1000)    ; message receive timeout required
+         (nrepl/message {:op "eval" :code "(+ 2 3)"})
+         nrepl/response-values))</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -352,10 +352,10 @@ connect to a nREPL server listening on address 172.18.0.5 and port 4001:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (with-open [conn (repl/connect :host "172.18.0.5" :port 4001)]
-     (-&gt; (repl/client conn 1000)    ; message receive timeout required
-       (repl/message {:op "eval" :code "(+ 2 3)"})
-       repl/response-values))</code></pre>
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (with-open [conn (nrepl/connect :host "172.18.0.5" :port 4001)]
+     (-&gt; (nrepl/client conn 1000)    ; message receive timeout required
+         (nrepl/message {:op "eval" :code "(+ 2 3)"})
+         nrepl/response-values))</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -365,11 +365,11 @@ the full content of message responses easily:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (with-open [conn (repl/connect :port 59258)]
-     (-&gt; (repl/client conn 1000)
-       (repl/message {:op :eval :code "(time (reduce + (range 1e6)))"})
-       doall      ;; `message` and `client-session` all return lazy seqs
-       pprint))
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (with-open [conn (nrepl/connect :port 59258)]
+     (-&gt; (nrepl/client conn 1000)
+         (nrepl/message {:op :eval :code "(time (reduce + (range 1e6)))"})
+         doall      ;; `message` and `client-session` all return lazy seqs
+         pprint))
 nil
 ({:out "\"Elapsed time: 68.032 msecs\"\n",
   :session "2ba81681-5093-4262-81c5-edddad573201",

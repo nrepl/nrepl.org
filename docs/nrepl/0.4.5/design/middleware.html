@@ -241,7 +241,8 @@ described.</p>
 <p><code>:handles</code>, a map that documents the operations implemented by the
   middleware.  Each entry in this map must have as its key the string value of
 the handled <code>:op</code> and a value that contains any of four entries:</p>
-</li>
+<div class="ulist">
+<ul>
 <li>
 <p><code>:doc</code>, a human-readable docstring for the middleware</p>
 </li>
@@ -259,12 +260,28 @@ to handling the indicated <code>:op</code></p>
 </li>
 </ul>
 </div>
+</li>
+</ul>
+</div>
 <div class="paragraph">
 <p>The values in the <code>:handles</code> map is used to support the <code>"describe"</code> operation,
 which provides "a machine- and human-readable directory and documentation for
 the operations supported by an nREPL endpoint" (see
-<code>nrepl.middleware/describe-markdown</code>, and the results of
-<code>"describe"</code> and <code>describe-markdown</code> <a href="../ops.html" class="page">here</a>).</p>
+<code>nrepl.middleware/describe-adoc</code>, and the results of
+<code>"describe"</code> and <code>describe-doc</code> <a href="../ops.html" class="page">here</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+There&#8217;s also <code>nrepl.middleware/describe-markdown</code> if you&#8217;d like to
+generate an ops listing in Markdown format.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The <code>:requires</code> and <code>:expects</code> entries control the order in which
