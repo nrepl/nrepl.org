@@ -174,10 +174,46 @@ around its recent redesign.<sup class="footnote">[<a id="_footnoteref_1" class="
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_status"><a class="anchor" href="#_status"></a>Status</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Despite its modest version number, nREPL is extremely stable at this
+point. Its communication protocol and API are rock-solid and battle
+tested and have been powering much of the existing Clojure tooling for
+several years now.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</sup></p>
+</div>
+<div class="paragraph">
+<p>Given the massive community investment in developing all sorts of
+tooling on top of nREPL, nREPL&#8217;s team pledges to evolve the project only in
+a responsible manner and backwards-compatible ways.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The migration of nREPL out of Clojure Contrib is probably the
+only case where we were forced to make breaking changes.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnote_3" title="View footnote.">3</a>]</sup> Those are detailed in great
+detail <a href="installation.html#upgrading" class="page">here</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnote_1">
 <a href="#_footnoteref_1">1</a>. It&#8217;s not that recent anymore, as the redesign happened in 2012. It marked the beginning of the long-lived nREPL 0.2 series.
+</div>
+<div class="footnote" id="_footnote_2">
+<a href="#_footnoteref_2">2</a>. nREPL had virtually no alternatives before the introduction of the built-in Socket REPL in Clojure 1.8.
+</div>
+<div class="footnote" id="_footnote_3">
+<a href="#_footnoteref_3">3</a>. Apart from removing deprecated code that is.
 </div>
 </div>
 </article>
