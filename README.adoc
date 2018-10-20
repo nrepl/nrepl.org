@@ -1,6 +1,8 @@
 == nREPL.org
 
-The site is generated from the asciidoc files in the link:https://github.com/nrepl/nREPL/tree/master/doc[doc] folder of nREPL's GitHub repo and is published to https://nrepl.org.
+NOTE: Despite the name of the repo, we're currently publishing the site to https://nrepl.xyz.
+
+The site is generated from the asciidoc files in the link:https://github.com/nrepl/nREPL/tree/master/doc[doc] folder of nREPL's GitHub repo and is published to https://nrepl.xyz.
 link:https://antora.org[Antora] is used to convert the manual into HTML.
 The filesystem layout is described at https://docs.antora.org/antora/1.1/component-structure/
 
@@ -17,6 +19,8 @@ $ ./antora site.yml
 ----
 
 TIP: If `npm install` fails, see link:https://docs.antora.org/antora/1.1/install/troubleshoot-nodegit/[Antora's troubleshooting documentation].
+
+To check the generated site you can simply open `docs/index.html` in your favourite browser.
 
 If you want to make changes to the manual's page structure you'll have to edit
 link:https://github.com/nrepl/nREPL/blob/master/doc/modules/ROOT/nav.adoc[nav.adoc].
