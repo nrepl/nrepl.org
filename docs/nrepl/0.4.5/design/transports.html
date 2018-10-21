@@ -136,6 +136,8 @@
 </div>
 <article class="doc">
 <h1>Transports</h1>
+<div id="preamble">
+<div class="sectionbody">
 <div class="paragraph">
 <p><em>Transports</em> are roughly analogous to Ring&#8217;s adapters: they provide an
 implementation of a common protocol (<code>nrepl.transport.Transport</code>)
@@ -153,6 +155,64 @@ nREPL messages over sockets.  It is the latter that is used by default by
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/nrepl/nrepl/wiki/Extensions">Other nREPL transports are provided by the community</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tty_transport"><a class="anchor" href="#_tty_transport"></a>TTY Transport</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Using the TTY transport is pretty simple. You just need to start an nREPL server with TTY transport and you&#8217;re good to go:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(require
+ '[nrepl.server :as server]
+ '[nrepl.transport :as transport])
+
+(server/start-server :port 12345 :transport-fn transport/tty :greeting-fn transport/tty-greeting)</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>:greeting-fn</code> is responsible for printing the initial message you&#8217;ll see
+upon connecting.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Afterwards you can simply connect to the server with some TTY client like <code>telnet</code>, <code>nc</code> or <code>inf-clojure</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ nc localhost 12345
+
+;; Clojure 1.9.0
+user=&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_bencode_transport"><a class="anchor" href="#_bencode_transport"></a>Bencode Transport</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There&#8217;s nothing special you have to do to use the bencode transport,
+as it&#8217;s the default transport for <code>nrepl.server/start-server</code>.</p>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll need a bencode capable client to connect to an nREPL server that transport.</p>
+</div>
+<div class="paragraph">
+<p>nREPL&#8217;s bencode implementation is available as a <a href="https://github.com/nrepl/bencode">standalone library</a>.</p>
+</div>
+</div>
 </div>
 </article>
   </main>

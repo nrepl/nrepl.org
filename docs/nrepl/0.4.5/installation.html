@@ -137,6 +137,20 @@
 <h1>Installation</h1>
 <div id="preamble">
 <div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>nREPL is compatible with Clojure 1.7.0+ and Java 8+.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>nREPL is a library (as opposed to it being an application), so it&#8217;s
 not something you&#8217;d be installing in the traditional sense. There&#8217;s
@@ -221,23 +235,6 @@ a different deployment artifact - <code>org.clojure/clojure.tools.nrepl</code>.<
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Please note the changelog in <code>CHANGELOG.md</code>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>nREPL is compatible with Clojure 1.7.0+ and Java 8+.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -258,12 +255,27 @@ a different deployment artifact - <code>org.clojure/clojure.tools.nrepl</code>.<
 <p>The namespace <code>clojure.tools.nrepl</code> was renamed to <code>nrepl.core</code>.</p>
 </li>
 <li>
-<p>nREPL now targets Java 8+ and Clojure 1.7+ (it used to target Java 6 and Clojure 1.2)</p>
+<p>nREPL now targets Java 8+ and Clojure 1.7+.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup></p>
 </li>
 <li>
-<p>All the code which existed for compatibility with nREPL 0.1.x was removed. (which probably won&#8217;t affect anyone, as it was ancient)</p>
+<p>All the code which existed for compatibility with nREPL 0.0.x was removed.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</sup></p>
 </li>
 </ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Refer to the <a href="https://github.com/nrepl/nrepl/blob/master/CHANGELOG.md">changelog</a>
+for an exhaustive listing of all the changes.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Those changes can affect you in two ways:</p>
@@ -299,6 +311,15 @@ compatibility remains as important as always.</p>
 </tr>
 </table>
 </div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnote_1">
+<a href="#_footnoteref_1">1</a>. nREPL 0.2 used to target Java 6 and Clojure 1.2.
+</div>
+<div class="footnote" id="_footnote_2">
+<a href="#_footnoteref_2">2</a>. Which probably won&#8217;t affect anyone, as it was ancient.
 </div>
 </div>
 </article>

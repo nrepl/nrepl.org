@@ -146,8 +146,9 @@ replying with the local time on the server:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(require '[nrepl.transport :as t])
-(use '[nrepl.misc :only (response-for)])
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(require
+ '[nrepl.misc :refer (response-for)]
+ '[nrepl.transport :as t])
 
 (defn current-time
   [h]

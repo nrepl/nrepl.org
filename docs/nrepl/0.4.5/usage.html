@@ -244,8 +244,11 @@ interface (this output was simply generated with <code>--help</code>):</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="connecting-to-an-nrepl-server"><a class="anchor" href="#connecting-to-an-nrepl-server"></a>Connecting to an nREPL server</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="connecting-to-an-nrepl-server"><a class="anchor" href="#connecting-to-an-nrepl-server"></a>Connecting to an nREPL server</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Most of the time, you will connect to an nREPL server using an existing
 client/tool.  Tools that support nREPL include:</p>
@@ -290,7 +293,6 @@ support for vim)</p>
 <div class="paragraph">
 <p>If your preferred Clojure development environment supports nREPL, you&#8217;re done.
 Use it or connect to an existing nREPL endpoint, and you&#8217;re done.</p>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_using_the_built_in_client"><a class="anchor" href="#_using_the_built_in_client"></a>Using the built-in client</h3>
@@ -415,7 +417,7 @@ like this to your app:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (use '[nrepl.server :only (start-server stop-server)])
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (require '[nrepl.server :refer [start-server stop-server]])
 nil
 =&gt; (defonce server (start-server :port 7888))
 ='user/server</code></pre>
@@ -429,7 +431,7 @@ and port 4001:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (use '[nrepl.server :only (start-server stop-server)])
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (require '[nrepl.server :refer [start-server stop-server]])
 nil
 =&gt; (defonce server (start-server :bind "172.18.0.5" :port 4001))
 ='user/server</code></pre>
@@ -468,12 +470,12 @@ this with <code>tools.deps</code> or <code>pomegranate</code>. Let&#8217;s start
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>clj -Sdeps '{:deps {nrepl {:mvn/version "0.4.5"} org.clojure/tools.deps.alpha
-                {:git/url "https://github.com/clojure/tools.deps.alpha.git"
-                 :sha "d492e97259c013ba401c5238842cd3445839d020"}}}' -m nrepl.cmdline --interactive
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl {:mvn/version "0.4.5"}
+                      org.clojure/tools.deps.alpha {:git/url "https://github.com/clojure/tools.deps.alpha.git"
+                                                    :sha "d492e97259c013ba401c5238842cd3445839d020"}}}' -m nrepl.cmdline --interactive
 network-repl
 Clojure 1.9.0
-user=&gt; (use 'clojure.tools.deps.alpha.repl)
+user=&gt; (require '[clojure.tools.deps.alpha.repl :refer [add-lib]])
 nil
 user=&gt; (add-lib 'org.clojure/core.memoize {:mvn/version "0.7.1"})
 true
@@ -487,10 +489,10 @@ user=&gt;</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>❯ clj -Sdeps '{:deps {nrepl {:mvn/version "0.4.5"} com.cemerick/pomegranate {:mvn/version "1.0.0"}}}' -m nrepl.cmdline --interactive
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl {:mvn/version "0.4.5"} com.cemerick/pomegranate {:mvn/version "1.0.0"}}}' -m nrepl.cmdline --interactive
 network-repl
 Clojure 1.9.0
-user=&gt; (use '[cemerick.pomegranate :only (add-dependencies)])
+user=&gt; (require '[cemerick.pomegranate :refer [add-dependencies]])
 nil
 user=&gt; (add-dependencies :coordinates '[[org.clojure/core.memoize "0.7.1"]]
                          :repositories (merge cemerick.pomegranate.aether/maven-central
