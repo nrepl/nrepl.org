@@ -38,7 +38,19 @@
     <a class="nav-link" href="installation.html">Installation</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="usage.html">Usage</a>
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Usage</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/server.html">Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/clients.html">Clients</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/misc.html">Misc</a>
+  </li>
+</ul>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-toggle"></button>
@@ -159,7 +171,7 @@ if you insist:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>lein install</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein install</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -167,7 +179,7 @@ if you insist:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>clj -Sdeps '{:deps {nrepl {:mvn/version "0.4.5-SNAPSHOT"}}}' -m nrepl.cmdline --interactive</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl {:mvn/version "0.4.5-SNAPSHOT"}}}' -m nrepl.cmdline --interactive</code></pre>
 </div>
 </div>
 </div>
@@ -180,7 +192,7 @@ if you insist:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>lein test-all</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein test-all</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -190,7 +202,7 @@ specific version of Clojure like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>lein with-profile 1.9 test</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein with-profile 1.9 test</code></pre>
 </div>
 </div>
 </div>

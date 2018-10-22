@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nREPL Server :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.xyz/nrepl/0.4.5/usage/server.html">
+    <meta name="generator" content="Antora 1.1.1">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://nrepl.xyz">nREPL</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="nrepl" data-version="0.4.5">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">nREPL</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Usage</span>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="server.html">Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="clients.html">Clients</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="misc.html">Misc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../design/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../design/handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../design/transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../design/middleware.html">Middleware</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../ops.html">Built-in Ops</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../third_party_middleware.html">Third-party Middleware</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/history.html">History</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/team.html">Team</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/support.html">Support</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/contributing.html">Contributing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/release_policy.html">Release Policy</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/license.html">License</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">nREPL</span>
+    <span class="version">0.4.5</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">nREPL</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">0.4.5</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">nREPL</a></li>
+    <li class="crumb">Usage</li>
+    <li class="crumb"><a href="server.html">Server</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/usage/server.adoc">Edit this Page</a></div>
+</div>
+<article class="doc">
+<h1>nREPL Server</h1>
+<div class="sect1">
+<h2 id="_starting_a_server"><a class="anchor" href="#_starting_a_server"></a>Starting a server</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are many ways to start an nREPL server. Most often you&#8217;d start
+it using some build tool, but you can also embed the server in your
+application and start it from it. Here we&#8217;ll outline the most
+popular options available for you today.</p>
+</div>
+<div class="sect2">
+<h3 id="_using_clojure_cli_tools"><a class="anchor" href="#_using_clojure_cli_tools"></a>Using Clojure CLI tools</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This section assumes you&#8217;re using Clojure 1.9+ and nREPL 0.4.4+.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If you&#8217;re into the <code>clj</code> command you can take advantage of nREPL&#8217;s built-in command-line interface
+(<code>nrepl.cmdline</code>).</p>
+</div>
+<div class="paragraph">
+<p>Add this alias to <code>~/.clojure/deps.edn</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{
+;; ...
+:aliases {:nREPL
+          {:extra-deps
+            {nrepl/nrepl {:mvn/version "0.4.5"}}}}
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you can simply run the nREPL server in headless mode like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -R:nREPL -m nrepl.cmdline</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A good practice is add whatever nREPL middleware you want to use to
+the <code>nREPL</code> profile, so you can easily activate them when needed. Here&#8217;s
+how you can easily start a ClojureScript capable nREPL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{
+;; ...
+:aliases {:nREPL
+          {:extra-deps
+           {nrepl/nrepl {:mvn/version "0.4.5"}
+            cider/piggieback {:mvn/version "0.3.8"}}}}
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -R:nREPL -m nrepl.cmdline --middleware "[cider.piggieback/wrap-cljs-repl]"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a listing of all the options available via nREPL&#8217;s command-line
+interface (this output was simply generated with <code>--help</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">-i/--interactive            Start nREPL and connect to it with the built-in client.
+-c/--connect                Connect to a running nREPL with the built-in client.
+-C/--color                  Use colors to differentiate values from output in the REPL. Must be combined with --interactive.
+-b/--bind ADDR              Bind address, by default "::" (falling back to "localhost" if "::" isn't resolved by the underlying network stack).
+-h/--host ADDR              Host address to connect to when using --connect. Defaults to "localhost".
+-p/--port PORT              Start nREPL on PORT. Defaults to 0 (random port) if not specified.
+--ack ACK-PORT              Acknowledge the port of this server to another nREPL server running on ACK-PORT.
+-n/--handler HANDLER        The nREPL message handler to use for each incoming connection; defaults to the result of `(nrepl.server/default-handler)`.
+-m/--middleware MIDDLEWARE  A sequence of vars, representing middleware you wish to mix in to the nREPL handler.
+--help                      Show this help message.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_leiningen"><a class="anchor" href="#_using_leiningen"></a>Using Leiningen</h3>
+<div class="paragraph">
+<p><a href="https://github.com/technomancy/leiningen">Leiningen</a> has built-in support for nREPL since
+version 2. Just do:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein repl</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And you&#8217;re all set. By default Lein will also connect to the running nREPL server using the
+popular command-line nREPL client <a href="https://github.com/trptcolin/reply/">REPL-y</a>. If you don&#8217;t need the terminal REPL you can
+also start nREPL in headless mode:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein repl :headless</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_boot"><a class="anchor" href="#_using_boot"></a>Using Boot</h3>
+<div class="paragraph">
+<p><a href="https://github.com/boot-clj/boot">Boot</a> is a popular alternative to Leiningen, that also has build-in support for nREPL:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ boot repl</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_embedding_nrepl"><a class="anchor" href="#_embedding_nrepl"></a>Embedding nREPL</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All the above options are typically used during the development of an application.
+It can also be extremely useful to have your application host a REPL
+server whereever it might be deployed; this can greatly simplify debugging,
+sanity-checking, panicked code patching, and so on.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+You should think long and hard before hot-patching code in
+production, but that&#8217;s a subject for an unrelated discussion.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>nREPL provides a socket-based server that you can trivially start from your
+application.  <a href="../installation.html" class="page">Add it to your project&#8217;s dependencies</a>, and add code
+like this to your app:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (require '[nrepl.server :refer [start-server stop-server]])
+nil
+=&gt; (defonce server (start-server :port 7888))
+='user/server</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you want your nREPL server to listen on a particular address instead of the
+default one, you can use the <code>:bind</code> keyword to specify the address to
+listen on. E.g., to make the nREPL server listen on address 172.18.0.5
+and port 4001:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (require '[nrepl.server :refer [start-server stop-server]])
+nil
+=&gt; (defonce server (start-server :bind "172.18.0.5" :port 4001))
+='user/server</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Keep in mind that running a nREPL server on a public address
+is an epic security hole! As the connections are insecure (no
+authentication, no authorization) by default anyone can connect to
+your app and modify its behaviour or run code on the remote host.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Depending on what the lifecycle of your application is, whether you want to be
+able to easily restart the server, etc., you might want to put the value
+<code>start-server</code> returns into an atom or somesuch.  Anyway, once your app is
+running an nREPL server, you can connect to it from a tool like Leiningen or
+Counterclockwise or REPL-y, or from another Clojure process, as shown
+ <a href="clients.html" class="page">here</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can stop the server with <code>(stop-server server)</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_server_options"><a class="anchor" href="#_server_options"></a>Server options</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Note that nREPL is not limited to its default messaging protocol, nor to its
+default use of sockets.  nREPL provides a <em>transport</em> abstraction for
+implementing support for alternative protocols and connection methods.
+Alternative transport implementations are available, and implementing your own
+is not difficult; read more about transports <a href="../design/transports.html" class="page">here</a>.</p>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+  </body>
+</html>
