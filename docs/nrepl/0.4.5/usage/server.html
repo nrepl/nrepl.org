@@ -7,6 +7,8 @@
     <link rel="canonical" href="https://nrepl.xyz/nrepl/0.4.5/usage/server.html">
     <meta name="generator" content="Antora 1.1.1">
     <link rel="stylesheet" href="../../../_/css/site.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
+    <script>dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','UA-128069102-1')</script>
   </head>
   <body class="article">
 <header class="header" role="banner">
@@ -74,13 +76,16 @@
     <a class="nav-link" href="../ops.html">Built-in Ops</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="../faq.html">FAQ</a>
-  </li>
-  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../third_party_middleware.html">Third-party Middleware</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../troubleshooting.html">Troubleshooting</a>
   </li>
   <li class="nav-item" data-depth="1">
     <button class="nav-toggle"></button>
@@ -226,7 +231,7 @@ interface (this output was simply generated with <code>--help</code>):</p>
 <pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">-i/--interactive            Start nREPL and connect to it with the built-in client.
 -c/--connect                Connect to a running nREPL with the built-in client.
 -C/--color                  Use colors to differentiate values from output in the REPL. Must be combined with --interactive.
--b/--bind ADDR              Bind address, by default "::" (falling back to "localhost" if "::" isn't resolved by the underlying network stack).
+-b/--bind ADDR              Bind address, by default "localhost".
 -h/--host ADDR              Host address to connect to when using --connect. Defaults to "localhost".
 -p/--port PORT              Start nREPL on PORT. Defaults to 0 (random port) if not specified.
 --ack ACK-PORT              Acknowledge the port of this server to another nREPL server running on ACK-PORT.
