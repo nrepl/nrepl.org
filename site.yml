@@ -6,7 +6,7 @@ content:
   sources:
   - url: https://github.com/nrepl/nREPL.git
     branches: ['master']
-    tags: ['0.*', '!0.0.*', '!0.3.*', '!0.4.0', '!0.4.1', '!0.4.2', '!0.4.3', '!0.4.4', '!0.4.5']
+    tags: ['0.*', '!0.0.*', '!0.3.*', '!0.4.*']
     start_path: doc
 asciidoc:
   attributes:
