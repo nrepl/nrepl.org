@@ -2,6 +2,8 @@ site:
   title: nREPL
   url: https://nrepl.xyz/
   start_page: nrepl::index.adoc
+  keys:
+    google_analytics: 'UA-128069102-1'
 content:
   sources:
   - url: https://github.com/nrepl/nREPL.git
