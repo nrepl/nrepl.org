@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Release Policy :: nREPL</title>
-    <link rel="canonical" href="https://nrepl.xyz/nrepl/0.4.5/about/release_policy.html">
+    <title>Team :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.xyz/nrepl/about/team.html">
     <meta name="generator" content="Antora 1.1.1">
-    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
     <script>dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','UA-128069102-1')</script>
   </head>
@@ -24,7 +24,7 @@
   </nav>
 </header>
 <div class="main-wrapper">
-<div class="navigation-container" data-component="nrepl" data-version="0.4.5">
+<div class="navigation-container" data-component="nrepl" data-version="master">
   <aside class="navigation">
     <div class="panels">
 <div class="navigation-menu is-active" data-panel="menu">
@@ -97,7 +97,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="history.html">History</a>
   </li>
-  <li class="nav-item" data-depth="2">
+  <li class="nav-item is-current-page" data-depth="2">
     <a class="nav-link" href="team.html">Team</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -106,7 +106,7 @@
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="contributing.html">Contributing</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="2">
+  <li class="nav-item" data-depth="2">
     <a class="nav-link" href="release_policy.html">Release Policy</a>
   </li>
   <li class="nav-item" data-depth="2">
@@ -125,14 +125,14 @@
 <div class="navigation-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">0.4.5</span>
+    <span class="version">master</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">nREPL</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../index.html">0.4.5</a>
+          <a href="../index.html">master</a>
         </li>
       </ul>
     </li>
@@ -149,66 +149,96 @@
   <ul>
     <li class="crumb"><a href="../index.html">nREPL</a></li>
     <li class="crumb">About</li>
-    <li class="crumb"><a href="release_policy.html">Release Policy</a></li>
+    <li class="crumb"><a href="team.html">Team</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/about/release_policy.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/about/team.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1>Release Policy</h1>
+<h1>Team</h1>
+<div class="sect1">
+<h2 id="_the_core_team"><a class="anchor" href="#_the_core_team"></a>The Core Team</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>We&#8217;re following <a href="http://semver.org/">SemVer</a>.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup> At this point bumps of the
-minor (second) version number are considered feature releases and always
-include new features or significant changes to existing features. API
-compatibility will almost never be broken.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</sup></p>
-</div>
-<div class="paragraph">
-<p>The development cycle for the next feature
-release starts immediately after the previous one has been
-shipped. Bugfix/point releases (if any) address only serious bugs and
-never contain new features. Here are a few examples:</p>
+<p>The direction of the project is being stewarded by the nREPL core team. This
+group of long-term contributors manages releases, evaluates pull-requests, and
+does a lot of the groundwork on major new features.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>0.5.0 - Feature release</p>
+<p><a href="https://github.com/bbatsov">Bozhidar Batsov</a> (maintainer)</p>
 </li>
 <li>
-<p>0.5.1 - Bug-fix release</p>
+<p><a href="https://github.com/SevereOverfl0w">Dominic Monroe</a></p>
 </li>
 <li>
-<p>0.5.2 - Bug-fix release</p>
-</li>
-<li>
-<p>0.6.0 - Feature release</p>
+<p><a href="https://github.com/arrdem">Reid McKenzie</a></p>
 </li>
 </ul>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Historically this wasn&#8217;t always the case. Versions 0.2, 0.3 and
-0.4 introduced major backward-incompatible changes. Back then point
-releases (e.g. 0.4.2) could mean either bug-fixes or new
-backwards-compatible functionality.  That changed with nREPL 0.5 for the
-sake of making it obvious which releases add new functionality and
-which simply patch bugs. That brings up one step closer to the SemVer
-ideal.
-</td>
-</tr>
-</table>
 </div>
-<div id="footnotes">
-<hr>
-<div class="footnote" id="_footnote_1">
-<a href="#_footnoteref_1">1</a>. As much as one can be following it when the major version is 0.
 </div>
-<div class="footnote" id="_footnote_2">
-<a href="#_footnoteref_2">2</a>. Unless explicitly stated via deprecation warnings for a few releases beforehand.
+<div class="sect1">
+<h2 id="_cider_alumni"><a class="anchor" href="#_cider_alumni"></a>CIDER Alumni</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In addition, we&#8217;d like to extend a special thanks the following retired nREPL
+core team members. Lovingly known as The Alumni:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/cemerick">Chas Emerick</a> (author)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_thanks"><a class="anchor" href="#_thanks"></a>Thanks</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Thanks to the following Clojure masters for their helpful feedback during the
+initial design phases of nREPL:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Justin Balthrop</p>
+</li>
+<li>
+<p>Meikel Brandmeyer</p>
+</li>
+<li>
+<p>Hugo Duncan</p>
+</li>
+<li>
+<p>Christophe Grand</p>
+</li>
+<li>
+<p>Anthony Grimes</p>
+</li>
+<li>
+<p>Phil Hagelberg</p>
+</li>
+<li>
+<p>Rich Hickey</p>
+</li>
+<li>
+<p>Chris Houser</p>
+</li>
+<li>
+<p>Colin Jones</p>
+</li>
+<li>
+<p>Laurent Petit</p>
+</li>
+<li>
+<p>Eric Thorsen</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </article>
@@ -218,8 +248,8 @@ ideal.
   <p>This page was built using the Antora default UI.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
-<script src="../../../_/js/site.js"></script>
-<script src="../../../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/site.js"></script>
+<script src="../../_/js/vendor/highlight.js"></script>
 <script>hljs.initHighlighting()</script>
   </body>
 </html>

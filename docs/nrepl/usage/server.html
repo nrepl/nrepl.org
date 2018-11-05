@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>nREPL Server :: nREPL</title>
-    <link rel="canonical" href="https://nrepl.xyz/nrepl/0.4.5/usage/server.html">
+    <link rel="canonical" href="https://nrepl.xyz/nrepl/usage/server.html">
     <meta name="generator" content="Antora 1.1.1">
-    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../_/css/site.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
     <script>dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','UA-128069102-1')</script>
   </head>
@@ -24,7 +24,7 @@
   </nav>
 </header>
 <div class="main-wrapper">
-<div class="navigation-container" data-component="nrepl" data-version="0.4.5">
+<div class="navigation-container" data-component="nrepl" data-version="master">
   <aside class="navigation">
     <div class="panels">
 <div class="navigation-menu is-active" data-panel="menu">
@@ -125,14 +125,14 @@
 <div class="navigation-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">0.4.5</span>
+    <span class="version">master</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">nREPL</span>
       <ul class="versions">
         <li class="version is-current is-latest">
-          <a href="../index.html">0.4.5</a>
+          <a href="../index.html">master</a>
         </li>
       </ul>
     </li>
@@ -229,18 +229,19 @@ how you can easily start a ClojureScript capable nREPL:</p>
 <p>Here&#8217;s a listing of all the options available via nREPL&#8217;s command-line
 interface (this output was simply generated with <code>--help</code>):</p>
 </div>
-<div class="listingblock">
+<div class="literalblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">-i/--interactive            Start nREPL and connect to it with the built-in client.
+<pre>-i/--interactive            Start nREPL and connect to it with the built-in client.
 -c/--connect                Connect to a running nREPL with the built-in client.
 -C/--color                  Use colors to differentiate values from output in the REPL. Must be combined with --interactive.
--b/--bind ADDR              Bind address, by default "localhost".
--h/--host ADDR              Host address to connect to when using --connect. Defaults to "localhost".
+-b/--bind ADDR              Bind address, by default "127.0.0.1".
+-h/--host ADDR              Host address to connect to when using --connect. Defaults to "127.0.0.1".
 -p/--port PORT              Start nREPL on PORT. Defaults to 0 (random port) if not specified.
 --ack ACK-PORT              Acknowledge the port of this server to another nREPL server running on ACK-PORT.
 -n/--handler HANDLER        The nREPL message handler to use for each incoming connection; defaults to the result of `(nrepl.server/default-handler)`.
 -m/--middleware MIDDLEWARE  A sequence of vars, representing middleware you wish to mix in to the nREPL handler.
---help                      Show this help message.</code></pre>
+-t/--transport TRANSPORT    The transport to use. By default that's `nrepl.transport/bencode`.
+--help                      Show this help message.</pre>
 </div>
 </div>
 </div>
@@ -366,6 +367,101 @@ implementing support for alternative protocols and connection methods.
 Alternative transport implementations are available, and implementing your own
 is not difficult; read more about transports <a href="../design/transports.html" class="page">here</a>.</p>
 </div>
+<div class="sect2">
+<h3 id="_server_configuration"><a class="anchor" href="#_server_configuration"></a>Server Configuration</h3>
+<div class="paragraph">
+<p>Starting with version 0.5 you can configure certain aspects of the
+nREPL server&#8217;s behaviour via configuration files.</p>
+</div>
+<div class="paragraph">
+<p>There are two configuration files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Global configuration file <code>.nrepl/nrepl.edn</code></p>
+</li>
+<li>
+<p>Local configuration file <code>.nrepl.edn</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The global configuration file is useful for setting options that you&#8217;d
+like to use for all the nREPL servers that you start (e.g. a common
+<code>bind-address</code>, <code>transport</code>, <code>handler</code>, etc).</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can alter the location of the global configuration file
+via the environment variable <code>NREPL_CONFIG_DIR</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The local configuration file should be placed in the directory from
+which you&#8217;re starting the server (normally the root directory of your
+project). Its purpose it to set project-specific settings (e.g. a common port
+you always want to use with a particular project). Any setting in <code>.nrepl.edn</code>
+will take precedence over a setting in <code>.nrepl/nrepl.edn</code>.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s an example global configuration file:</p>
+</div>
+<div class="listingblock">
+<div class="title">nrepl/nrepl.edn</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:bind         "::"
+ :transport    "nrepl.transport/tty"
+ :middleware   ["some.ns/mw1" "some.ns/mw1"]}</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+You can refer to vars either as strings or symbols.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>And this is an example of a local config file:</p>
+</div>
+<div class="listingblock">
+<div class="title">nrepl.edn</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:bind         "localhost"
+ :port         12345
+ :ack          23456
+ :handler      "some.ns/awesome-handler"
+ :transport    "nrepl.transport/bencode"}</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+At the time of this writing Boot and Leiningen don&#8217;t honor the new
+configuration files. They are current leveraged only by the built-in command-line
+interface.
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </div>
 </article>
@@ -375,8 +471,8 @@ is not difficult; read more about transports <a href="../design/transports.html"
   <p>This page was built using the Antora default UI.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
-<script src="../../../_/js/site.js"></script>
-<script src="../../../_/js/vendor/highlight.js"></script>
+<script src="../../_/js/site.js"></script>
+<script src="../../_/js/vendor/highlight.js"></script>
 <script>hljs.initHighlighting()</script>
   </body>
 </html>
