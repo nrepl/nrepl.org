@@ -1,8 +1,6 @@
 == nREPL.org
 
-NOTE: Despite the name of the repo, we're currently publishing the site to https://nrepl.xyz.
-
-The site is generated from the asciidoc files in the link:https://github.com/nrepl/nREPL/tree/master/doc[doc] folder of nREPL's GitHub repo and is published to https://nrepl.xyz.
+The site is generated from the asciidoc files in the link:https://github.com/nrepl/nREPL/tree/master/doc[doc] folder of nREPL's GitHub repo and is published to https://nrepl.org.
 link:https://antora.org[Antora] is used to convert the manual into HTML.
 The filesystem layout is described at https://docs.antora.org/antora/1.1/component-structure/
 
@@ -13,7 +11,7 @@ You can build the documentation locally from the link:https://github.com/nrepl/n
 
 [source]
 ----
-$ cd nREPL.org
+$ cd nrepl.org
 $ npm install
 $ ./antora site.yml
 ----
