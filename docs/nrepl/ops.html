@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supported nREPL operations :: nREPL</title>
-    <link rel="canonical" href="https://nrepl.xyz/nrepl/ops.html">
+    <link rel="canonical" href="https://nrepl.org/nrepl/ops.html">
     <meta name="generator" content="Antora 1.1.1">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -15,7 +15,7 @@
 <header class="header" role="banner">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://nrepl.xyz">nREPL</a>
+      <a class="navbar-item" href="https://nrepl.org">nREPL</a>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -136,6 +136,15 @@
           <a href="index.html">master</a>
         </li>
         <li class="version">
+          <a href="0.5.3/index.html">0.5.3</a>
+        </li>
+        <li class="version">
+          <a href="0.5.2/index.html">0.5.2</a>
+        </li>
+        <li class="version">
+          <a href="0.5.1/index.html">0.5.1</a>
+        </li>
+        <li class="version">
           <a href="0.5.0/index.html">0.5.0</a>
         </li>
       </ul>
@@ -159,6 +168,9 @@
   <button class="versions-menu-toggle" title="Show other versions of page">master</button>
   <div class="versions-menu">
     <a class="version is-current" href="ops.html">master</a>
+    <a class="version" href="0.5.3/ops.html">0.5.3</a>
+    <a class="version" href="0.5.2/ops.html">0.5.2</a>
+    <a class="version" href="0.5.1/ops.html">0.5.1</a>
     <a class="version" href="0.5.0/ops.html">0.5.0</a>
   </div>
 </div>
@@ -169,7 +181,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="small">generated from a verbose 'describe' response (nREPL v0.4.5)</span></p>
+<p><span class="small">generated from a verbose 'describe' response (nREPL v0.6.0-SNAPSHOT)</span></p>
 </div>
 </div>
 </div>
@@ -345,7 +357,8 @@
 <div class="sect2">
 <h3 id="_code_interrupt_code"><a class="anchor" href="#_code_interrupt_code"></a><code>:interrupt</code></h3>
 <div class="paragraph">
-<p>Attempts to interrupt some code evaluation.</p>
+<p>Attempts to interrupt some code evaluation. When interruption succeeds, the thread used by for
+code evaluation changes, while Clojure dynamic bindings are preserved, other <code>ThreadLocals</code> are not. So when running code intimately tied to the current thread identity, best avoid interruptions.</p>
 </div>
 <div class="dlist">
 <dl>
