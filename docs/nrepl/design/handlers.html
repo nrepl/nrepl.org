@@ -138,15 +138,6 @@
         <li class="version">
           <a href="../0.5.3/index.html">0.5.3</a>
         </li>
-        <li class="version">
-          <a href="../0.5.2/index.html">0.5.2</a>
-        </li>
-        <li class="version">
-          <a href="../0.5.1/index.html">0.5.1</a>
-        </li>
-        <li class="version">
-          <a href="../0.5.0/index.html">0.5.0</a>
-        </li>
       </ul>
     </li>
   </ul>
@@ -170,9 +161,6 @@
   <div class="versions-menu">
     <a class="version is-current" href="handlers.html">master</a>
     <a class="version" href="../0.5.3/design/handlers.html">0.5.3</a>
-    <a class="version" href="../0.5.2/design/handlers.html">0.5.2</a>
-    <a class="version" href="../0.5.1/design/handlers.html">0.5.1</a>
-    <a class="version" href="../0.5.0/design/handlers.html">0.5.0</a>
   </div>
 </div>
   <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/design/handlers.adoc">Edit this Page</a></div>
@@ -201,7 +189,7 @@ code like <code>"(+ 1 2) (def a 6)"</code>).</p>
 </div>
 <div class="paragraph">
 <p>Thus, messages provided to nREPL handlers are guaranteed to contain a
-<code>:transport</code> entry containing the <a href="#transports">transports</a> that should be used
+<code>:transport</code> entry containing the <a href="transports.html" class="page">transports</a> that should be used
 to send all responses precipitated by a given message.  (This slot is added by
 the nREPL server itself, thus, if a client sends any message containing a
 <code>"transport"</code> entry, it will be bashed out by the <code>Transport</code> that was the
