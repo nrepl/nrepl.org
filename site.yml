@@ -20,5 +20,4 @@ ui:
     snapshot: true
   supplemental_files: ./supplemental-ui
 output:
-  clean: true
   dir: ./docs
