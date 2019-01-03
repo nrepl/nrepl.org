@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nREPL :: nREPL</title>
-    <link rel="canonical" href="https://nrepl.org/nrepl/index.html">
+    <title>Beyond Clojure :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.org/nrepl/beyond_clojure.html">
     <meta name="generator" content="Antora 1.1.1">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -34,7 +34,7 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="index.html">Home</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -82,7 +82,7 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="hacking_on_nrepl.html">Hacking on nREPL</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -151,133 +151,49 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="index.html">nREPL</a></li>
-    <li class="crumb"><a href="index.html">Home</a></li>
+    <li class="crumb"><a href="beyond_clojure.html">Beyond Clojure</a></li>
   </ul>
 </nav>
 <div class="page-versions">
   <button class="versions-menu-toggle" title="Show other versions of page">master</button>
   <div class="versions-menu">
-    <a class="version is-current" href="index.html">master</a>
-    <a class="version" href="0.5.3/index.html">0.5.3</a>
+    <a class="version is-current" href="beyond_clojure.html">master</a>
+    <a class="version is-missing" href="0.5.3/index.html">0.5.3</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/beyond_clojure.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1>nREPL</h1>
+<h1>Beyond Clojure</h1>
 <div id="preamble">
 <div class="sectionbody">
-<div class="imageblock">
-<div class="content">
-<img src="_images/logo-w1280.png" alt="nREPL&#8217;s logo">
+<div class="paragraph">
+<p>As mentioned earlier the nREPL protocol is language-agnostic and can
+be leveraged for many languages that have similar semantics to Clojure
+(in particular the ability to evaluate code at runtime).</p>
 </div>
+<div class="paragraph">
+<p>Here&#8217;s a listing of alternative nREPL implementations.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<h2 id="_alternative_implementations"><a class="anchor" href="#_alternative_implementations"></a>Alternative Implementations</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>nREPL is a Clojure network REPL that provides a REPL server and
-client, along with some common APIs of use to IDEs and other tools
-that may need to evaluate Clojure code in remote environments.</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/Foxboron/HyREPL">HyREPL</a> - an nREPL for the <a href="http://hylang.org/">Hy programming language</a></p>
+</li>
+<li>
+<p><a href="https://gitlab.com/technomancy/jeejah">JeeJah</a> - an nREPL server for <a href="https://fennel-lang.org/">Fennel</a> and <a href="https://www.lua.org/">Lua</a></p>
+</li>
+</ul>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_why_nrepl"><a class="anchor" href="#_why_nrepl"></a>Why nREPL?</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>nREPL has been designed with the aim of ensuring that it satisfies the
-requirements of both application developers (in support of activities ranging
-from interactive remote debugging and experimentation in development
-contexts through to more advanced use cases such as updating deployed
-applications) as well as toolmakers (providing a standard way to connect to and
-introspect running environments as a way of informing user interfaces of all
-kinds, including "standard" interactive, text-based REPLs).</p>
-</div>
-<div class="paragraph">
-<p>The default network protocol used is simple, depending neither
-on JVM or Clojure specifics, thereby allowing (encouraging?) the development
-of non-Clojure REPL clients.  The REPLs operational semantics are such
-that essentially any non-JVM Clojure implementation should be able to
-implement it, with allowances for hosts that lack the concurrency primitives to
-support e.g. asynchronous evaluation, interrupts, etc.</p>
-</div>
-<div class="paragraph">
-<p>For more information about the motivation, architecture, use cases, and
-discussion related to nREPL, see the original design notes,
-available <a href="https://docs.google.com/document/edit?id=1dnb1ONTpK9ttO5W4thxiXkU5Ki89gK62anRqKEK4YZI&amp;authkey=CMuszuMI&amp;hl=en#">here</a>,
-and the <a href="https://github.com/clojure/tools.nrepl/wiki/nREPL.Next">notes</a> and
-<a href="http://groups.google.com/group/clojure-dev/browse_frm/thread/6e366c1d0eaeec59">discussion</a>
-around its recent redesign.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_status"><a class="anchor" href="#_status"></a>Status</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Despite its modest version number, nREPL is extremely stable at this
-point. Its communication protocol and API are rock-solid and battle
-tested and have been powering much of the existing Clojure tooling for
-several years now.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnote_2" title="View footnote.">2</a>]</sup></p>
-</div>
-<div class="paragraph">
-<p>Given the massive community investment in developing all sorts of
-tooling on top of nREPL, nREPL&#8217;s team pledges to evolve the project only in
-a responsible manner and backwards-compatible ways.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The migration of nREPL out of Clojure Contrib is probably the
-only case where we were forced to make breaking changes.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnote_3" title="View footnote.">3</a>]</sup> Those are detailed in great
-detail <a href="installation.html#upgrading" class="page">here</a>.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_beyond_clojure"><a class="anchor" href="#_beyond_clojure"></a>Beyond Clojure</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>While this site is mostly about nREPL&#8217;s reference (canonical) Clojure implementation,
-it&#8217;s important to point out that the nREPL protocol is language-agnostic and can be
-leveraged for many languages that have similar semantics to Clojure (in particular the ability to
-evaluate code at runtime).</p>
-</div>
-<div class="paragraph">
-<p>One way to describe nREPL would be as something similar in
-nature to the <a href="https://langserver.org/">Language Server Protocol</a>. nREPL is not nearly as
-ambitious as LSP, but on the other hand it&#8217;s also much simpler and it&#8217;s trivial to
-create nREPL clients in any language.</p>
-</div>
-<div class="paragraph">
-<p>You can find some alternative nREPL implementations and more on subject <a href="beyond_clojure.html" class="page">here</a>.</p>
-</div>
-</div>
-</div>
-<div id="footnotes">
-<hr>
-<div class="footnote" id="_footnote_1">
-<a href="#_footnoteref_1">1</a>. It&#8217;s not that recent anymore, as the redesign happened in 2012. It marked the beginning of the long-lived nREPL 0.2 series.
-</div>
-<div class="footnote" id="_footnote_2">
-<a href="#_footnoteref_2">2</a>. nREPL had virtually no alternatives before the introduction of the built-in Socket REPL in Clojure 1.8.
-</div>
-<div class="footnote" id="_footnote_3">
-<a href="#_footnoteref_3">3</a>. Apart from removing deprecated code that is.
 </div>
 </div>
 </article>
