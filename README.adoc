@@ -18,6 +18,15 @@ $ ./antora site.yml
 
 TIP: If `npm install` fails, see link:https://docs.antora.org/antora/1.1/install/troubleshoot-nodegit/[Antora's troubleshooting documentation].
 
+After you're done with the initial setup you can use the `deploy` script to push changes to the site:
+
+[source]
+----
+./deploy
+----
+
+NOTE: You'll need commit access to the repository for this to work.
+
 To check the generated site you can simply open `docs/index.html` in your favourite browser.
 
 If you want to make changes to the manual's page structure you'll have to edit

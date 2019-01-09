@@ -2,5 +2,5 @@
 
 ./antora --pull site.yml
 git add docs
-git commit -m 'Bump site docs'
+git commit -m 'Update site docs'
 git push
