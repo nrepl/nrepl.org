@@ -182,7 +182,7 @@
 <h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>nREPL is a Clojure network REPL that provides a REPL server and
+<p>nREPL is a Clojure <strong>n</strong>etwork REPL that provides a REPL server and
 client, along with some common APIs of use to IDEs and other tools
 that may need to evaluate Clojure code in remote environments.</p>
 </div>
@@ -208,13 +208,77 @@ that essentially any non-JVM Clojure implementation should be able to
 implement it, with allowances for hosts that lack the concurrency primitives to
 support e.g. asynchronous evaluation, interrupts, etc.</p>
 </div>
-<div class="paragraph">
-<p>For more information about the motivation, architecture, use cases, and
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+For more information about the motivation, architecture, use cases, and
 discussion related to nREPL, see the original design notes,
 available <a href="https://docs.google.com/document/edit?id=1dnb1ONTpK9ttO5W4thxiXkU5Ki89gK62anRqKEK4YZI&amp;authkey=CMuszuMI&amp;hl=en#">here</a>,
 and the <a href="https://github.com/clojure/tools.nrepl/wiki/nREPL.Next">notes</a> and
 <a href="http://groups.google.com/group/clojure-dev/browse_frm/thread/6e366c1d0eaeec59">discussion</a>
-around its recent redesign.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup></p>
+around its recent redesign.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_beyond_clojure"><a class="anchor" href="#_beyond_clojure"></a>Beyond Clojure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>While this site is mostly about nREPL&#8217;s reference (canonical) Clojure implementation,
+it&#8217;s important to point out that the nREPL protocol is language-agnostic and can be
+leveraged for many languages that have the ability to evaluate code
+at runtime.</p>
+</div>
+<div class="paragraph">
+<p>One way to describe nREPL would be as something similar in
+nature to the <a href="https://langserver.org/">Language Server Protocol</a>. nREPL is not nearly as
+ambitious as LSP, but on the other hand it&#8217;s also much simpler and it&#8217;s trivial to
+create nREPL clients in any language.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can find some alternative nREPL implementations and more on the subject <a href="beyond_clojure.html" class="page">here</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_community_driven"><a class="anchor" href="#_community_driven"></a>Community-Driven</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>One of the defining attributes of nREPL is that it&#8217;s a project built by
+the Clojure community for the Clojure community. Making it easy for everyone
+interested to participate in the development of nREPL was one of the biggest
+reasons why we decided to leave the "Clojure Contrib" umbrella.</p>
+</div>
+<div class="paragraph">
+<p>Everyone&#8217;s welcome to get involved in the project, so we can take it to the next level!</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Check out the how you can help nREPL <a href="about/contributing.html" class="page">here</a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -245,26 +309,6 @@ detail <a href="installation.html#upgrading" class="page">here</a>.
 </td>
 </tr>
 </table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_beyond_clojure"><a class="anchor" href="#_beyond_clojure"></a>Beyond Clojure</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>While this site is mostly about nREPL&#8217;s reference (canonical) Clojure implementation,
-it&#8217;s important to point out that the nREPL protocol is language-agnostic and can be
-leveraged for many languages that have the ability to evaluate code
-at runtime.</p>
-</div>
-<div class="paragraph">
-<p>One way to describe nREPL would be as something similar in
-nature to the <a href="https://langserver.org/">Language Server Protocol</a>. nREPL is not nearly as
-ambitious as LSP, but on the other hand it&#8217;s also much simpler and it&#8217;s trivial to
-create nREPL clients in any language.</p>
-</div>
-<div class="paragraph">
-<p>You can find some alternative nREPL implementations and more on subject <a href="beyond_clojure.html" class="page">here</a>.</p>
 </div>
 </div>
 </div>

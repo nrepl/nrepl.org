@@ -392,6 +392,19 @@ Clojure one.</p>
 <div class="sect1">
 <h2 id="_pretty_printing"><a class="anchor" href="#_pretty_printing"></a>Pretty Printing</h2>
 <div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Pretty-printing support was added in nREPL 0.5 and the API is still
+considered experimental.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>nREPL includes a <code>pr-values</code> middleware to print the results of evaluated
 forms as strings for returning to the client. By default, this will use either
@@ -411,6 +424,59 @@ to pretty-print the evaluation results automatically.</p>
  :printer 'my.custom/print-value
  :print-options {:print-width 120}}</code></pre>
 </div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>A note for client authors - passing strings will work just fine as
+well (using the bencode transport you can&#8217;t pass keywords and symbols
+as anyways).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{"op" "eval"
+ "code" "(+ 1 1)"
+ "printer" "my.custom/print-value"
+ "print-options" {"print-width" 120}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>nREPL will take of converting the keys of the <code>print-options</code> map to
+keywords, so they&#8217;d work as expected with their respective printers.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The requirement for the <code>printer</code> function are the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It should take one or two arguments - a value to print, and an optional print options map.</p>
+</li>
+<li>
+<p>It should return the printed value as a string. This means you can&#8217;t use directly
+functions like <code>clojure.pprint/pprint</code>, as they output the printed value instead of returning
+it as a string.</p>
+</li>
+<li>
+<p>The printer function should have no side-effects.</p>
+</li>
+<li>
+<p>In the absence of print options it should ideally respect Clojure&#8217;s print dynamic vars - e.g. <code><strong>print-length</strong></code>, <code><strong>print-right-margin</strong></code>, etc.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Great examples of functions that honour the API contract are
+<code>zprint.core/zprint-str</code> and <code>puget.printer/pprint-str</code>.</p>
 </div>
 </div>
 </div>
