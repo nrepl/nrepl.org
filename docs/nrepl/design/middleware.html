@@ -294,6 +294,26 @@ indicate a dependency on <em>any</em> middleware that handles the specified <cod
   exist in the final stack at a lower level than the middleware being
 described.</p>
 </li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Another way to think of <code>:expects</code> and <code>:requires</code> would be
+<em>before</em> and <em>after</em>. Middleware you&#8217;re expecting should have already
+been applied by the time the middleware that expects it gets applied,
+and middleware that&#8217;s required should be applied afterwards. We&#8217;ll
+expand on this in the paragraphs to come.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
 <li>
 <p><code>:handles</code>, a map that documents the operations implemented by the
   middleware.  Each entry in this map must have as its key the string value of
@@ -327,11 +347,11 @@ the operations supported by an nREPL endpoint" (see
 <code>nrepl.impl.docs/generate-ops-info</code> and the results of
 <code>lein with-profile +maint run nrepl.impl.docs</code> <a href="../ops.html" class="page">here</a>).</p>
 </div>
-<div class="admonitionblock note">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 There&#8217;s also <code>lein with-profile +maint run nrepl.impl.docs --output md</code> if you&#8217;d like to
