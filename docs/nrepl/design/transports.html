@@ -274,18 +274,17 @@ as it&#8217;s the default transport for <code>nrepl.server/start-server</code>.<
 <div class="paragraph">
 <p>You&#8217;ll need a bencode capable client to connect to an nREPL server that transport.</p>
 </div>
-<div class="paragraph">
-<p>nREPL&#8217;s bencode implementation is available as a <a href="https://github.com/nrepl/bencode">standalone library</a>.</p>
-</div>
-<div class="admonitionblock note">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-The <code>nrepl/bencode</code> library was extracted from nREPL in version
-0.4.5. Before this it used to live in the <code>nrepl.bencode</code> namespace.
+nREPL&#8217;s bencode implementation is available as a <a href="https://github.com/nrepl/bencode">standalone library</a>.
+Keep in mind that nREPL itself doesn&#8217;t use this library, as it&#8217;s committed to having 0 runtime dependencies.
+The code in the library and in nREPL <code>nrepl.bencode</code> namespace in identical, though, and will be kept in sync
+in the future.
 </td>
 </tr>
 </table>
