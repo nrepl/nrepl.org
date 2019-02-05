@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supported nREPL operations :: nREPL</title>
-    <link rel="canonical" href="https://nrepl.org/nrepl/ops.html">
-    <meta name="generator" content="Antora 1.1.1">
+    <link rel="canonical" href="https://nrepl.org/nrepl/0.5.3/ops.html">
+    <meta name="generator" content="Antora 2.0.0">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
@@ -154,10 +154,7 @@
     <li class="component is-current">
       <span class="title">nREPL</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../index.html">master</a>
-        </li>
-        <li class="version is-current">
+        <li class="version is-current is-latest">
           <a href="index.html">0.5.3</a>
         </li>
       </ul>
@@ -170,20 +167,13 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="../index.html" class="home-link"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="index.html">nREPL</a></li>
     <li class="crumb"><a href="ops.html">Built-in Ops</a></li>
   </ul>
 </nav>
-<div class="page-versions">
-  <button class="versions-menu-toggle" title="Show other versions of page">0.5.3</button>
-  <div class="versions-menu">
-    <a class="version" href="../ops.html">master</a>
-    <a class="version is-current" href="ops.html">0.5.3</a>
-  </div>
-</div>
   <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/blob/0.5.3/doc/modules/ROOT/pages/ops.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
@@ -199,7 +189,7 @@
 <h2 id="_operations"><a class="anchor" href="#_operations"></a>Operations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_code_clone_code"><a class="anchor" href="#_code_clone_code"></a><code>:clone</code></h3>
+<h3 id="_clone"><a class="anchor" href="#_clone"></a><code>:clone</code></h3>
 <div class="paragraph">
 <p>Clones the current session, returning the ID of the newly-created session.</p>
 </div>
@@ -233,7 +223,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_close_code"><a class="anchor" href="#_code_close_code"></a><code>:close</code></h3>
+<h3 id="_close"><a class="anchor" href="#_close"></a><code>:close</code></h3>
 <div class="paragraph">
 <p>Closes the specified session.</p>
 </div>
@@ -261,7 +251,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_describe_code"><a class="anchor" href="#_code_describe_code"></a><code>:describe</code></h3>
+<h3 id="_describe"><a class="anchor" href="#_describe"></a><code>:describe</code></h3>
 <div class="paragraph">
 <p>Produce a machine- and human-readable directory and documentation for the operations supported by an nREPL endpoint.</p>
 </div>
@@ -301,7 +291,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_eval_code"><a class="anchor" href="#_code_eval_code"></a><code>:eval</code></h3>
+<h3 id="_eval"><a class="anchor" href="#_eval"></a><code>:eval</code></h3>
 <div class="paragraph">
 <p>Evaluates code.</p>
 </div>
@@ -365,7 +355,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_interrupt_code"><a class="anchor" href="#_code_interrupt_code"></a><code>:interrupt</code></h3>
+<h3 id="_interrupt"><a class="anchor" href="#_interrupt"></a><code>:interrupt</code></h3>
 <div class="paragraph">
 <p>Attempts to interrupt some code evaluation.</p>
 </div>
@@ -407,7 +397,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_load_file_code"><a class="anchor" href="#_code_load_file_code"></a><code>:load-file</code></h3>
+<h3 id="_load_file"><a class="anchor" href="#_load_file"></a><code>:load-file</code></h3>
 <div class="paragraph">
 <p>Loads a body of code, using supplied path and filename info to set source file and line number metadata. Delegates to underlying "eval" middleware/handler.</p>
 </div>
@@ -459,7 +449,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_ls_sessions_code"><a class="anchor" href="#_code_ls_sessions_code"></a><code>:ls-sessions</code></h3>
+<h3 id="_ls_sessions"><a class="anchor" href="#_ls_sessions"></a><code>:ls-sessions</code></h3>
 <div class="paragraph">
 <p>Lists the IDs of all active sessions.</p>
 </div>
@@ -487,7 +477,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_stdin_code"><a class="anchor" href="#_code_stdin_code"></a><code>:stdin</code></h3>
+<h3 id="_stdin"><a class="anchor" href="#_stdin"></a><code>:stdin</code></h3>
 <div class="paragraph">
 <p>Add content from the value of "stdin" to *in* in the current session.</p>
 </div>
