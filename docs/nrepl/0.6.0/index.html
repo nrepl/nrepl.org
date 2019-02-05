@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Installation :: nREPL</title>
-    <link rel="canonical" href="https://nrepl.org/nrepl/0.6.0/installation.html">
+    <title>nREPL :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.org/nrepl/0.6.0/index.html">
     <meta name="generator" content="Antora 2.0.0">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
@@ -47,7 +47,7 @@
   </nav>
 </header>
 <div class="main-wrapper">
-<div class="navigation-container" data-component="nrepl" data-version="0.5.3">
+<div class="navigation-container" data-component="nrepl" data-version="0.6.0">
   <aside class="navigation">
     <div class="panels">
 <div class="navigation-menu is-active" data-panel="menu">
@@ -56,10 +56,10 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="index.html">Home</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="installation.html">Installation</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -99,10 +99,13 @@
     <a class="nav-link" href="ops.html">Built-in Ops</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="third_party_middleware.html">Third-party Middleware</a>
+    <a class="nav-link" href="extensions.html">Extensions</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="faq.html">FAQ</a>
@@ -148,17 +151,17 @@
 <div class="navigation-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">0.5.3</span>
+    <span class="version">0.6.0</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">nREPL</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../0.6.0/index.html">0.6.0</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">0.6.0</a>
         </li>
-        <li class="version is-current">
-          <a href="index.html">0.5.3</a>
+        <li class="version">
+          <a href="../0.5.3/index.html">0.5.3</a>
         </li>
       </ul>
     </li>
@@ -170,81 +173,62 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="../0.6.0/index.html" class="home-link"></a>
+  <a href="index.html" class="home-link is-current"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="index.html">nREPL</a></li>
-    <li class="crumb"><a href="installation.html">Installation</a></li>
+    <li class="crumb"><a href="index.html">Home</a></li>
   </ul>
 </nav>
 <div class="page-versions">
-  <button class="versions-menu-toggle" title="Show other versions of page">0.5.3</button>
+  <button class="versions-menu-toggle" title="Show other versions of page">0.6.0</button>
   <div class="versions-menu">
-    <a class="version" href="../0.6.0/installation.html">0.6.0</a>
-    <a class="version is-current" href="installation.html">0.5.3</a>
+    <a class="version is-current" href="index.html">0.6.0</a>
+    <a class="version" href="../0.5.3/index.html">0.5.3</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/blob/0.5.3/doc/modules/ROOT/pages/installation.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/blob/0.6.0/doc/modules/ROOT/pages/index.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1>Installation</h1>
+<h1>nREPL</h1>
 <div id="preamble">
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>nREPL is compatible with Clojure 1.7.0+ and Java 8+.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>nREPL is a library (as opposed to it being an application), so it&#8217;s
-not something you&#8217;d be installing in the traditional sense. There&#8217;s
-currently no nREPL binary or script that you can run to spin a server.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>While there&#8217;s no binary, there is a command-line interface that
-mostly targets <code>clj</code>. It&#8217;s documented in the subsequent sections of this
-manual.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>All popular Clojure build tools (Leiningen, Boot, Gradle, Maven) have
-the ability to run an nREPL server and most of the time you&#8217;ll probably
-simply use nREPL through them and end up using whatever nREPL version
-they happen to ship.</p>
-</div>
-<div class="paragraph">
-<p>Still, from time to time you&#8217;ll be building a tool around nREPL or you&#8217;ll
-want to embed an nREPL server directly in your application. In those
-scenarios some kind of an installation will be in order - just adding
-nREPL as a dependency to your project.</p>
-</div>
-<div class="paragraph">
-<p>nREPL is available in Clojars. Add this to your Leiningen
-<code>project.clj</code> <code>:dependencies</code>:</p>
-</div>
-<div class="listingblock">
+<div class="imageblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[nrepl "0.5.3"]</code></pre>
+<img src="_images/logo-w1280.png" alt="nREPL&#8217;s logo">
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>nREPL is a Clojure <strong>n</strong>etwork REPL that provides a REPL server and
+client, along with some common APIs of use to IDEs and other tools
+that may need to evaluate Clojure code in remote environments.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_nrepl"><a class="anchor" href="#_why_nrepl"></a>Why nREPL?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>nREPL has been designed with the aim of ensuring that it satisfies the
+requirements of both application developers (in support of activities ranging
+from interactive remote debugging and experimentation in development
+contexts through to more advanced use cases such as updating deployed
+applications) as well as toolmakers (providing a standard way to connect to and
+introspect running environments as a way of informing user interfaces of all
+kinds, including "standard" interactive, text-based REPLs).</p>
+</div>
+<div class="paragraph">
+<p>The default network protocol used is simple, depending neither
+on JVM or Clojure specifics, thereby allowing (encouraging?) the development
+of non-Clojure REPL clients.  The REPLs operational semantics are such
+that essentially any non-JVM Clojure implementation should be able to
+implement it, with allowances for hosts that lack the concurrency primitives to
+support e.g. asynchronous evaluation, interrupts, etc.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -253,37 +237,12 @@ nREPL as a dependency to your project.</p>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>You can override the version of nREPL supplied by Leiningen and Boot by
-adding nREPL as a dependency to your project.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Or, add this to your Maven project&#8217;s <code>pom.xml</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
-  &lt;groupId&gt;nrepl&lt;/groupId&gt;
-  &lt;artifactId&gt;nrepl&lt;/artifactId&gt;
-  &lt;version&gt;0.5.3&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Prior to version 0.3, nREPL used to be hosted on Maven Central and had
-a different deployment artifact - <code>org.clojure/clojure.tools.nrepl</code>.</p>
-</div>
+For more information about the motivation, architecture, use cases, and
+discussion related to nREPL, see the original design notes,
+available <a href="https://docs.google.com/document/edit?id=1dnb1ONTpK9ttO5W4thxiXkU5Ki89gK62anRqKEK4YZI&amp;authkey=CMuszuMI&amp;hl=en#">here</a>,
+and the <a href="https://github.com/clojure/tools.nrepl/wiki/nREPL.Next">notes</a> and
+<a href="http://groups.google.com/group/clojure-dev/browse_frm/thread/6e366c1d0eaeec59">discussion</a>
+around its recent redesign.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
 </td>
 </tr>
 </table>
@@ -291,29 +250,19 @@ a different deployment artifact - <code>org.clojure/clojure.tools.nrepl</code>.<
 </div>
 </div>
 <div class="sect1">
-<h2 id="upgrading"><a class="anchor" href="#upgrading"></a>Upgrading from nREPL 0.2.x to 0.4.x</h2>
+<h2 id="_beyond_clojure"><a class="anchor" href="#_beyond_clojure"></a>Beyond Clojure</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A few major changes happened since nREPL 0.2.x:</p>
+<p>While this site is mostly about nREPL&#8217;s reference (canonical) Clojure implementation,
+it&#8217;s important to point out that the nREPL protocol is language-agnostic and can be
+leveraged for many languages that have the ability to evaluate code
+at runtime.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>The artifact id changed from <code>org.clojure/clojure.tools.nrepl</code> to <code>nrepl/nrepl</code>.</p>
-</li>
-<li>
-<p>The namespace prefix changed from <code>clojure.tools.nrepl</code> to <code>nrepl</code>.</p>
-</li>
-<li>
-<p>The namespace <code>clojure.tools.nrepl</code> was renamed to <code>nrepl.core</code>.</p>
-</li>
-<li>
-<p>nREPL now targets Java 8+ and Clojure 1.7+.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
-</li>
-<li>
-<p>All the code which existed for compatibility with nREPL 0.0.x was removed.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
-</li>
-</ul>
+<div class="paragraph">
+<p>One way to describe nREPL would be as something similar in
+nature to the <a href="https://langserver.org/">Language Server Protocol</a>. nREPL is not nearly as
+ambitious as LSP, but on the other hand it&#8217;s also much simpler and it&#8217;s trivial to
+create nREPL clients in any language.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -322,44 +271,63 @@ a different deployment artifact - <code>org.clojure/clojure.tools.nrepl</code>.<
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>Refer to the <a href="https://github.com/nrepl/nrepl/blob/master/CHANGELOG.md">changelog</a>
-for an exhaustive listing of all the changes.</p>
-</div>
+You can find some alternative nREPL implementations and more on the subject <a href="#beyond_clojure.adoc">here</a>.
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Those changes can affect you in two ways:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>If you&#8217;re working on nREPL extensions you&#8217;ll need to update the nREPL namespaces you&#8217;re referring to.</p>
-</li>
-<li>
-<p>If you&#8217;re using third-party nREPL middleware you&#8217;ll have to make sure it was updated for nREPL 0.4+.</p>
-</li>
-</ul>
+</div>
+<div class="sect1">
+<h2 id="_community_driven"><a class="anchor" href="#_community_driven"></a>Community-Driven</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>One of the defining attributes of nREPL is that it&#8217;s a project built by
+the Clojure community for the Clojure community. Making it easy for everyone
+interested to participate in the development of nREPL was one of the biggest
+reasons why we decided to leave the "Clojure Contrib" umbrella.</p>
 </div>
 <div class="paragraph">
-<p>Apart from those renamings it&#8217;s business as usual - nREPL&#8217;s API and
-protocol remain exactly the same as they were in 0.2.x, and backwards
-compatibility remains as important as always.</p>
+<p>Everyone&#8217;s welcome to get involved in the project, so we can take it to the next level!</p>
 </div>
-<div class="admonitionblock warning">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-<div class="paragraph">
-<p>You&#8217;ll need Boot 2.8.2+ or Leiningen 2.8.2+ (still unreleased) to take advantage of nREPL
-0.4, as their older releases bundled nREPL 0.2.x. Leiningen users can also use the
-<a href="https://github.com/nrepl/lein-nrepl/pulls">lein-nrepl plugin</a> until Leiningen 2.8.2 is officially released.</p>
+Check out the how you can help nREPL <a href="#about/contributing.adoc">here</a>.
+</td>
+</tr>
+</table>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_status"><a class="anchor" href="#_status"></a>Status</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Despite its modest version number, nREPL is extremely stable at this
+point. Its communication protocol and API are rock-solid and battle
+tested and have been powering much of the existing Clojure tooling for
+several years now.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
+</div>
+<div class="paragraph">
+<p>Given the massive community investment in developing all sorts of
+tooling on top of nREPL, nREPL&#8217;s team pledges to evolve the project only in
+a responsible manner and backwards-compatible ways.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The migration of nREPL out of Clojure Contrib is probably the
+only case where we were forced to make breaking changes.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> Those are detailed in great
+detail <a href="installation.html#upgrading" class="page">here</a>.
 </td>
 </tr>
 </table>
@@ -369,10 +337,13 @@ compatibility remains as important as always.</p>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. nREPL 0.2 used to target Java 6 and Clojure 1.2.
+<a href="#_footnoteref_1">1</a>. It&#8217;s not that recent anymore, as the redesign happened in 2012. It marked the beginning of the long-lived nREPL 0.2 series.
 </div>
 <div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. Which probably won&#8217;t affect anyone, as it was ancient.
+<a href="#_footnoteref_2">2</a>. nREPL had virtually no alternatives before the introduction of the built-in Socket REPL in Clojure 1.8.
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. Apart from removing deprecated code that is.
 </div>
 </div>
 </article>

@@ -47,7 +47,7 @@
   </nav>
 </header>
 <div class="main-wrapper">
-<div class="navigation-container" data-component="nrepl" data-version="0.5.3">
+<div class="navigation-container" data-component="nrepl" data-version="0.6.0">
   <aside class="navigation">
     <div class="panels">
 <div class="navigation-menu is-active" data-panel="menu">
@@ -99,10 +99,13 @@
     <a class="nav-link" href="ops.html">Built-in Ops</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="third_party_middleware.html">Third-party Middleware</a>
+    <a class="nav-link" href="extensions.html">Extensions</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="faq.html">FAQ</a>
@@ -148,17 +151,17 @@
 <div class="navigation-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">0.5.3</span>
+    <span class="version">0.6.0</span>
   </div>
   <ul class="components">
     <li class="component is-current">
       <span class="title">nREPL</span>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../0.6.0/index.html">0.6.0</a>
+        <li class="version is-current is-latest">
+          <a href="index.html">0.6.0</a>
         </li>
-        <li class="version is-current">
-          <a href="index.html">0.5.3</a>
+        <li class="version">
+          <a href="../0.5.3/index.html">0.5.3</a>
         </li>
       </ul>
     </li>
@@ -170,7 +173,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="../0.6.0/index.html" class="home-link"></a>
+  <a href="index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="index.html">nREPL</a></li>
@@ -178,20 +181,20 @@
   </ul>
 </nav>
 <div class="page-versions">
-  <button class="versions-menu-toggle" title="Show other versions of page">0.5.3</button>
+  <button class="versions-menu-toggle" title="Show other versions of page">0.6.0</button>
   <div class="versions-menu">
-    <a class="version" href="../0.6.0/ops.html">0.6.0</a>
-    <a class="version is-current" href="ops.html">0.5.3</a>
+    <a class="version is-current" href="ops.html">0.6.0</a>
+    <a class="version" href="../0.5.3/ops.html">0.5.3</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/blob/0.5.3/doc/modules/ROOT/pages/ops.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/blob/0.6.0/doc/modules/ROOT/pages/ops.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
 <h1>Supported nREPL operations</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="small">generated from a verbose 'describe' response (nREPL v0.4.5)</span></p>
+<p><span class="small">generated from a verbose 'describe' response (nREPL v0.6.0-SNAPSHOT)</span></p>
 </div>
 </div>
 </div>
@@ -303,7 +306,7 @@
 <div class="sect2">
 <h3 id="_eval"><a class="anchor" href="#_eval"></a><code>:eval</code></h3>
 <div class="paragraph">
-<p>Evaluates code.</p>
+<p>Evaluates code. Note that unlike regular stream-based Clojure REPLs, nREPL&#8217;s <code>:eval</code> short-circuits on first read error and will not try to read and execute the remaining code in the message.</p>
 </div>
 <div class="dlist">
 <dl>
@@ -339,6 +342,30 @@
 <li>
 <p><code>:line</code> The line number in [file] at which [code] starts.</p>
 </li>
+<li>
+<p><code>:nrepl.middleware.caught/caught</code> A fully-qualified symbol naming a var whose function to use to convey interactive errors. Must point to a function that takes a <code>java.lang.Throwable</code> as its sole argument.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.caught/print?</code> If logical true, the printed value of any interactive errors will be returned in the response (otherwise they will be elided). Delegates to <code>nrepl.middleware.print</code> to perform the printing. Defaults to false.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/buffer-size</code> The size of the buffer to use when streaming results. Defaults to 1024.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/keys</code> A seq of the keys in the response whose values should be printed.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/options</code> A map of options to pass to the printing function. Defaults to <code>nil</code>.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/print</code> A fully-qualified symbol naming a var whose function to use for printing. Must point to a function with signature [value writer options].</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/quota</code> A hard limit on the number of bytes printed for each value.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/stream?</code> If logical true, the result of printing each value will be streamed to the client over one or more messages.</p>
+</li>
 </ul>
 </div>
 </dd>
@@ -356,7 +383,7 @@
 <p><code>:root-ex</code> The type of the root exception thrown, if any. If present, then <code>values</code> will be absent.</p>
 </li>
 <li>
-<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>pr-values</code> middleware, and could theoretically be customized. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
+<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>print</code> middleware. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
 </li>
 </ul>
 </div>
@@ -367,7 +394,7 @@
 <div class="sect2">
 <h3 id="_interrupt"><a class="anchor" href="#_interrupt"></a><code>:interrupt</code></h3>
 <div class="paragraph">
-<p>Attempts to interrupt some code evaluation.</p>
+<p>Attempts to interrupt some executing request. When interruption succeeds, the thread used for execution is killed, and a new thread spawned for the session. While the session middleware ensures that Clojure dynamic bindings are preserved, other ThreadLocals are not. Hence, when running code intimately tied to the current thread identity, it is best to avoid interruptions.</p>
 </div>
 <div class="dlist">
 <dl>
@@ -376,7 +403,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>:session</code> The ID of the session used to start the evaluation to be interrupted.</p>
+<p><code>:session</code> The ID of the session used to start the request to be interrupted.</p>
 </li>
 </ul>
 </div>
@@ -386,7 +413,7 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>:interrupt-id</code> The opaque message ID sent with the original "eval" request.</p>
+<p><code>:interrupt-id</code> The opaque message ID sent with the request to be interrupted.</p>
 </li>
 </ul>
 </div>
@@ -396,9 +423,10 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>:status</code> 'interrupted' if an evaluation was identified and interruption will be attempted
-'session-idle' if the session is not currently evaluating any code
-'interrupt-id-mismatch' if the session is currently evaluating code sent using a different ID than specified by the "interrupt-id" value</p>
+<p><code>:status</code> 'interrupted' if a request was identified and interruption will be attempted
+'session-idle' if the session is not currently executing any request
+'interrupt-id-mismatch' if the session is currently executing a request sent using a different ID than specified by the "interrupt-id" value
+'session-ephemeral' if the session is an ephemeral session</p>
 </li>
 </ul>
 </div>
@@ -433,6 +461,30 @@
 <li>
 <p><code>:file-path</code> Source-path-relative path of the source file, e.g. clojure/java/io.clj</p>
 </li>
+<li>
+<p><code>:nrepl.middleware.caught/caught</code> A fully-qualified symbol naming a var whose function to use to convey interactive errors. Must point to a function that takes a <code>java.lang.Throwable</code> as its sole argument.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.caught/print?</code> If logical true, the printed value of any interactive errors will be returned in the response (otherwise they will be elided). Delegates to <code>nrepl.middleware.print</code> to perform the printing. Defaults to false.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/buffer-size</code> The size of the buffer to use when streaming results. Defaults to 1024.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/keys</code> A seq of the keys in the response whose values should be printed.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/options</code> A map of options to pass to the printing function. Defaults to <code>nil</code>.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/print</code> A fully-qualified symbol naming a var whose function to use for printing. Must point to a function with signature [value writer options].</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/quota</code> A hard limit on the number of bytes printed for each value.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/stream?</code> If logical true, the result of printing each value will be streamed to the client over one or more messages.</p>
+</li>
 </ul>
 </div>
 </dd>
@@ -450,7 +502,7 @@
 <p><code>:root-ex</code> The type of the root exception thrown, if any. If present, then <code>values</code> will be absent.</p>
 </li>
 <li>
-<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>pr-values</code> middleware, and could theoretically be customized. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
+<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>print</code> middleware. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
 </li>
 </ul>
 </div>
