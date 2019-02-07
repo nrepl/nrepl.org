@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Handlers :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/design/handlers.html">
-    <meta name="generator" content="Antora 1.1.1">
+    <meta name="generator" content="Antora 2.0.0">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
@@ -161,6 +161,9 @@
           <a href="../index.html">master</a>
         </li>
         <li class="version">
+          <a href="../0.6.0/index.html">0.6.0</a>
+        </li>
+        <li class="version">
           <a href="../0.5.3/index.html">0.5.3</a>
         </li>
       </ul>
@@ -185,6 +188,7 @@
   <button class="versions-menu-toggle" title="Show other versions of page">master</button>
   <div class="versions-menu">
     <a class="version is-current" href="handlers.html">master</a>
+    <a class="version" href="../0.6.0/design/handlers.html">0.6.0</a>
     <a class="version" href="../0.5.3/design/handlers.html">0.5.3</a>
   </div>
 </div>
@@ -214,7 +218,7 @@ code like <code>"(+ 1 2) (def a 6)"</code>).</p>
 </div>
 <div class="paragraph">
 <p>Thus, messages provided to nREPL handlers are guaranteed to contain a
-<code>:transport</code> entry containing the <a href="transports.html" class="page">transports</a> that should be used
+<code>:transport</code> entry containing the <a href="#design/transports.adoc">transports</a> that should be used
 to send all responses precipitated by a given message.  (This slot is added by
 the nREPL server itself, thus, if a client sends any message containing a
 <code>"transport"</code> entry, it will be bashed out by the <code>Transport</code> that was the

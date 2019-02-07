@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supported nREPL operations :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/ops.html">
-    <meta name="generator" content="Antora 1.1.1">
+    <meta name="generator" content="Antora 2.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
@@ -161,6 +161,9 @@
           <a href="index.html">master</a>
         </li>
         <li class="version">
+          <a href="0.6.0/index.html">0.6.0</a>
+        </li>
+        <li class="version">
           <a href="0.5.3/index.html">0.5.3</a>
         </li>
       </ul>
@@ -184,6 +187,7 @@
   <button class="versions-menu-toggle" title="Show other versions of page">master</button>
   <div class="versions-menu">
     <a class="version is-current" href="ops.html">master</a>
+    <a class="version" href="0.6.0/ops.html">0.6.0</a>
     <a class="version" href="0.5.3/ops.html">0.5.3</a>
   </div>
 </div>
@@ -194,7 +198,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="small">generated from a verbose 'describe' response (nREPL v0.6.0-SNAPSHOT)</span></p>
+<p><span class="small">generated from a verbose 'describe' response (nREPL v0.6.1-SNAPSHOT)</span></p>
 </div>
 </div>
 </div>
@@ -202,7 +206,7 @@
 <h2 id="_operations"><a class="anchor" href="#_operations"></a>Operations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_code_clone_code"><a class="anchor" href="#_code_clone_code"></a><code>:clone</code></h3>
+<h3 id="_clone"><a class="anchor" href="#_clone"></a><code>:clone</code></h3>
 <div class="paragraph">
 <p>Clones the current session, returning the ID of the newly-created session.</p>
 </div>
@@ -236,7 +240,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_close_code"><a class="anchor" href="#_code_close_code"></a><code>:close</code></h3>
+<h3 id="_close"><a class="anchor" href="#_close"></a><code>:close</code></h3>
 <div class="paragraph">
 <p>Closes the specified session.</p>
 </div>
@@ -264,7 +268,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_describe_code"><a class="anchor" href="#_code_describe_code"></a><code>:describe</code></h3>
+<h3 id="_describe"><a class="anchor" href="#_describe"></a><code>:describe</code></h3>
 <div class="paragraph">
 <p>Produce a machine- and human-readable directory and documentation for the operations supported by an nREPL endpoint.</p>
 </div>
@@ -304,9 +308,9 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_eval_code"><a class="anchor" href="#_code_eval_code"></a><code>:eval</code></h3>
+<h3 id="_eval"><a class="anchor" href="#_eval"></a><code>:eval</code></h3>
 <div class="paragraph">
-<p>Evaluates code.</p>
+<p>Evaluates code. Note that unlike regular stream-based Clojure REPLs, nREPL&#8217;s <code>:eval</code> short-circuits on first read error and will not try to read and execute the remaining code in the message.</p>
 </div>
 <div class="dlist">
 <dl>
@@ -342,6 +346,30 @@
 <li>
 <p><code>:line</code> The line number in [file] at which [code] starts.</p>
 </li>
+<li>
+<p><code>:nrepl.middleware.caught/caught</code> A fully-qualified symbol naming a var whose function to use to convey interactive errors. Must point to a function that takes a <code>java.lang.Throwable</code> as its sole argument.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.caught/print?</code> If logical true, the printed value of any interactive errors will be returned in the response (otherwise they will be elided). Delegates to <code>nrepl.middleware.print</code> to perform the printing. Defaults to false.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/buffer-size</code> The size of the buffer to use when streaming results. Defaults to 1024.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/keys</code> A seq of the keys in the response whose values should be printed.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/options</code> A map of options to pass to the printing function. Defaults to <code>nil</code>.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/print</code> A fully-qualified symbol naming a var whose function to use for printing. Must point to a function with signature [value writer options].</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/quota</code> A hard limit on the number of bytes printed for each value.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/stream?</code> If logical true, the result of printing each value will be streamed to the client over one or more messages.</p>
+</li>
 </ul>
 </div>
 </dd>
@@ -359,7 +387,7 @@
 <p><code>:root-ex</code> The type of the root exception thrown, if any. If present, then <code>values</code> will be absent.</p>
 </li>
 <li>
-<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>pr-values</code> middleware, and could theoretically be customized. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
+<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>print</code> middleware. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
 </li>
 </ul>
 </div>
@@ -368,10 +396,9 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_interrupt_code"><a class="anchor" href="#_code_interrupt_code"></a><code>:interrupt</code></h3>
+<h3 id="_interrupt"><a class="anchor" href="#_interrupt"></a><code>:interrupt</code></h3>
 <div class="paragraph">
-<p>Attempts to interrupt some code evaluation. When interruption succeeds, the thread used by for
-code evaluation changes, while Clojure dynamic bindings are preserved, other <code>ThreadLocals</code> are not. So when running code intimately tied to the current thread identity, best avoid interruptions.</p>
+<p>Attempts to interrupt some executing request. When interruption succeeds, the thread used for execution is killed, and a new thread spawned for the session. While the session middleware ensures that Clojure dynamic bindings are preserved, other ThreadLocals are not. Hence, when running code intimately tied to the current thread identity, it is best to avoid interruptions.</p>
 </div>
 <div class="dlist">
 <dl>
@@ -380,7 +407,7 @@ code evaluation changes, while Clojure dynamic bindings are preserved, other <co
 <div class="ulist">
 <ul>
 <li>
-<p><code>:session</code> The ID of the session used to start the evaluation to be interrupted.</p>
+<p><code>:session</code> The ID of the session used to start the request to be interrupted.</p>
 </li>
 </ul>
 </div>
@@ -390,7 +417,7 @@ code evaluation changes, while Clojure dynamic bindings are preserved, other <co
 <div class="ulist">
 <ul>
 <li>
-<p><code>:interrupt-id</code> The opaque message ID sent with the original "eval" request.</p>
+<p><code>:interrupt-id</code> The opaque message ID sent with the request to be interrupted.</p>
 </li>
 </ul>
 </div>
@@ -400,9 +427,10 @@ code evaluation changes, while Clojure dynamic bindings are preserved, other <co
 <div class="ulist">
 <ul>
 <li>
-<p><code>:status</code> 'interrupted' if an evaluation was identified and interruption will be attempted
-'session-idle' if the session is not currently evaluating any code
-'interrupt-id-mismatch' if the session is currently evaluating code sent using a different ID than specified by the "interrupt-id" value</p>
+<p><code>:status</code> 'interrupted' if a request was identified and interruption will be attempted
+'session-idle' if the session is not currently executing any request
+'interrupt-id-mismatch' if the session is currently executing a request sent using a different ID than specified by the "interrupt-id" value
+'session-ephemeral' if the session is an ephemeral session</p>
 </li>
 </ul>
 </div>
@@ -411,7 +439,7 @@ code evaluation changes, while Clojure dynamic bindings are preserved, other <co
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_load_file_code"><a class="anchor" href="#_code_load_file_code"></a><code>:load-file</code></h3>
+<h3 id="_load_file"><a class="anchor" href="#_load_file"></a><code>:load-file</code></h3>
 <div class="paragraph">
 <p>Loads a body of code, using supplied path and filename info to set source file and line number metadata. Delegates to underlying "eval" middleware/handler.</p>
 </div>
@@ -437,6 +465,30 @@ code evaluation changes, while Clojure dynamic bindings are preserved, other <co
 <li>
 <p><code>:file-path</code> Source-path-relative path of the source file, e.g. clojure/java/io.clj</p>
 </li>
+<li>
+<p><code>:nrepl.middleware.caught/caught</code> A fully-qualified symbol naming a var whose function to use to convey interactive errors. Must point to a function that takes a <code>java.lang.Throwable</code> as its sole argument.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.caught/print?</code> If logical true, the printed value of any interactive errors will be returned in the response (otherwise they will be elided). Delegates to <code>nrepl.middleware.print</code> to perform the printing. Defaults to false.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/buffer-size</code> The size of the buffer to use when streaming results. Defaults to 1024.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/keys</code> A seq of the keys in the response whose values should be printed.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/options</code> A map of options to pass to the printing function. Defaults to <code>nil</code>.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/print</code> A fully-qualified symbol naming a var whose function to use for printing. Must point to a function with signature [value writer options].</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/quota</code> A hard limit on the number of bytes printed for each value.</p>
+</li>
+<li>
+<p><code>:nrepl.middleware.print/stream?</code> If logical true, the result of printing each value will be streamed to the client over one or more messages.</p>
+</li>
 </ul>
 </div>
 </dd>
@@ -454,7 +506,7 @@ code evaluation changes, while Clojure dynamic bindings are preserved, other <co
 <p><code>:root-ex</code> The type of the root exception thrown, if any. If present, then <code>values</code> will be absent.</p>
 </li>
 <li>
-<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>pr-values</code> middleware, and could theoretically be customized. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
+<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>print</code> middleware. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
 </li>
 </ul>
 </div>
@@ -463,7 +515,7 @@ code evaluation changes, while Clojure dynamic bindings are preserved, other <co
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_ls_sessions_code"><a class="anchor" href="#_code_ls_sessions_code"></a><code>:ls-sessions</code></h3>
+<h3 id="_ls_sessions"><a class="anchor" href="#_ls_sessions"></a><code>:ls-sessions</code></h3>
 <div class="paragraph">
 <p>Lists the IDs of all active sessions.</p>
 </div>
@@ -491,7 +543,7 @@ code evaluation changes, while Clojure dynamic bindings are preserved, other <co
 </div>
 </div>
 <div class="sect2">
-<h3 id="_code_stdin_code"><a class="anchor" href="#_code_stdin_code"></a><code>:stdin</code></h3>
+<h3 id="_stdin"><a class="anchor" href="#_stdin"></a><code>:stdin</code></h3>
 <div class="paragraph">
 <p>Add content from the value of "stdin" to *in* in the current session.</p>
 </div>
