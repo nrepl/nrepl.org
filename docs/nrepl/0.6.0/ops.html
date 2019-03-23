@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supported nREPL operations :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/ops.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <meta name="generator" content="Antora 1.1.1">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
@@ -207,7 +207,7 @@
 <h2 id="_operations"><a class="anchor" href="#_operations"></a>Operations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_clone"><a class="anchor" href="#_clone"></a><code>:clone</code></h3>
+<h3 id="_code_clone_code"><a class="anchor" href="#_code_clone_code"></a><code>:clone</code></h3>
 <div class="paragraph">
 <p>Clones the current session, returning the ID of the newly-created session.</p>
 </div>
@@ -241,7 +241,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_close"><a class="anchor" href="#_close"></a><code>:close</code></h3>
+<h3 id="_code_close_code"><a class="anchor" href="#_code_close_code"></a><code>:close</code></h3>
 <div class="paragraph">
 <p>Closes the specified session.</p>
 </div>
@@ -269,7 +269,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_describe"><a class="anchor" href="#_describe"></a><code>:describe</code></h3>
+<h3 id="_code_describe_code"><a class="anchor" href="#_code_describe_code"></a><code>:describe</code></h3>
 <div class="paragraph">
 <p>Produce a machine- and human-readable directory and documentation for the operations supported by an nREPL endpoint.</p>
 </div>
@@ -309,7 +309,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_eval"><a class="anchor" href="#_eval"></a><code>:eval</code></h3>
+<h3 id="_code_eval_code"><a class="anchor" href="#_code_eval_code"></a><code>:eval</code></h3>
 <div class="paragraph">
 <p>Evaluates code. Note that unlike regular stream-based Clojure REPLs, nREPL&#8217;s <code>:eval</code> short-circuits on first read error and will not try to read and execute the remaining code in the message.</p>
 </div>
@@ -397,7 +397,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_interrupt"><a class="anchor" href="#_interrupt"></a><code>:interrupt</code></h3>
+<h3 id="_code_interrupt_code"><a class="anchor" href="#_code_interrupt_code"></a><code>:interrupt</code></h3>
 <div class="paragraph">
 <p>Attempts to interrupt some executing request. When interruption succeeds, the thread used for execution is killed, and a new thread spawned for the session. While the session middleware ensures that Clojure dynamic bindings are preserved, other ThreadLocals are not. Hence, when running code intimately tied to the current thread identity, it is best to avoid interruptions.</p>
 </div>
@@ -440,7 +440,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_load_file"><a class="anchor" href="#_load_file"></a><code>:load-file</code></h3>
+<h3 id="_code_load_file_code"><a class="anchor" href="#_code_load_file_code"></a><code>:load-file</code></h3>
 <div class="paragraph">
 <p>Loads a body of code, using supplied path and filename info to set source file and line number metadata. Delegates to underlying "eval" middleware/handler.</p>
 </div>
@@ -516,7 +516,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ls_sessions"><a class="anchor" href="#_ls_sessions"></a><code>:ls-sessions</code></h3>
+<h3 id="_code_ls_sessions_code"><a class="anchor" href="#_code_ls_sessions_code"></a><code>:ls-sessions</code></h3>
 <div class="paragraph">
 <p>Lists the IDs of all active sessions.</p>
 </div>
@@ -544,7 +544,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_stdin"><a class="anchor" href="#_stdin"></a><code>:stdin</code></h3>
+<h3 id="_code_stdin_code"><a class="anchor" href="#_code_stdin_code"></a><code>:stdin</code></h3>
 <div class="paragraph">
 <p>Add content from the value of "stdin" to *in* in the current session.</p>
 </div>
