@@ -196,7 +196,7 @@
     <a class="version" href="../0.5.3/about/contributing.html">0.5.3</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/about/contributing.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/edit/master/doc/modules/ROOT/pages/about/contributing.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
 <h1>Contributing</h1>
@@ -239,39 +239,79 @@ passing and that your patch is in line with the <a href="https://github.com/nrep
 <div class="sect2">
 <h3 id="_working_on_the_manual"><a class="anchor" href="#_working_on_the_manual"></a>Working on the Manual</h3>
 <div class="paragraph">
-<p>The manual is generated from the asciidoc files in the <a href="https://github.com/nrepl/nrepl/tree/master/doc">doc</a> folder of nREPL&#8217;s GitHub repo and is published to <a href="https://nrepl.org" class="bare">https://nrepl.org</a>.
+<p>The manual is generated from the AsciiDoc files in the <a href="https://github.com/nrepl/nrepl/tree/master/doc">doc</a> folder of nREPL&#8217;s GitHub repo and is published to <a href="https://nrepl.org" class="bare">https://nrepl.org</a>.
 <a href="https://antora.org">Antora</a> is used to convert the manual into HTML.
-The filesystem layout is described at <a href="https://docs.antora.org/antora/1.1/component-structure/" class="bare">https://docs.antora.org/antora/1.1/component-structure/</a></p>
+The filesystem layout is described at <a href="https://docs.antora.org/antora/2.0/component-structure/" class="bare">https://docs.antora.org/antora/2.0/component-structure/</a>.</p>
 </div>
 <div class="paragraph">
 <p>To make changes to the manual you simply have to change the files under <code>doc</code>.
 The manual will be regenerated manually periodically.</p>
 </div>
-<div class="paragraph">
-<p>You can build the documentation locally from the <a href="https://github.com/nrepl/nrepl.org">nrepl.org</a> repo.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ cd nREPL.org
-$ npm install
-$ ./antora site.yml</code></pre>
-</div>
-</div>
-<div class="admonitionblock tip">
+<div class="sect3">
+<h4 id="_installing_antora"><a class="anchor" href="#_installing_antora"></a>Installing Antora</h4>
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If <code>npm install</code> fails, see <a href="https://docs.antora.org/antora/1.1/install/troubleshoot-nodegit/">Antora&#8217;s troubleshooting documentation</a>.
+The instructions here assume you already have (the right version of) node.js installed.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
+<p>Installing the Antora is super simple:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ npm i -g @antora/cli@2.0 @antora/site-generator-default@2.0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Check out <a href="https://docs.antora.org/antora/2.0/install/install-antora/">the detailed installation instructions</a>
+if you run into any problems.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_building_the_site"><a class="anchor" href="#_building_the_site"></a>Building the Site</h4>
+<div class="paragraph">
+<p>You can build the documentation locally from the <a href="https://github.com/nrepl/nrepl.org">nrepl.org</a> repo.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ cd nrepl.org
+$ antora --pull site.yml</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After you&#8217;re done with the initial setup you can use the <code>deploy</code> script to push changes to the site:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>./deploy</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You&#8217;ll need commit access to the repository for this to work.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To check the generated site you can simply open <code>docs/index.html</code> in your favourite browser.</p>
+</div>
+<div class="paragraph">
 <p>If you want to make changes to the manual&#8217;s page structure you&#8217;ll have to edit
 <a href="https://github.com/nrepl/nrepl/blob/master/doc/modules/ROOT/nav.adoc">nav.adoc</a>.</p>
+</div>
 </div>
 </div>
 </div>
@@ -306,10 +346,10 @@ to become a nREPL sponsor.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>[<a href="https://opencollective.com/nrepl#backer">Become a backer</a>] (for individuals)</p>
+<p><a href="https://opencollective.com/nrepl#backer">Become a backer</a> (for individuals)</p>
 </li>
 <li>
-<p>[<a href="https://opencollective.com/nrepl#sponsor">Become a sponsor</a>] (for companies)</p>
+<p><a href="https://opencollective.com/nrepl#sponsor">Become a sponsor</a> (for companies)</p>
 </li>
 </ul>
 </div>
@@ -324,7 +364,6 @@ to become a nREPL sponsor.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
 <script src="../../_/js/site.js"></script>
-<script src="../../_/js/vendor/highlight.js"></script>
-<script>hljs.initHighlighting()</script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>

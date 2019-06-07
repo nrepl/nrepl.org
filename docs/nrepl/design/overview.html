@@ -196,7 +196,7 @@
     <a class="version" href="../0.5.3/design/overview.html">0.5.3</a>
   </div>
 </div>
-  <div class="edit-this-page"><a href="https://github.com/nrepl/nREPL/edit/master/doc/modules/ROOT/pages/design/overview.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/edit/master/doc/modules/ROOT/pages/design/overview.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
 <h1>Overview</h1>
@@ -217,23 +217,20 @@ provided by e.g.  terminals).</p>
 <h2 id="_messages"><a class="anchor" href="#_messages"></a>Messages</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>nREPL messages are maps.  The keys and values that may be included in messages
-depends upon the transport being used; different transports may encode messages
-differently, and therefore may or may not be able to represent certain data
-types.</p>
+<p>It is convention to express nREPL messages as EDN maps. For most purposes, it&#8217;s sufficient to imagine that we communicate with nREPL via EDN, much the same way as we send and receive JSON to and from a REST endpoint. This is typically not what actually happens, and the details are discussed in <a href="#design/transports.adoc">the transport section</a>, however, this conceptual simplification serves us well.</p>
 </div>
 <div class="sect2">
 <h3 id="_requests"><a class="anchor" href="#_requests"></a>Requests</h3>
 <div class="paragraph">
 <p>Each message sent to an nREPL endpoint constitutes a "request" to perform a
-particular operation, which is indicated by a <code>"op"</code> entry.  Each operation may
+particular operation, which is indicated by a <code>:op</code> entry.  Each operation may
 further require the incoming message to contain other data.  Which data an
 operation requires or may accept varies; for example, a message to evaluate
 some code might look like this:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{"op" "eval" "code" "(+ 1 2 3)"}</code></pre>
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:op "eval" :code "(+ 1 2 3)"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -252,13 +249,13 @@ fundamental properties that will always be around in the responses:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><code>id</code> The ID of the request for which the response was generated.</p>
+<p><code>:id</code> The ID of the request for which the response was generated.</p>
 </li>
 <li>
-<p><code>session</code> The ID of the session for which the response was generated.</p>
+<p><code>:session</code> The ID of the session for which the response was generated.</p>
 </li>
 <li>
-<p><code>status</code> The status of the response. Here there would either be something like "done"
+<p><code>:status</code> The status of the response. Here there would either be something like "done"
 if a request has been fully processed or the reason for a failure (e.g. "namespace-not-found"). Not every
 response message would have the status key. If some request generated multiple response messages only the
 final one would have the status attached to it.</p>
@@ -272,25 +269,25 @@ to see in responses generated as a result of an <code>eval</code> op invocation.
 <div class="ulist">
 <ul>
 <li>
-<p><code>ns</code> The stringified value of <code><strong>ns</strong></code> at the time of the response message&#8217;s
+<p><code>:ns</code> The stringified value of <code><strong>ns</strong></code> at the time of the response message&#8217;s
 generation.</p>
 </li>
 <li>
-<p><code>out</code> Contains content written to <code><strong>out</strong></code> while the request&#8217;s code was being evaluated.  Messages containing <code><strong>out</strong></code> content may be sent at the discretion
+<p><code>:out</code> Contains content written to <code><strong>out</strong></code> while the request&#8217;s code was being evaluated.  Messages containing <code><strong>out</strong></code> content may be sent at the discretion
 of the server, though at minimum corresponding with flushes of the underlying
 stream/writer.</p>
 </li>
 <li>
-<p><code>err</code> Same as <code>out</code>, but for <code><strong>err</strong></code>.</p>
+<p><code>:err</code> Same as <code>:out</code>, but for <code><strong>err</strong></code>.</p>
 </li>
 <li>
-<p><code>value</code> The result of printing a result of evaluating a form in the code sent
+<p><code>:value</code> The result of printing a result of evaluating a form in the code sent
   in the corresponding request.  More than one value may be sent, if more than
 one form can be read from the request&#8217;s code string.  In contrast to the output
 written to <code><strong>out</strong></code> and <code><strong>err</strong></code>, this may be usefully/reliably read and utilized
 by the client, e.g. in tooling contexts, assuming the evaluated code returns a
 printable and readable value.  Interactive clients will likely want to simply
-stream `value&#8217;s content to their UI&#8217;s primary output / log.</p>
+stream `:value&#8217;s content to their UI&#8217;s primary output / log.</p>
 </li>
 </ul>
 </div>
@@ -328,7 +325,6 @@ of nREPL server responses.</p>
   <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
 </footer>
 <script src="../../_/js/site.js"></script>
-<script src="../../_/js/vendor/highlight.js"></script>
-<script>hljs.initHighlighting()</script>
+<script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>
