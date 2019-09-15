@@ -7,6 +7,8 @@
     <link rel="canonical" href="https://nrepl.org/nrepl/usage/clients.html">
     <meta name="generator" content="Antora 2.0.0">
     <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/site-extra.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
 <link rel="icon" href="../../../_/img/favicon.ico" type="image/x-icon">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
     <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
@@ -15,7 +17,14 @@
 <header class="header" role="banner">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://nrepl.org">nREPL</a>
+      <div class="navbar-item">
+        <a href="https://nrepl.org">nREPL</a>
+        <span class="separator">//</span>
+        <a href="https://nrepl.org">Docs</a>
+      </div>
+      <div class="navbar-item">
+        <input id="search-input" type="text" placeholder="Search docs">
+      </div>
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
         <span></span>
@@ -196,7 +205,7 @@
   <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/blob/0.6.0/doc/modules/ROOT/pages/usage/clients.adoc">Edit this Page</a></div>
 </div>
 <article class="doc">
-<h1>nREPL Clients</h1>
+<h1 class="page">nREPL Clients</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -388,9 +397,18 @@ a particular set of operations, <a href="#ops.adoc">detailed here</a>.</p>
 </main>
 </div>
 <footer class="footer">
-  <p>This page was built using the Antora default UI.</p>
-  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+  <p>Copyright (C) 2019 <a href="https://metaredux.com">Bozhidar Batsov</a> and nREPL contributors.</p>
 </footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript">
+docsearch({
+  apiKey: 'd63510fa1207404e3966aedd33d34bce',
+  indexName: 'nrepl',
+  inputSelector: '#search-input',
+  algoliaOptions: { 'facetFilters': ["version:0.6.0"] },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
 <script src="../../../_/js/site.js"></script>
 <script async src="../../../_/js/vendor/highlight.js"></script>
   </body>
