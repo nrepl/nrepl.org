@@ -186,7 +186,7 @@
     </div>
   </aside>
 </div>
-<main role="main">
+<main>
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
   <a href="../0.6.0/index.html" class="home-link"></a>
@@ -390,7 +390,10 @@ The EDN transport was introduced in nREPL 0.7.
 <p>This may be useful in a couple of usecases: In some clients, including ClojureScript ones, where EDN is easier to handle than bencode. Furthermore, because this transport exposes more of the richer data types in the internals of nREPL and its middlewares, it may support more complex usecases.</p>
 </div>
 <div class="paragraph">
-<p>The introduction of the EDN transport does require more specification of the message format, whereby some vagueness was allowed for by the limitatioms of bencode. For example, <code>:op</code> values are strings, and <code>:status</code> is either a keyword, or a set of keywords. This may cause some surprised, unintended consequences. Thus tweaks to the EDN message format may be possible until the transport is declared mature. Documentation of this using <code>clojure.spec</code> is planned.</p>
+<p>The introduction of the EDN transport does require more specification of the message format, whereby some vagueness was allowed for by the limitatioms of bencode. For example, <code>:op</code> values are strings, and <code>:status</code> is either a keyword, or a set of keywords. This may cause some surprised, unintended consequences. Thus tweaks to the EDN message format may be possible until the transport is declared mature.</p>
+</div>
+<div class="paragraph">
+<p>These details are reflected in the <code>nrepl.spec</code> ns, against which responses are verified during testing. This is not used by nREPL anywhere else at moment.</p>
 </div>
 <div class="paragraph">
 <p>For example, of the (same as before) four messages</p>
