@@ -260,7 +260,7 @@ Nothing more, nothing less.</p>
 
 ;;;; Handling of output
 ;; request
-(println "Hello, world”)
+(println "Hello, world")
 
 ;; response (the output and the result are intermixed)
 Hello, world!
@@ -384,11 +384,11 @@ for upgrading a plain socket REPL to <code>unrepl</code>, injecting dependencies
 
 ;;;; Handling of output
 ;; request
-(println "Hello, world”)
+(println "Hello, world")
 
 ;; response
 {:tag :out,
- :val "Hello, world\n”}
+ :val "Hello, world\n"}
 {:tag :ret,
  :val "nil",
  :ns "user",
@@ -441,8 +441,8 @@ references and alike into the tool.</p>
 The communication between an LSP client and a server is done via JSON.</p>
 </div>
 <div class="paragraph">
-<p>Currently there&#8217;s a single implementation of an LSP server for Clojure - namely [clojure-lsp].
-It&#8217;s functionality is powered internally by static code analysis, one can easily imagine
+<p>Currently there&#8217;s a single implementation of an LSP server for Clojure - namely <a href="https://github.com/snoe/clojure-lsp">clojure-lsp</a>.
+Its functionality is powered internally by static code analysis, one can easily imagine
 an LSP server implementation that&#8217;s powered by a REPL.</p>
 </div>
 <div class="sect2">
@@ -494,12 +494,11 @@ infinitely extensible when it comes to supported operations, data formats and co
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Comparison Table</caption>
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <thead>
 <tr>
@@ -508,7 +507,6 @@ infinitely extensible when it comes to supported operations, data formats and co
 <th class="tableblock halign-left valign-top">Data Format</th>
 <th class="tableblock halign-left valign-top">Clojure-agnostic Protocol</th>
 <th class="tableblock halign-left valign-top">Optimized for Tooling</th>
-<th class="tableblock halign-left valign-top"></th>
 </tr>
 </thead>
 <tbody>
@@ -518,30 +516,33 @@ infinitely extensible when it comes to supported operations, data formats and co
 <td class="tableblock halign-left valign-top"><p class="tableblock">Bencode/EDN (other formats supported by extensions)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Socket REPL</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Socket REPL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Streaming Input/Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDN</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">unrepl</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Streaming Input/Structured Output</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">unrepl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Streaming Input/Structured Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDN</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">prepl</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Streaming Input/Structured Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDN</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">LSP</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Structured Input/Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JSON</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
 </tbody>
