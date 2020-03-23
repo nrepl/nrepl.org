@@ -230,7 +230,7 @@ This page is work in progress.
 </div>
 <div class="paragraph">
 <p>nREPL is certainly not the only project that aims to provide a common foundation for (Clojure) development tooling.
-.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
+<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
 Here we&#8217;ll mostly focus on alternatives in the realm of Clojure, and we&#8217;ll briefly go over
 some (subjective) pros and cons they offer.</p>
 </div>
@@ -248,6 +248,9 @@ depending on your requirements and use-cases.</p>
 <p>A <a href="https://clojure.org/reference/repl_and_main#_launching_a_socket_server">socket REPL server</a> was added in Clojure 1.8.
 In essence it&#8217;s just a socket version of the standard REPL - the input in text (code) and the output is text.
 Nothing more, nothing less.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a typical exchange between a client and a socket REPL server:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -281,6 +284,9 @@ Still, I think it&#8217;s fair to say that the main purpose of the socket REPL s
 </li>
 <li>
 <p>Bundled with Clojure and ClojureScript</p>
+</li>
+<li>
+<p>Easy to leverage from Clojure(Script)/Java(Script) clients</p>
 </li>
 </ul>
 </div>
@@ -342,6 +348,9 @@ for upgrading a plain socket REPL to <code>unrepl</code>, injecting dependencies
 <li>
 <p>External project that&#8217;s independent of Clojure&#8217;s development cycle</p>
 </li>
+<li>
+<p>Easy to leverage from Clojure(Script)/Java(Script) clients</p>
+</li>
 </ul>
 </div>
 </div>
@@ -368,6 +377,9 @@ for upgrading a plain socket REPL to <code>unrepl</code>, injecting dependencies
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>prepl</code> is pretty similar to <code>unrepl</code> in terms of the way it operates (streaming input, framed output). Its main advantage is that it&#8217;s part of Clojure since 1.10. <code>prepl</code> is rather spartan compared to <code>unrepl</code>, but as a result it&#8217;s simpler.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s a typical exchange between a client and a <code>prepl</code> server:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -405,6 +417,9 @@ for upgrading a plain socket REPL to <code>unrepl</code>, injecting dependencies
 </li>
 <li>
 <p>Bundled with Clojure and ClojureScript</p>
+</li>
+<li>
+<p>Easy to leverage from Clojure(Script)/Java(Script) clients</p>
 </li>
 </ul>
 </div>
@@ -494,17 +509,19 @@ infinitely extensible when it comes to supported operations, data formats and co
 <table class="tableblock frame-all grid-all stretch">
 <caption class="title">Table 1. Comparison Table</caption>
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
-<col style="width: 20%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.6666%;">
+<col style="width: 16.667%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Name</th>
 <th class="tableblock halign-left valign-top">Input/Output</th>
 <th class="tableblock halign-left valign-top">Data Format</th>
+<th class="tableblock halign-left valign-top">ClojureScript Support</th>
 <th class="tableblock halign-left valign-top">Clojure-agnostic Protocol</th>
 <th class="tableblock halign-left valign-top">Optimized for Tooling</th>
 </tr>
@@ -513,7 +530,8 @@ infinitely extensible when it comes to supported operations, data formats and co
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">nREPL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Structured Input/Output</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Bencode/EDN (other formats supported by extensions)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bencode/EDN<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Requires extension (Piggieback)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
@@ -521,6 +539,7 @@ infinitely extensible when it comes to supported operations, data formats and co
 <td class="tableblock halign-left valign-top"><p class="tableblock">Socket REPL</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Streaming Input/Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
 </tr>
@@ -529,12 +548,14 @@ infinitely extensible when it comes to supported operations, data formats and co
 <td class="tableblock halign-left valign-top"><p class="tableblock">Streaming Input/Structured Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDN</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">prepl</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Streaming Input/Structured Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">EDN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
@@ -542,6 +563,7 @@ infinitely extensible when it comes to supported operations, data formats and co
 <td class="tableblock halign-left valign-top"><p class="tableblock">LSP</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Structured Input/Output</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JSON</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">n/a</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
@@ -553,6 +575,9 @@ infinitely extensible when it comes to supported operations, data formats and co
 <hr>
 <div class="footnote" id="_footnotedef_1">
 <a href="#_footnoteref_1">1</a>. nREPL was the first such effort in the Clojure community, though.
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. Other data formats (e.g. JSON) are supported via extensions.
 </div>
 </div>
 </article>
