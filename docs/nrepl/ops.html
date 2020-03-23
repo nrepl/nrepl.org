@@ -121,6 +121,9 @@
     <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="alternatives.html">Alternatives</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="faq.html">FAQ</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -208,7 +211,7 @@
   </div>
 </div>
   <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/edit/master/doc/modules/ROOT/pages/ops.adoc">Edit this Page</a></div>
-</div>
+  </div>
 <article class="doc">
 <h1 class="page">Supported nREPL operations</h1>
 <div id="preamble">
@@ -361,6 +364,9 @@
 </li>
 <li>
 <p><code>:line</code> The line number in [file] at which [code] starts.</p>
+</li>
+<li>
+<p><code>:read-cond</code> The options passed to the reader before the evaluation. Useful when middleware in a higher layer wants to process reader conditionals.</p>
 </li>
 <li>
 <p><code>:nrepl.middleware.caught/caught</code> A fully-qualified symbol naming a var whose function to use to convey interactive errors. Must point to a function that takes a <code>java.lang.Throwable</code> as its sole argument.</p>

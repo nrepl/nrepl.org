@@ -121,6 +121,9 @@
     <a class="nav-link" href="../beyond_clojure.html">Beyond Clojure</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../alternatives.html">Alternatives</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="../faq.html">FAQ</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -209,7 +212,7 @@
   </div>
 </div>
   <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/edit/master/doc/modules/ROOT/pages/design/middleware.adoc">Edit this Page</a></div>
-</div>
+  </div>
 <article class="doc">
 <h1 class="page">Middleware</h1>
 <div id="preamble">
@@ -419,25 +422,30 @@ should do the same, or use a similar alternative base handler.</p>
 <h2 id="_sessions"><a class="anchor" href="#_sessions"></a>Sessions</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>There are two types of sessions: ephemeral sessions and long-lived sessions
-(or registered sessions).</p>
+<p>Each nREPL message is evaluated within a session. There are two types of sessions:
+<em>ephemeral sessions</em> and <em>long-lived sessions</em> (or registered sessions).</p>
 </div>
 <div class="paragraph">
-<p>When a message arrives without a session id, an ephemeral session is created
-and assigned to it. Ephemeral sessions are bound to the processing of a single message.</p>
-</div>
-<div class="paragraph">
-<p>The only way to create a long-lived session is to clone an existing session (even an
-ephemeral one). Cloning a session creates a new session that initially shares the <a href="https://clojure.org/reference/vars">dynamic bindings</a> of the original session.</p>
-</div>
-<div class="paragraph">
-<p>Sessions (long-lived ones since they are the useful ones) serialize evaluations
-and make dynamic bindings available for inspection to other ops.</p>
-</div>
-<div class="paragraph">
-<p>All other ops have no serialization guarantee (they are serialized in the current
+<p><strong>Ephemeral sessions</strong> are used for once off processing of a single message. If a message
+arrives without a session id, one is created and assigned to it. This is discarded
+after processing the message. There&#8217;s no serialisation guarantee with processing
+of messages in ephemeral sessions (though they are serialized in the current
 implementation since they run on the server IO thread). However evals run on a
 dedicated thread so a running eval can&#8217;t block another op.</p>
+</div>
+<div class="paragraph">
+<p><strong>Long-lived sessions</strong> provide two things, persistence of values between
+messages, and a guarantee for serial execution of messages. The only way to
+create a long-lived session is to clone an existing session (even an
+ephemeral one).</p>
+</div>
+<div class="paragraph">
+<p>Sessions persist <a href="https://clojure.org/reference/vars">dynamic vars</a>
+(collected by <code>get-thread-bindings</code>) against a unique lookup. This allows
+you to have a different value for <code>*e</code> from different REPL clients
+(e.g. two separate REPL-y instances). An existing session can be cloned
+to create a new one, which then can be modified. This allows for copying
+of existing preferences into new environments.</p>
 </div>
 <div class="paragraph">
 <p>Sessions become even more useful when different nREPL extensions start
@@ -448,6 +456,24 @@ debugging of two things
 separately. <a href="https://github.com/nrepl/piggieback">piggieback</a> uses
 sessions to allow host a ClojureScript REPL alongside an existing
 Clojure one.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+An easy mistake is to confuse a <code>session</code> with an <code>id</code>. The difference
+between a session and id, is that an <code>id</code> is for tracking a single
+message, and sessions are for tracking remote state. They&#8217;re
+fundamental to allowing simultaneous activities in the same nREPL.
+For instance - if you want to evaluate two expressions simultaneously
+you&#8217;ll have to do this in separate session, as all requests within the
+same session are serialized.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -712,7 +738,7 @@ considered experimental, and may change.
 <div class="sect2">
 <h3 id="_starting_the_sideloader"><a class="anchor" href="#_starting_the_sideloader"></a>Starting the sideloader</h3>
 <div class="paragraph">
-<p>The sideloader is initialised by a new operation: <code>sideloader-start</code>. This will return with status <code>:done</code> immediately, and its message ID will be used for all future sideloading requests.</p>
+<p>The sideloader is initialised by a new operation: <code>sideloader-start</code>. This will never return with status <code>:done</code>, but its message ID will be used for all future sideloading requests.</p>
 </div>
 <div class="paragraph">
 <p>As additional resources/classes are looked up, server will send messages to the client with status <code>:sideloader-lookup</code>, and the following parameters</p>
