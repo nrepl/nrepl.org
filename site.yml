@@ -1,14 +1,14 @@
 site:
   title: nREPL
   url: https://nrepl.org/
-  start_page: 0.6.0@nrepl::index.adoc
+  start_page: 0.7.0@nrepl::index.adoc
   keys:
     google_analytics: 'UA-128069102-1'
 content:
   sources:
   - url: https://github.com/nrepl/nrepl.git
     branches: ['master']
-    tags: ['0.5.3', '0.6.0']
+    tags: ['0.5.3', '0.6.0', '0.7.0']
     start_path: doc
 asciidoc:
   attributes:
