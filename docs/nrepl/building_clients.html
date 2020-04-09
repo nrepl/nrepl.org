@@ -112,22 +112,25 @@
     <a class="nav-link" href="extensions.html">Extensions</a>
   </li>
   <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
+  </li>
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="building_servers.html">Building Servers</a>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="building_clients.html">Building Clients</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
-  </li>
-  <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="alternatives.html">Alternatives</a>
+    <a class="nav-link" href="troubleshooting.html">Troubleshooting</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="faq.html">FAQ</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="troubleshooting.html">Troubleshooting</a>
+    <a class="nav-link" href="alternatives.html">Alternatives</a>
   </li>
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="additional_resources.html">Additional Resources</a>
@@ -195,7 +198,7 @@
     </div>
   </aside>
 </div>
-<main>
+<main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
   <a href="0.7.0/index.html" class="home-link"></a>
@@ -216,6 +219,7 @@
 </div>
   <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/edit/master/doc/modules/ROOT/pages/building_clients.adoc">Edit this Page</a></div>
   </div>
+  <div class="content">
 <article class="doc">
 <h1 class="page">Building Clients</h1>
 <div id="preamble">
@@ -235,8 +239,150 @@ This page is very incomplete and a work in progress.
 </div>
 </div>
 <div class="sect1">
+<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This part of the documentation is mostly intended for people who are
+working on nREPL clients (e.g. command-line tools and editors).
+We&#8217;ll go over the basics of building an nREPL client and some of the best
+practices that might not be obvious to people who are not familiar with the process.</p>
+</div>
+<div class="paragraph">
+<p>We&#8217;ll try to keep the conversation mostly focused on building clients for the nREPL protocol
+in general, but we&#8217;ll also highlight some specifics of nREPL&#8217;s Clojure implementation.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_basics"><a class="anchor" href="#_basics"></a>Basics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>At the very least a client should be able to connect to an nREPL server and
+support code evaluation (the <code>eval</code> op). Ideally, the client should be able to make use of all
+the ops that are part of the nREPL protocol.</p>
+</div>
+<div class="paragraph">
+<p>While, the reference nREPL server for Clojure supports multiple data exchange
+formats, it&#8217;s important for clients to support <code>bencode</code>, as that is the only format
+embraced the nREPL protocol. If a client is focused only on Clojure(Script) nREPL
+servers they can safely opt for EDN, or ideally support both <code>bencode</code> and EDN.</p>
+</div>
+<div class="paragraph">
+<p>A typical message exchange between a client and a server would be:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Client sends <code>clone</code> to create a new session.</p>
+</li>
+<li>
+<p>Server responds with the session id.</p>
+</li>
+<li>
+<p>Client sends <code>describe</code> to check the server&#8217;s capabilities and version/runtime information.</p>
+</li>
+<li>
+<p>Server responds with a map of the relevant data.</p>
+</li>
+<li>
+<p>Clients starts sending <code>eval</code> messages using the session id that it obtained earlier.</p>
+</li>
+<li>
+<p>Server responds with the appropriate messages (e.g. <code>value</code> and <code>out</code>). Eventually a message with
+status <code>done</code> signals that the <code>eval</code> message has been fully processed.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+If you don&#8217;t pass a session explicitly to some op, the server is supposed to create
+a transient (one-off) session on the fly. That&#8217;s fine for most ops, as they don&#8217;t interact
+with the session state, but it&#8217;s generally a bad idea for user evaluations.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The reference nREPL implementation bundles a
+<a href="https://github.com/nrepl/nrepl/blob/master/src/clojure/nrepl/cmdline.clj">simple command-line client implementation</a>
+that should give a pretty good overview of how to build a client.
+There are a few other simple clients that you can explore for inspiration:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/eraserhd/rep">rep</a></p>
+</li>
+<li>
+<p><a href="https://github.com/clojure-vim/nrepl-python-client">nrepl-python-client</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It might also be a good idea to see the message exchange between some nREPL and client.
+CIDER provides a <a href="https://docs.cider.mx/cider/troubleshooting.html#_debugging_the_communication_with_nrepl">convenient solution</a> for this.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_best_practices"><a class="anchor" href="#_best_practices"></a>Best Practices</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Bellow is a listing of best practices when it comes to building nREPL clients. A
+common problem with clients is that they typically assume they are talking to a
+Clojure server. While this is OK in some cases (e.g. if you&#8217;re building a
+Clojure IDE), it&#8217;s always better to build clients that can work with any nREPL
+server. Note that some of the suggestions here might not apply to all servers.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Keep user evaluations in one sessions and tooling-related evaluations (e.g. for code completion) in another.
+This will ensure that vars like <code>*1</code> and <code>*e</code> are not messed up.</p>
+</li>
+<li>
+<p>Don&#8217;t assume too much about the server. Infer the capabilities of the server using <code>describe</code>. Try to make
+your client Clojure-agnostic.</p>
+</li>
+<li>
+<p>Leverage streaming of values and output, when supported by the server. This improves a lot the performance when you&#8217;re dealing with huge results.</p>
+</li>
+<li>
+<p>Leverage data cut-off limits when supported by the server.</p>
+</li>
+<li>
+<p>Match requests and responses based on their ID, if you need to assign different callbacks to messages of the same type (this is a common situation in programming editors).</p>
+</li>
+<li>
+<p>Use sequential message ids in the scope of a session - this makes it easier to track the flow of messages.</p>
+</li>
+<li>
+<p>Provide some debug mode where you can see a dump of the requests and the responses.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_implementing_sideloading"><a class="anchor" href="#_implementing_sideloading"></a>Implementing sideloading</h2>
 <div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Sideloading is a feature specific to the reference Clojure nREPL server.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Let&#8217;s start by looking at an exchange of messages while using sideloading:</p>
 </div>
@@ -296,7 +442,23 @@ This page is very incomplete and a work in progress.
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_additional_resources"><a class="anchor" href="#_additional_resources"></a>Additional Resources</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://mauricio.szabo.link/blog/2020/04/04/implementing-a-nrepl-client/" class="bare">https://mauricio.szabo.link/blog/2020/04/04/implementing-a-nrepl-client/</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
 </main>
 </div>
 <footer class="footer">
