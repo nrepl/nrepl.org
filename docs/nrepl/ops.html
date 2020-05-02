@@ -225,7 +225,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="small">generated from a verbose 'describe' response (nREPL v0.7.0-alpha1)</span></p>
+<p><span class="small">generated from a verbose 'describe' response (nREPL v0.8.0-SNAPSHOT)</span></p>
 </div>
 </div>
 </div>
@@ -290,6 +290,52 @@
 <dt class="hdlist1">Returns</dt>
 <dd>
 <p></p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_completions"><a class="anchor" href="#_completions"></a><code>completions</code></h3>
+<div class="paragraph">
+<p>Provides a list of completion candidates.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Required parameters</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><code>:prefix</code> The prefix to complete.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Optional parameters</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><code>:complete</code> The fully qualified name of a completion function to use instead of the default one (e.g. <code>my.ns/completion</code>).</p>
+</li>
+<li>
+<p><code>:ns</code> The namespace in which we want to obtain completion candidates. Defaults to <code>*ns*</code>.</p>
+</li>
+<li>
+<p><code>:options</code> A map of options supported by the completion function.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Returns</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><code>:candidates</code> A list of completion candidates. Each candidate is a map with <code>:candidate</code> and <code>:type</code> keys. Vars also have a <code>:ns</code> key.</p>
+</li>
+</ul>
+</div>
 </dd>
 </dl>
 </div>
@@ -374,7 +420,7 @@
 <p><code>:line</code> The line number in [file] at which [code] starts.</p>
 </li>
 <li>
-<p><code>:read-cond</code> The options passed to the reader before the evaluation. Useful when middleware in a higher layer wants to process reader conditionals.</p>
+<p><code>:ns</code> The namespace in which to perform the evaluation. The supplied namespace must exist already (e.g. be loaded). If no namespace is specified the evaluation falls back to <code>*ns*</code> for the session in question.</p>
 </li>
 <li>
 <p><code>:nrepl.middleware.caught/caught</code> A fully-qualified symbol naming a var whose function to use to convey interactive errors. Must point to a function that takes a <code>java.lang.Throwable</code> as its sole argument.</p>
@@ -408,16 +454,16 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>:ex</code> The type of exception thrown, if any. If present, then <code>values</code> will be absent.</p>
+<p><code>:ex</code> The type of exception thrown, if any. If present, then <code>:value</code> will be absent.</p>
 </li>
 <li>
 <p><code>:ns</code> *ns*, after successful evaluation of <code>code</code>.</p>
 </li>
 <li>
-<p><code>:root-ex</code> The type of the root exception thrown, if any. If present, then <code>values</code> will be absent.</p>
+<p><code>:root-ex</code> The type of the root exception thrown, if any. If present, then <code>:value</code> will be absent.</p>
 </li>
 <li>
-<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>print</code> middleware. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
+<p><code>:value</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>print</code> middleware. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
 </li>
 </ul>
 </div>
@@ -527,16 +573,16 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>:ex</code> The type of exception thrown, if any. If present, then <code>values</code> will be absent.</p>
+<p><code>:ex</code> The type of exception thrown, if any. If present, then <code>:value</code> will be absent.</p>
 </li>
 <li>
 <p><code>:ns</code> *ns*, after successful evaluation of <code>code</code>.</p>
 </li>
 <li>
-<p><code>:root-ex</code> The type of the root exception thrown, if any. If present, then <code>values</code> will be absent.</p>
+<p><code>:root-ex</code> The type of the root exception thrown, if any. If present, then <code>:value</code> will be absent.</p>
 </li>
 <li>
-<p><code>:values</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>print</code> middleware. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
+<p><code>:value</code> The result of evaluating <code>code</code>, often <code>read</code>able. This printing is provided by the <code>print</code> middleware. Superseded by <code>ex</code> and <code>root-ex</code> if an exception occurs during evaluation.</p>
 </li>
 </ul>
 </div>

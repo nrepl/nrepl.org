@@ -395,6 +395,67 @@ user=&gt;</code></pre>
 </div>
 </div>
 <div class="sect1">
+<h2 id="_code_completion"><a class="anchor" href="#_code_completion"></a>Code Completion</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Code completion support was added in nREPL 0.8 and the API is still
+considered experimental.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>nREPL bundles a completion middleware with a flexible interface. By default it will use nREPL own
+code completion in <code>nrepl.completion</code>, but you can instruct nREPL to use
+another completion function (e.g. one based on <code>compliment</code>).</p>
+</div>
+<div class="paragraph">
+<p>The completion function should accept 3 parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>prefix</code>: The completion prefix.</p>
+</li>
+<li>
+<p><code>ns</code>: The namespace in which to look for completion candidates.</p>
+</li>
+<li>
+<p><code>options</code>: A map of additional options.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The function should ideally return results in the following format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{:candidate "map", :ns "clojure.core", :type :var}
+ {:candidate "map-entry?", :ns "clojure.core", :type :var}
+ {:candidate "map-indexed", :ns "clojure.core", :type :var}
+ {:candidate "map?", :ns "clojure.core", :type :var}
+ {:candidate "mapcat", :ns "clojure.core", :type :var}
+ {:candidate "mapv", :ns "clojure.core", :type :var}]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can either specify a custom completion function in the requests (via the <code>complete</code> key) or by
+setting <code>nrepl.middleware.completion/<strong>complete-fn</strong></code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">user=&gt; (set! nrepl.middleware.completion/*complete-fn* my.namespace/my-completion)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_hot_loading_dependencies"><a class="anchor" href="#_hot_loading_dependencies"></a>Hot-loading dependencies</h2>
 <div class="sectionbody">
 <div class="paragraph">
