@@ -443,6 +443,66 @@ Sideloading is a feature specific to the reference Clojure nREPL server.
 </div>
 </div>
 <div class="sect1">
+<h2 id="_modifying_middleware"><a class="anchor" href="#_modifying_middleware"></a>Modifying middleware</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To add a middleware that&#8217;s already available on the server&#8217;s classpath, it&#8217;s as
+simple as sending the message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:op "add-middleware"
+ :middleware ["cider.nrepl.middleware/wrap-version"]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, if the middleware is loaded, it&#8217;s very likely that it hasn&#8217;t been included
+as a dependency on the server, and thus unavailable on its classpath. Furthermore.
+In this case, we can use the <code>dynamic-loader</code> in conjunction with the <code>sideloader</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:op "sideloader-start"}
+;; handle sideloading separatedly...
+;; now we add the middleware
+{:op "add-middleware"
+ :middleware ["cider.nrepl.middleware/wrap-version"]}
+;; confirm it's being loaded..
+{:op "ls-middleware"}
+;; and we should get something like...
+{:status #{:done}
+ :middleware [... "#'cider.nrepl.middleware/wrap-version" ...]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, if we tried to use the middleware with an <code>cider-version</code> op, we&#8217;d get an
+error, because the middleware is implemented in a different namespace, which is
+only loaded on the first use of the <code>cider-version</code> op. This is a practice in
+many middleware to improve startup performance. One method of getting around this
+is to request the extra namespace to be loaded at <code>add-middleware</code> time too:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; after starting the sideloader...
+{:op "add-middleware"
+ :middleware ["cider.nrepl.middleware/wrap-version"]
+ :extra-namespaces ["cider.nrepl.middleware.version"]}
+ ;; now, the following shoud work
+ {:op "cider-version"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There is no operation to remove a single middleware, but it&#8217;s possible to reset
+the stack to a baseline with the <code>swap-middleware</code> operation. If the goal is to
+simply reset the middleware stack, use this in conjuction with
+<code>nrepl.server/default-middleware</code>.</p>
+</div>
+<div class="paragraph">
+<p>Also note that updating the middleware stack may also destroy/re-create middleware state. As an example, sideloading would need to be re-started. The impact on each middleware differs, however, as some of them, e.g. <code>session</code> holds their state globally.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_additional_resources"><a class="anchor" href="#_additional_resources"></a>Additional Resources</h2>
 <div class="sectionbody">
 <div class="ulist">

@@ -256,14 +256,14 @@ middleware.</p>
 middleware, even foundational bits like session and eval support.  This default
 middleware "stack" aims to match and exceed the functionality offered by the
 standard Clojure REPL, and is available at
-<code>nrepl.server/default-middlewares</code>.  Concretely, it consists of a
+<code>nrepl.server/default-middleware</code>.  Concretely, it consists of a
 number of middleware functions' vars that are implicitly merged with any
 user-specified middleware provided to
 <code>nrepl.server/default-handler</code>.  To understand how that implicit
 merge works, we&#8217;ll first need to talk about middleware "descriptors".</p>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/nrepl/nrepl/wiki/Extensions">Other nREPL middlewares are provided by the community</a>.</p>
+<p><a href="https://github.com/nrepl/nrepl/wiki/Extensions">Other nREPL middleware are provided by the community</a>.</p>
 </div>
 <div class="paragraph">
 <p>(See <a href="../ops.html" class="page">this documentation listing</a> for
@@ -408,7 +408,7 @@ Clojure&#8217;s default stream-based REPL implementation).</p>
 <div class="paragraph">
 <p>The specific contents of a middleware&#8217;s descriptor depends entirely on its
 objectives: which operations it is to implement/define, how it is to modify
-incoming request messages, and which higher- and lower-level middlewares are to
+incoming request messages, and which higher- and lower-level middleware are to
 aid in accomplishing its aims.</p>
 </div>
 <div class="paragraph">
@@ -630,7 +630,7 @@ responses.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The functionality of the <code>print</code> middleware is reusable by other middlewares. If
+<p>The functionality of the <code>print</code> middleware is reusable by other middleware. If
 a middleware descriptor&#8217;s <code>:requires</code> set contains
 <code>#'nrepl.middleware.print/wrap-print</code>, then it can expect:</p>
 </div>
@@ -699,7 +699,7 @@ Defaults to false.</p>
 </div>
 </div>
 <div class="paragraph">
-<p>The functionality of the <code>caught</code> middleware is reusable by other middlewares.
+<p>The functionality of the <code>caught</code> middleware is reusable by other middleware.
 If a middleware descriptor&#8217;s <code>:requires</code> set contains
 <code>#'nrepl.middleware.caught/wrap-caught</code>, then it can expect:</p>
 </div>
@@ -795,6 +795,46 @@ Once a class has been loaded, it will become available to all sessions on nREPL 
 </tr>
 </table>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_dynamic_middleware_loading"><a class="anchor" href="#_dynamic_middleware_loading"></a>Dynamic middleware loading</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Dynamic middleware loading support was added in nREPL 0.8 and the API is still
+considered experimental, and may change.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>nREPL includes a <code>dynamic-loader</code> middleware, which can be used, at runtime,
+query and change the middleware stack the nREPL server is using. This is especially
+powerful when combined with sideloading, as it allows a client to configure the
+server after connecting, and provides an alternative to having to specify the middleware required by the client as startup time.</p>
+</div>
+<div class="paragraph">
+<p>This introduces three new operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ls-middleware</code>, to return a list of active middleware, ordered from inside outwards.</p>
+</li>
+<li>
+<p><code>add-middleware</code>, which adds a middleware to the stack. Optionally, a list of <code>extra-namespaces</code> could be provided for loading. This is useful when adding middleware that implement some form of deferred loading. Examples include <code>cider-nrepl</code> and <code>refactor-nrepl</code>. In these cases, some of the required namespaces might only be loaded upon first use, which may occur outside of a sideloading session, and thus fail. This feature allows us to pre-load namespaces when we add a middleware. If loading of any particular middleware fails, the stack will be unchanged.</p>
+</li>
+<li>
+<p><code>swap-middleware</code>, similar to <code>add-</code>, but replaces all existing middleware. Note that this <em>may</em> remove the <code>dynamic-loader</code> itself.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
