@@ -466,6 +466,9 @@
 <p><code>:ns</code> The namespace in which to perform the evaluation. The supplied namespace must exist already (e.g. be loaded). If no namespace is specified the evaluation falls back to <code>*ns*</code> for the session in question.</p>
 </li>
 <li>
+<p><code>:read-cond</code> The options passed to the reader before the evaluation. Useful when middleware in a higher layer wants to process reader conditionals.</p>
+</li>
+<li>
 <p><code>:nrepl.middleware.caught/caught</code> A fully-qualified symbol naming a var whose function to use to convey interactive errors. Must point to a function that takes a <code>java.lang.Throwable</code> as its sole argument.</p>
 </li>
 <li>
