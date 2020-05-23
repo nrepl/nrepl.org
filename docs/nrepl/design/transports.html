@@ -256,7 +256,7 @@ It&#8217;s the bencode transport that is used by default by
 </table>
 </div>
 <div class="paragraph">
-<p><a href="https://github.com/nrepl/nrepl/wiki/Extensions">Other nREPL transports are provided by the community</a>.</p>
+<p><a href="https://github.com/nrepl/nrepl/wiki/Extensions">Other nREPL transports (e.g. HTTP) are available as libraries</a>.</p>
 </div>
 </div>
 </div>
@@ -264,10 +264,14 @@ It&#8217;s the bencode transport that is used by default by
 <h2 id="_bencode_transport"><a class="anchor" href="#_bencode_transport"></a>Bencode Transport</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This is, and will mostly likely remain, nREPL&#8217;s default and primary transport. It is pronounced B-Encode, and is a relatively simple format, comprising of only two scalar types (byte strings and integer) and two collection types (dictionaries and lists).</p>
+<p>This is, and will mostly likely remain, nREPL&#8217;s default and primary
+transport. It is pronounced B-Encode, and is a relatively simple format,
+comprising of only two scalar types (byte strings and integer) and two
+collection types (dictionaries and lists).</p>
 </div>
 <div class="paragraph">
-<p>A simple nREPL message, to run the operation <code>eval</code> on the code <code>(+ 2 2)</code> would look like this in bencode (linebreaks added for clarity):</p>
+<p>A simple nREPL message, to run the operation <code>eval</code> on the code <code>(+ 2 2)</code> would
+look like this in bencode (line breaks added for clarity):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -288,7 +292,10 @@ e</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Given that many, if not most, nREPL client do not use EDN as their native data formats, it&#8217;s best to think of this as the format of a message once received by nREPL. Correpondingly, responses are in the form they take just before being sent through the transport.</p>
+<p>Given that many, if not most, nREPL clients do not use EDN as their native data
+format, it&#8217;s best to think of this as the format of a message once received by
+nREPL. Correspondingly, responses are in the form they take just before being
+sent through the transport.</p>
 </div>
 <div class="paragraph">
 <p>nREPL&#8217;s bencode encoder/decoder performs the following type conversions:</p>
@@ -351,7 +358,10 @@ e</pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>In addition, nREPL server performs a <code>keywordize-keys</code> operation on the received map, restoring the likes of <code>:op</code> and <code>:code</code> to keywords. Thus, the use of keywords in writing nREPL message is mainly for clarity. The following messages, when encoded using nREPL&#8217;s bencode encoder and received by nREPL, are eqivalent:</p>
+<p>In addition, nREPL server performs a <code>keywordize-keys</code> operation on the received
+map, restoring the likes of <code>:op</code> and <code>:code</code> to keywords. Thus, the use of
+keywords in writing nREPL message is mainly for clarity. The following messages,
+when encoded using nREPL&#8217;s bencode encoder and received by nREPL, are equivalent:</p>
 </div>
 <div class="listingblock">
 <div class="content">
