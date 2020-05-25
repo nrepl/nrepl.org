@@ -640,6 +640,49 @@
 </div>
 </div>
 <div class="sect2">
+<h3 id="_lookup"><a class="anchor" href="#_lookup"></a><code>lookup</code></h3>
+<div class="paragraph">
+<p>Lookup symbol info.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Required parameters</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><code>:sym</code> The symbol to lookup.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Optional parameters</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><code>:lookup-fn</code> The fully qualified name of a lookup function to use instead of the default one (e.g. <code>my.ns/lookup</code>).</p>
+</li>
+<li>
+<p><code>:ns</code> The namespace in which we want to do lookup. Defaults to <code>*ns*</code>.</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1">Returns</dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><code>:info</code> A map of the symbol&#8217;s info.</p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_ls_middleware"><a class="anchor" href="#_ls_middleware"></a><code>ls-middleware</code></h3>
 <div class="paragraph">
 <p>List of current middleware</p>
