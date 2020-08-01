@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Handlers :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.org/nrepl/design/handlers.html">
+    <link rel="prev" href="overview.html">
+    <link rel="next" href="transports.html">
+    <meta name="generator" content="Antora 2.3.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/site-extra.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
+<link rel="icon" href="../../../_/img/favicon.ico" type="image/x-icon">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a href="https://nrepl.org">nREPL</a>
+        <span class="separator">//</span>
+        <a href="https://nrepl.org">Docs</a>
+      </div>
+      <div class="navbar-item">
+        <input id="search-input" type="text" placeholder="Search docs">
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <a class="navbar-item" href="https://cljdoc.org/d/nrepl/nrepl/CURRENT">API Docs</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Projects</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/nrepl/nrepl">nREPL</a>
+            <a class="navbar-item" href="https://github.com/nrepl/piggieback">Piggieback</a>
+            <a class="navbar-item" href="https://github.com/nrepl/drawbridge">Drawbridge</a>
+            <a class="navbar-item" href="https://github.com/nrepl/fastlane">Fastlane</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/nrepl/about/support.html">Support</a>
+            <a class="navbar-item" href="/nrepl/about/contributing.html">Contributing</a>
+            <a class="navbar-item" href="https://opencollective.com/nrepl">Open Collective</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="nrepl" data-version="0.8">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">nREPL</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Usage</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../usage/server.html">Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../usage/clients.html">Clients</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../usage/misc.html">Misc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="overview.html">Overview</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="middleware.html">Middleware</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../ops.html">Built-in Ops</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../extensions.html">Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../beyond_clojure.html">Beyond Clojure</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_middleware.html">Building Middleware</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_servers.html">Building Servers</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_clients.html">Building Clients</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../troubleshooting.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../alternatives.html">Alternatives</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../additional_resources.html">Additional Resources</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">About</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/history.html">History</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/team.html">Team</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/support.html">Support</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/contributing.html">Contributing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compatibility.html">Compatibility</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/release_policy.html">Release Policy</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/license.html">License</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">nREPL</span>
+    <span class="version">0.8</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">nREPL</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../index.html">master</a>
+        </li>
+        <li class="version is-current">
+          <a href="../index.html">0.8</a>
+        </li>
+        <li class="version">
+          <a href="../../0.7.0/index.html">0.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.6.0/index.html">0.6.0</a>
+        </li>
+        <li class="version">
+          <a href="../../0.5.3/index.html">0.5.3</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">nREPL</a></li>
+    <li>Design</li>
+    <li><a href="handlers.html">Handlers</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">0.8</button>
+  <div class="version-menu">
+    <a class="version" href="../../design/handlers.html">master</a>
+    <a class="version is-current" href="handlers.html">0.8</a>
+    <a class="version" href="../../0.7.0/design/handlers.html">0.7.0</a>
+    <a class="version" href="../../0.6.0/design/handlers.html">0.6.0</a>
+    <a class="version" href="../../0.5.3/design/handlers.html">0.5.3</a>
+  </div>
+</div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/blob/0.8.0/doc/modules/ROOT/pages/design/handlers.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Handlers</h1>
+<div class="paragraph">
+<p><em>Handlers</em> are functions that accept a single incoming message as an argument.
+An nREPL server is started with a single handler function, which will be used
+to process messages for the lifetime of the server.  Note that handler return
+values are <em>ignored</em>; results of performing operations should be sent back to
+the client via the transport in use (which will be explained shortly).  This
+may seem peculiar, but is motivated by two factors:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Many operations — including something as simple as code evaluation — is
+fundamentally asynchronous with respect to the nREPL server</p>
+</li>
+<li>
+<p>Many operations can produce multiple results (e.g. evaluating a snippet of
+code like <code>"(+ 1 2) (def a 6)"</code>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Thus, messages provided to nREPL handlers are guaranteed to contain a
+<code>:transport</code> entry containing the <a href="transports.html" class="page">transports</a> that should be used
+to send all responses precipitated by a given message.  (This slot is added by
+the nREPL server itself, thus, if a client sends any message containing a
+<code>"transport"</code> entry, it will be bashed out by the <code>Transport</code> that was the
+source of the message.)  Further, all messages provided to nREPL handlers have
+keyword keys (as per <code>clojure.walk/keywordize-keys</code>).</p>
+</div>
+<div class="paragraph">
+<p>Depending on its <code>:op</code>, a message might be required to contain other slots, and
+might optionally contain others.  It is generally the case that request
+messages should contain a globally-unique <code>:id</code>.
+Every request must provoke at least one and potentially many response messages,
+each of which should contain an <code>:id</code> slot echoing that of the provoking
+request.</p>
+</div>
+<div class="paragraph">
+<p>Once a handler has completely processed a message, a response
+containing a <code>:status</code> of <code>:done</code> must be sent.  Some operations necessitate
+that additional responses related to the processing of a request are sent after
+a <code>:done</code> <code>:status</code> is reported (e.g. delivering content written to <code><strong>out</strong></code> by
+evaluated code that started a <code>future</code>).
+Other statuses are possible, depending upon the semantics of the <code>:op</code> being
+handled; in particular, if the message is malformed or incomplete for a
+particular <code>:op</code>, then a response with an <code>:error</code> <code>:status</code> should be sent,
+potentially with additional information about the nature of the problem.</p>
+</div>
+<div class="paragraph">
+<p>It is possible for an nREPL server to send messages to a client that are not a
+direct response to a request (e.g. streaming content written to <code>System/out</code>
+might be started/stopped by requests, but messages containing such content
+can&#8217;t be considered responses to those requests).</p>
+</div>
+<div class="paragraph">
+<p>If the handler being used by an nREPL server does not recognize or cannot
+perform the operation indicated by a request message&#8217;s <code>:op</code>, then it should
+respond with a message containing a <code>:status</code> of <code>"unknown-op"</code>.</p>
+</div>
+<div class="paragraph">
+<p>It is currently the case that the handler provided as the <code>:handler</code> to
+<code>nrepl.server/start-server</code> is generally built up as a result of
+composing multiple pieces of middleware.</p>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="overview.html">Overview</a></span>
+  <span class="next"><a href="transports.html">Transports</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright (C) 2019-2020 <a href="https://metaredux.com">Bozhidar Batsov</a> and nREPL contributors.</p>
+</footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript">
+docsearch({
+  apiKey: 'd63510fa1207404e3966aedd33d34bce',
+  indexName: 'nrepl',
+  inputSelector: '#search-input',
+  algoliaOptions: { 'facetFilters': ["version:0.8"] },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+</script>
+<script src="../../../_/js/site.js"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
