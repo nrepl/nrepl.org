@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Building Clients :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/building_clients.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="building_servers.html">
+    <link rel="next" href="troubleshooting.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="stylesheet" href="../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -242,7 +244,7 @@ This page is very incomplete and a work in progress.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This part of the documentation is mostly intended for people who are
@@ -257,7 +259,7 @@ in general, but we&#8217;ll also highlight some specifics of nREPL&#8217;s Cloju
 </div>
 </div>
 <div class="sect1">
-<h2 id="_basics"><a class="anchor" href="#_basics"></a>Basics</h2>
+<h2 id="basics"><a class="anchor" href="#basics"></a>Basics</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>At the very least a client should be able to connect to an nREPL server and
@@ -328,12 +330,12 @@ There are a few other simple clients that you can explore for inspiration:</p>
 </div>
 <div class="paragraph">
 <p>It might also be a good idea to see the message exchange between some nREPL and client.
-CIDER provides a <a href="https://docs.cider.mx/cider/troubleshooting.html#_debugging_the_communication_with_nrepl">convenient solution</a> for this.</p>
+CIDER provides a <a href="https://docs.cider.mx/cider/troubleshooting.html#debugging-the-communication-with-nrepl">convenient solution</a> for this.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_best_practices"><a class="anchor" href="#_best_practices"></a>Best Practices</h2>
+<h2 id="best-practices"><a class="anchor" href="#best-practices"></a>Best Practices</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Bellow is a listing of best practices when it comes to building nREPL clients. A
@@ -372,7 +374,7 @@ your client Clojure-agnostic.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_implementing_sideloading"><a class="anchor" href="#_implementing_sideloading"></a>Implementing sideloading</h2>
+<h2 id="implementing-sideloading"><a class="anchor" href="#implementing-sideloading"></a>Implementing sideloading</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -395,17 +397,21 @@ Sideloading is a feature specific to the reference Clojure nREPL server.
 {:op      "sideloader-start"
  :id      "1"
  :session "x"}
+
+;; -&gt; try to require a namespace that's not available locally
 {:op      "eval"
  :id      "2"
  :session "x"
  :code    (quote (require '[foo.bar :as bar])
                  (bar/qaz))}
+
 ;; &lt;- lookup for foo.bar
 {:id      "1"
  :session "x"
  :status  :sideloader-lookup
  :type    "resource"
  :name    "foo/bar.clj"}
+
 ;; -&gt; providing resource
 {:id      "3"
  :session "x"
@@ -413,10 +419,12 @@ Sideloading is a feature specific to the reference Clojure nREPL server.
  :type    "resource"
  :name    "foo/bar.clj"
  :content "&lt;base64 package&gt;"}
+
 ;; &lt;- ack of provided resource
 {:id      "3"
  :session "x"
  :status  :done}
+
 ;; &lt;- result of eval
 {:id      "2"
  :session "x"
@@ -430,7 +438,7 @@ Sideloading is a feature specific to the reference Clojure nREPL server.
 <div class="ulist">
 <ul>
 <li>
-<p>We received a response from message <code>1</code>, requesting a resource. This indicates that the the resource was not found on the server JVM, and evaluation is blocked until we provide it, or respond with an empty package.</p>
+<p>We received a response from message <code>1</code>, requesting a resource. This indicates that the the resource was not found on the server JVM, and evaluation is blocked until we provide it, or respond with an empty package (<code>:content</code> should be an empty string).</p>
 </li>
 <li>
 <p>We provide the resource/file using message <code>3</code>, to which the server responds with a <code>:done</code>.</p>
@@ -446,7 +454,7 @@ Sideloading is a feature specific to the reference Clojure nREPL server.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_modifying_middleware"><a class="anchor" href="#_modifying_middleware"></a>Modifying middleware</h2>
+<h2 id="modifying-middleware"><a class="anchor" href="#modifying-middleware"></a>Modifying middleware</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>To add a middleware that&#8217;s already available on the server&#8217;s classpath, it&#8217;s as
@@ -506,7 +514,7 @@ simply reset the middleware stack, use this in conjuction with
 </div>
 </div>
 <div class="sect1">
-<h2 id="_additional_resources"><a class="anchor" href="#_additional_resources"></a>Additional Resources</h2>
+<h2 id="additional-resources"><a class="anchor" href="#additional-resources"></a>Additional Resources</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -517,6 +525,10 @@ simply reset the middleware stack, use this in conjuction with
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="building_servers.html">Building Servers</a></span>
+  <span class="next"><a href="troubleshooting.html">Troubleshooting</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

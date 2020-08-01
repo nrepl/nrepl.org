@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Supported nREPL operations :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/ops.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="design/middleware.html">
+    <link rel="next" href="third_party_middleware.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="stylesheet" href="../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -215,10 +217,10 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="_operations"><a class="anchor" href="#_operations"></a>Operations</h2>
+<h2 id="operations"><a class="anchor" href="#operations"></a>Operations</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_clone"><a class="anchor" href="#_clone"></a><code>:clone</code></h3>
+<h3 id="clone"><a class="anchor" href="#clone"></a><code>:clone</code></h3>
 <div class="paragraph">
 <p>Clones the current session, returning the ID of the newly-created session.</p>
 </div>
@@ -252,7 +254,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_close"><a class="anchor" href="#_close"></a><code>:close</code></h3>
+<h3 id="close"><a class="anchor" href="#close"></a><code>:close</code></h3>
 <div class="paragraph">
 <p>Closes the specified session.</p>
 </div>
@@ -280,7 +282,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_describe"><a class="anchor" href="#_describe"></a><code>:describe</code></h3>
+<h3 id="describe"><a class="anchor" href="#describe"></a><code>:describe</code></h3>
 <div class="paragraph">
 <p>Produce a machine- and human-readable directory and documentation for the operations supported by an nREPL endpoint.</p>
 </div>
@@ -320,7 +322,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_eval"><a class="anchor" href="#_eval"></a><code>:eval</code></h3>
+<h3 id="eval"><a class="anchor" href="#eval"></a><code>:eval</code></h3>
 <div class="paragraph">
 <p>Evaluates code.</p>
 </div>
@@ -384,7 +386,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_interrupt"><a class="anchor" href="#_interrupt"></a><code>:interrupt</code></h3>
+<h3 id="interrupt"><a class="anchor" href="#interrupt"></a><code>:interrupt</code></h3>
 <div class="paragraph">
 <p>Attempts to interrupt some code evaluation.</p>
 </div>
@@ -426,7 +428,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_load_file"><a class="anchor" href="#_load_file"></a><code>:load-file</code></h3>
+<h3 id="load-file"><a class="anchor" href="#load-file"></a><code>:load-file</code></h3>
 <div class="paragraph">
 <p>Loads a body of code, using supplied path and filename info to set source file and line number metadata. Delegates to underlying "eval" middleware/handler.</p>
 </div>
@@ -478,7 +480,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ls_sessions"><a class="anchor" href="#_ls_sessions"></a><code>:ls-sessions</code></h3>
+<h3 id="ls-sessions"><a class="anchor" href="#ls-sessions"></a><code>:ls-sessions</code></h3>
 <div class="paragraph">
 <p>Lists the IDs of all active sessions.</p>
 </div>
@@ -506,7 +508,7 @@
 </div>
 </div>
 <div class="sect2">
-<h3 id="_stdin"><a class="anchor" href="#_stdin"></a><code>:stdin</code></h3>
+<h3 id="stdin"><a class="anchor" href="#stdin"></a><code>:stdin</code></h3>
 <div class="paragraph">
 <p>Add content from the value of "stdin" to *in* in the current session.</p>
 </div>
@@ -541,6 +543,10 @@
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="design/middleware.html">Middleware</a></span>
+  <span class="next"><a href="third_party_middleware.html">Third-party Middleware</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

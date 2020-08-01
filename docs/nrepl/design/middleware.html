@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Middleware :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/design/middleware.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="transports.html">
+    <link rel="next" href="../ops.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="stylesheet" href="../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -228,6 +230,18 @@
 <h1 class="page">Middleware</h1>
 <div id="preamble">
 <div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Keep in mind that the plural form of "middleware" is also "middleware".
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p><em>Middleware</em> are higher-order functions that accept a handler and return a new
 handler that may compose additional functionality onto or around the original.
@@ -277,7 +291,7 @@ responses.)</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_middleware_descriptors_and_nrepl_server_configuration"><a class="anchor" href="#_middleware_descriptors_and_nrepl_server_configuration"></a>Middleware descriptors and nREPL server configuration</h2>
+<h2 id="middleware-descriptors-and-nrepl-server-configuration"><a class="anchor" href="#middleware-descriptors-and-nrepl-server-configuration"></a>Middleware descriptors and nREPL server configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>It is generally the case that most users of nREPL will expect some minimal REPL
@@ -430,7 +444,7 @@ should do the same, or use a similar alternative base handler.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sessions"><a class="anchor" href="#_sessions"></a>Sessions</h2>
+<h2 id="sessions"><a class="anchor" href="#sessions"></a>Sessions</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Each nREPL message is evaluated within a session. There are two types of sessions:
@@ -489,7 +503,7 @@ same session are serialized.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pretty_printing"><a class="anchor" href="#_pretty_printing"></a>Pretty Printing</h2>
+<h2 id="pretty-printing"><a class="anchor" href="#pretty-printing"></a>Pretty Printing</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -668,7 +682,7 @@ options – i.e. its signature is <code>[value writer]</code>.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_evaluation_errors"><a class="anchor" href="#_evaluation_errors"></a>Evaluation Errors</h2>
+<h2 id="evaluation-errors"><a class="anchor" href="#evaluation-errors"></a>Evaluation Errors</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>nREPL includes a <code>caught</code> middleware which provides a configurable hook for any
@@ -722,7 +736,7 @@ called on a <code>java.lang.Throwable</code> to convey errors interactively.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sideloading"><a class="anchor" href="#_sideloading"></a>Sideloading</h2>
+<h2 id="sideloading"><a class="anchor" href="#sideloading"></a>Sideloading</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -747,7 +761,7 @@ considered experimental, and may change.
 <p>This allows a client to add new functionality to an already running instance of nREPL, and paves the way for a more client configurable nREPL.</p>
 </div>
 <div class="sect2">
-<h3 id="_starting_the_sideloader"><a class="anchor" href="#_starting_the_sideloader"></a>Starting the sideloader</h3>
+<h3 id="starting-the-sideloader"><a class="anchor" href="#starting-the-sideloader"></a>Starting the sideloader</h3>
 <div class="paragraph">
 <p>The sideloader is initialised by a new operation: <code>sideloader-start</code>. This will never return with status <code>:done</code>, but its message ID will be used for all future sideloading requests.</p>
 </div>
@@ -778,11 +792,11 @@ considered experimental, and may change.
 </ul>
 </div>
 <div class="paragraph">
-<p>See <a href="../building_clients.html">Building Clients</a> on how to implement the server side of this functionality.</p>
+<p>See <a href="../building_clients.html" class="page">Building Clients</a> on how to implement the server side of this functionality.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_triggering_the_sideloader"><a class="anchor" href="#_triggering_the_sideloader"></a>Triggering the sideloader</h3>
+<h3 id="triggering-the-sideloader"><a class="anchor" href="#triggering-the-sideloader"></a>Triggering the sideloader</h3>
 <div class="paragraph">
 <p>Once the sideloader has been started, it can be triggered by an ordinary <code>eval</code> or <code>load-file</code> operation. The nREPL server will first try to find a resource/class on the classpath of its own JVM. Failing this, it will attempt to request it from the nREPL client by the above described mechanism. Should this still fail, expect a <code>ClassNotFoundException</code> as usual.</p>
 </div>
@@ -802,7 +816,7 @@ Once a class has been loaded, it will become available to all sessions on nREPL 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_dynamic_middleware_loading"><a class="anchor" href="#_dynamic_middleware_loading"></a>Dynamic middleware loading</h2>
+<h2 id="dynamic-middleware-loading"><a class="anchor" href="#dynamic-middleware-loading"></a>Dynamic middleware loading</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -841,6 +855,10 @@ server after connecting, and provides an alternative to having to specify the mi
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="transports.html">Transports</a></span>
+  <span class="next"><a href="../ops.html">Built-in Ops</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Middleware :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/design/middleware.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="transports.html">
+    <link rel="next" href="../ops.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -259,7 +261,7 @@ responses.)</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_middleware_descriptors_and_nrepl_server_configuration"><a class="anchor" href="#_middleware_descriptors_and_nrepl_server_configuration"></a>Middleware descriptors and nREPL server configuration</h2>
+<h2 id="middleware-descriptors-and-nrepl-server-configuration"><a class="anchor" href="#middleware-descriptors-and-nrepl-server-configuration"></a>Middleware descriptors and nREPL server configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>It is generally the case that most users of nREPL will expect some minimal REPL
@@ -392,7 +394,7 @@ should do the same, or use a similar alternative base handler.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sessions"><a class="anchor" href="#_sessions"></a>Sessions</h2>
+<h2 id="sessions"><a class="anchor" href="#sessions"></a>Sessions</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Sessions persist <a href="https://clojure.org/reference/vars">dynamic vars</a>
@@ -424,7 +426,7 @@ same session are serialized.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pretty_printing"><a class="anchor" href="#_pretty_printing"></a>Pretty Printing</h2>
+<h2 id="pretty-printing"><a class="anchor" href="#pretty-printing"></a>Pretty Printing</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>nREPL includes a <code>pr-values</code> middleware to print the results of evaluated
@@ -448,6 +450,10 @@ to pretty-print the evaluation results automatically.</p>
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="transports.html">Transports</a></span>
+  <span class="next"><a href="../ops.html">Built-in Ops</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

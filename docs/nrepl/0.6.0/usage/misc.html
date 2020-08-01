@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Misc Functionality :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/usage/misc.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="clients.html">
+    <link rel="next" href="../design/overview.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -212,7 +214,7 @@
 <article class="doc">
 <h1 class="page">Misc Functionality</h1>
 <div class="sect1">
-<h2 id="_pretty_printing"><a class="anchor" href="#_pretty_printing"></a>Pretty Printing</h2>
+<h2 id="pretty-printing"><a class="anchor" href="#pretty-printing"></a>Pretty Printing</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -321,13 +323,13 @@ user=&gt;</code></pre>
 <p>However, note well that <code>clojure.pprint/pprint</code> rebinds <code>*out*</code> internally, and
 so if anything else prints to <code>*out*</code> while evaluating, that output will end up
 intermingled in the result. See the
-<a href="#">../design/middleware.adoc#_pretty_printing</a> for a
+<a href="../design/middleware.html#_pretty_printing" class="page">print middleware documentation</a> for a
 more detailed explanation.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_evaluation_errors"><a class="anchor" href="#_evaluation_errors"></a>Evaluation Errors</h2>
+<h2 id="evaluation-errors"><a class="anchor" href="#evaluation-errors"></a>Evaluation Errors</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The dynamic var <code>nrepl.middleware.caught/*caught-fn*</code> can be <code>set!</code> at the REPL
@@ -383,7 +385,7 @@ user=&gt;</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_hot_loading_dependencies"><a class="anchor" href="#_hot_loading_dependencies"></a>Hot-loading dependencies</h2>
+<h2 id="hot-loading-dependencies"><a class="anchor" href="#hot-loading-dependencies"></a>Hot-loading dependencies</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>From time to time you&#8217;d want to experiment with some library without
@@ -426,6 +428,10 @@ nil</code></pre>
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="clients.html">Clients</a></span>
+  <span class="next"><a href="../design/overview.html">Overview</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

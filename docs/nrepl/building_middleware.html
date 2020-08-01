@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Building Middleware :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/building_middleware.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="hacking_on_nrepl.html">
+    <link rel="next" href="building_servers.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="stylesheet" href="../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -242,7 +244,7 @@ This page is very incomplete and a work in progress.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This part of the documentation aims to guide you in the process of implementing
@@ -265,25 +267,199 @@ familiar with it before proceeding to implement any middleware.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_basics"><a class="anchor" href="#_basics"></a>Basics</h2>
+<h2 id="basics"><a class="anchor" href="#basics"></a>Basics</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>The basic structure of most middleware is pretty simple:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An op dispatch function (a.k.a. <code>handler</code>) that intercepts requests to the middleware</p>
+</li>
+<li>
+<p>Some functions that do the actual work for each op and provide the responses</p>
+</li>
+<li>
+<p>A middleware descriptor that specifies which middlewares are provided/required and documents the API of the middleware</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Optionally you can have some dynamic vars for configuration purposes. Bellow is a complete example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(ns nrepl.middleware.completion
+  "Code completion middleware.
+  (:require
+   [nrepl.util.completion :as complete]
+   [nrepl.middleware :as middleware :refer [set-descriptor!]]
+   [nrepl.misc :refer [response-for] :as misc]
+   [nrepl.transport :as t])
+  (:import nrepl.transport.Transport))
 
+;; middleware configuration
+(def ^:dynamic *complete-fn*
+  "Function to use for completion. Takes three arguments: `prefix`, the completion prefix,
+  `ns`, the namespace in which to look for completions, and `options`, a map of additional
+  options for the completion function."
+  complete/completions)
+
+;; the business logic for the "completions" op
+(defn completion-reply
+  [{:keys [session prefix ns complete-fn options] :as msg}]
+  (let [ns (if ns (symbol ns) (symbol (str (@session #'*ns*))))
+        completion-fn (or (and complete-fn (misc/requiring-resolve (symbol complete-fn))) *complete-fn*)]
+    (try
+      (response-for msg {:status :done :completions (completion-fn prefix ns options)})
+      (catch Exception e
+        (response-for msg {:status #{:done :completion-error}})))))
+
+;; the handler
+(defn wrap-completion
+  "Middleware that provides code completion.
+  It understands the following params:
+
+  * `prefix` - the prefix which to complete.
+  * `ns`- the namespace in which to do completion. Defaults to `*ns*`.
+  * `complete-fn` – a fully-qualified symbol naming a var whose function to use for
+  completion. Must point to a function with signature [prefix ns options].
+  * `options` – a map of options to pass to the completion function."
+  [h]
+  (fn [{:keys [op ^Transport transport] :as msg}]
+    (if (= op "completions")
+      (t/send transport (completion-reply msg))
+      (h msg))))
+
+(set-descriptor! #'wrap-completion
+                 {:requires #{"clone"}
+                  :expects #{}
+                  :handles {"completions"
+                            {:doc "Provides a list of completion candidates."
+                             :requires {"prefix" "The prefix to complete."}
+                             :optional {"ns" "The namespace in which we want to obtain completion candidates. Defaults to `*ns*`."
+                                        "complete-fn" "The fully qualified name of a completion function to use instead of the default one (e.g. `my.ns/completion`)."
+                                        "options" "A map of options supported by the completion function."}
+                             :returns {"completions" "A list of completion candidates. Each candidate is a map with `:candidate` and `:type` keys. Vars also have a `:ns` key."}}}})</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Not all middleware respond directly to ops. You can have middleware that simply modify
+requests or responses.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It&#8217;s important to make sure you don&#8217;t let some exceptions slide, as some clients might block
+when waiting for a response (as some clients will try to handle nREPL messages in a synchronous
+fashion due to various limitation).</p>
+</div>
+<div class="paragraph">
+<p>Notice that you can have multiple statuses for one response - e.g. a combination of <code>:done</code> and
+some error status.</p>
+</div>
+<div class="paragraph">
+<p>Also notice that the example middleware depends on the <code>session</code> middleware, as it&#8217;s fetching
+some data from the session. In practice this means that the <code>session</code> middleware has already
+been applied to the message for the <code>completion</code> middleware before the message made its way to it,
+and the required session data has been added to it.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_testing"><a class="anchor" href="#_testing"></a>Testing</h2>
+<h2 id="testing"><a class="anchor" href="#testing"></a>Testing</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Typically we&#8217;d be testing nREPL middleware with integration tests that generate middleware
+requests and check their responses. nREPL bundles a few helper functions to streamline the process.
+Here&#8217;s a simple example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(ns nrepl.middleware.completion-test
+  {:author "Bozhidar Batsov"}
+  (:require
+   [clojure.test :refer :all]
+   [nrepl.core :as nrepl]
+   [nrepl.core-test :refer [def-repl-test repl-server-fixture project-base-dir clean-response]])
+  (:import
+   (java.io File)))
 
+(use-fixtures :each repl-server-fixture)
+
+(defn dummy-completion [prefix _ns _options]
+  [{:candidate prefix}])
+
+(def-repl-test completions-op
+  (let [result (-&gt; (nrepl/message session {:op "completions" :prefix "map" :ns "clojure.core"})
+                   nrepl/combine-responses
+                   clean-response
+                   (select-keys [:completions :status]))]
+    (is (= #{:done} (:status result)))
+    (is (not-empty (:completions result)))))
+
+(def-repl-test completions-op-error
+  (let [result (-&gt; (nrepl/message session {:op "completions"})
+                   nrepl/combine-responses
+                   clean-response
+                   (select-keys [:completions :status]))]
+    (is (= #{:done :completion-error} (:status result)))))
+
+(def-repl-test completions-op-custom-fn
+  (let [result (-&gt; (nrepl/message session {:op "completions" :prefix "map" :ns "clojure.core" :complete-fn "nrepl.middleware.completion-test/dummy-completion"})
+                   nrepl/combine-responses
+                   clean-response
+                   (select-keys [:completions :status]))]
+    (is (= #{:done} (:status result)))
+    (is (= [{:candidate "map"}] (:completions result)))))</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_best_practices"><a class="anchor" href="#_best_practices"></a>Best Practices</h2>
+<h2 id="best-practices"><a class="anchor" href="#best-practices"></a>Best Practices</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>In this section we&#8217;ll go over some of the best practices for implementing nREPL middleware.</p>
 </div>
 <div class="sect2">
-<h3 id="_naming_conventions"><a class="anchor" href="#_naming_conventions"></a>Naming conventions</h3>
+<h3 id="code-structure"><a class="anchor" href="#code-structure"></a>Code Structure</h3>
+<div class="paragraph">
+<p>It&#8217;s best to keep the business logic decoupled from the middleware code and have middleware
+serve as a thin wrapper around it. This means that ideally you should have the business logic
+in a different namespace (or even a different library). A good example would be the completion
+middleware bundled with nREPL:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The actual completion logic lives in <code>nrepl.util.completion</code></p>
+</li>
+<li>
+<p>The middleware code lives in <code>nrepl.middleware.completion</code> and it simply delegates to
+<code>nrepl.util.completion</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This separation makes it easier to test the business logic in isolation and to re-use it outside
+of nREPL (a good example here would be the <code>orchard</code> library that <code>cider-nrepl</code> uses heavily).</p>
+</div>
+<div class="paragraph">
+<p>As a corollary - you should avoid creating middleware that provides a lot of unrelated functionality.
+Ideally all ops within some middleware should be closely linked by their purpose.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="naming-conventions"><a class="anchor" href="#naming-conventions"></a>Naming conventions</h3>
 <div class="paragraph">
 <p>It&#8217;s recommended to prefix middleware names with <code>wrap</code> - e.g. <code>wrap-complete</code>, <code>wrap-lookup</code>, etc.
 This naming convention came from <a href="https://github.com/ring-clojure/ring/wiki/Concepts#middleware">Ring middleware</a>,
@@ -308,7 +484,7 @@ Related ops can be grouped under some common prefix - e.g. <code>test-var</code>
 </div>
 <div class="paragraph">
 <p>It&#8217;s also prudent to prefix op names with some "namespace"-like prefix to avoid conflicts between
-different middlewares - e.g. <code>project-name/op-name</code>.</p>
+different middleware - e.g. <code>project-name/op-name</code>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -319,7 +495,7 @@ different middlewares - e.g. <code>project-name/op-name</code>.</p>
 <td class="content">
 That&#8217;s the reason why nREPL&#8217;s completion op is named <code>completion</code> instead of <code>complete</code>.
 <code>cider-nrepl</code> already has an op named <code>complete</code> and adding such an op to nREPL would have introduced
-some non-deterministic behaviour when it comes to the ordering of the two competing completion middlewares.
+some non-deterministic behaviour when it comes to the ordering of the two competing completion middleware.
 As a result, in some cases you&#8217;d be invoking nREPL&#8217;s op and in other cases <code>cider-nrepl&#8217;s op.
 If `cider-nrepl</code> had named the op <code>cider/complete</code> instead, that would have prevented this unfortunate
 situation.
@@ -331,11 +507,21 @@ situation.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_additional_resources"><a class="anchor" href="#_additional_resources"></a>Additional Resources</h2>
+<h2 id="additional-resources"><a class="anchor" href="#additional-resources"></a>Additional Resources</h2>
 <div class="sectionbody">
-
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://metaredux.com/posts/2019/12/04/documenting-nrepl-middleware-apis.html" class="bare">https://metaredux.com/posts/2019/12/04/documenting-nrepl-middleware-apis.html</a></p>
+</li>
+</ul>
 </div>
 </div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="hacking_on_nrepl.html">Hacking on nREPL</a></span>
+  <span class="next"><a href="building_servers.html">Building Servers</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

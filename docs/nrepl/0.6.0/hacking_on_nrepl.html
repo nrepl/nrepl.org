@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Hacking on nREPL :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/hacking_on_nrepl.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="extensions.html">
+    <link rel="next" href="beyond_clojure.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="stylesheet" href="../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -224,7 +226,7 @@ interactive Lisp manner and just make some changes and test them directly from a
 </div>
 </div>
 <div class="sect1">
-<h2 id="_building_nrepl"><a class="anchor" href="#_building_nrepl"></a>Building nREPL</h2>
+<h2 id="building-nrepl"><a class="anchor" href="#building-nrepl"></a>Building nREPL</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -275,7 +277,7 @@ nREPL shouldn&#8217;t ever be necessary (unless you&#8217;re hacking on it).
 </div>
 </div>
 <div class="sect1">
-<h2 id="_interactive_hacking"><a class="anchor" href="#_interactive_hacking"></a>Interactive Hacking</h2>
+<h2 id="interactive-hacking"><a class="anchor" href="#interactive-hacking"></a>Interactive Hacking</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>As nREPL is fundamental to the development workflows of many people it might be
@@ -331,7 +333,7 @@ the REPL you&#8217;re using.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_the_tests"><a class="anchor" href="#_running_the_tests"></a>Running the tests</h2>
+<h2 id="running-the-tests"><a class="anchor" href="#running-the-tests"></a>Running the tests</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The easiest way to run the tests is with the following command:</p>
@@ -354,7 +356,7 @@ specific version of Clojure like this:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_cljfmt"><a class="anchor" href="#_running_cljfmt"></a>Running cljfmt</h2>
+<h2 id="running-cljfmt"><a class="anchor" href="#running-cljfmt"></a>Running cljfmt</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Our CI build enforces consistent indentation in all source files using <code>cljfmt</code>. You can run it
@@ -376,7 +378,7 @@ locally using:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_running_eastwood"><a class="anchor" href="#_running_eastwood"></a>Running Eastwood</h2>
+<h2 id="running-eastwood"><a class="anchor" href="#running-eastwood"></a>Running Eastwood</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Our CI build enforces some lint checks via <code>Eastwood</code>. You can run it
@@ -390,7 +392,7 @@ locally using:</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_regenerating_the_built_in_ops_documentation"><a class="anchor" href="#_regenerating_the_built_in_ops_documentation"></a>Regenerating the Built-in Ops Documentation</h2>
+<h2 id="regenerating-the-built-in-ops-documentation"><a class="anchor" href="#regenerating-the-built-in-ops-documentation"></a>Regenerating the Built-in Ops Documentation</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>If you&#8217;ve made any changes to the built-in middleware descriptors you can regenerate their documentation using:</p>
@@ -402,6 +404,10 @@ locally using:</p>
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="extensions.html">Extensions</a></span>
+  <span class="next"><a href="beyond_clojure.html">Beyond Clojure</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

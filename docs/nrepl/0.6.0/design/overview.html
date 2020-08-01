@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Overview :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/design/overview.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="../usage/misc.html">
+    <link rel="next" href="handlers.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -225,7 +227,7 @@ provided by e.g.  terminals).</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_messages"><a class="anchor" href="#_messages"></a>Messages</h2>
+<h2 id="messages"><a class="anchor" href="#messages"></a>Messages</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>nREPL messages are maps.  The keys and values that may be included in messages
@@ -234,7 +236,7 @@ differently, and therefore may or may not be able to represent certain data
 types.</p>
 </div>
 <div class="sect2">
-<h3 id="_requests"><a class="anchor" href="#_requests"></a>Requests</h3>
+<h3 id="requests"><a class="anchor" href="#requests"></a>Requests</h3>
 <div class="paragraph">
 <p>Each message sent to an nREPL endpoint constitutes a "request" to perform a
 particular operation, which is indicated by a <code>"op"</code> entry.  Each operation may
@@ -254,7 +256,7 @@ operation.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_responses"><a class="anchor" href="#_responses"></a>Responses</h3>
+<h3 id="responses"><a class="anchor" href="#responses"></a>Responses</h3>
 <div class="paragraph">
 <p>The server may produce multiple messages in response to each client message (request).
 The structure of the response is unique per each message type, but there are a few
@@ -331,6 +333,10 @@ of nREPL server responses.</p>
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="../usage/misc.html">Misc</a></span>
+  <span class="next"><a href="handlers.html">Handlers</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

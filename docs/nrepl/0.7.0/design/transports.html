@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Transports :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/design/transports.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="handlers.html">
+    <link rel="next" href="middleware.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -255,7 +257,7 @@ It&#8217;s the bencode transport that is used by default by
 </div>
 </div>
 <div class="sect1">
-<h2 id="_bencode_transport"><a class="anchor" href="#_bencode_transport"></a>Bencode Transport</h2>
+<h2 id="bencode-transport"><a class="anchor" href="#bencode-transport"></a>Bencode Transport</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This is, and will mostly likely remain, nREPL&#8217;s default and primary transport. It is pronounced B-Encode, and is a relatively simple format, comprising of only two scalar types (byte strings and integer) and two collection types (dictionaries and lists).</p>
@@ -380,7 +382,7 @@ in the future.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_edn_transport"><a class="anchor" href="#_edn_transport"></a>EDN Transport</h2>
+<h2 id="edn-transport"><a class="anchor" href="#edn-transport"></a>EDN Transport</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
 <table>
@@ -444,7 +446,7 @@ nREPL server started on port 63266 on host localhost - nrepl+edn://localhost:632
 </div>
 </div>
 <div class="sect1">
-<h2 id="_tty_transport"><a class="anchor" href="#_tty_transport"></a>TTY Transport</h2>
+<h2 id="tty-transport"><a class="anchor" href="#tty-transport"></a>TTY Transport</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Using the TTY transport is pretty simple. You just need to start an nREPL server with TTY transport and you&#8217;re good to go:</p>
@@ -493,6 +495,10 @@ nREPL server started on port 63266 on host localhost - telnet://localhost:63266<
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="handlers.html">Handlers</a></span>
+  <span class="next"><a href="middleware.html">Middleware</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>

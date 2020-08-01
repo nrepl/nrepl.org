@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Building Servers :: nREPL</title>
     <link rel="canonical" href="https://nrepl.org/nrepl/building_servers.html">
-    <meta name="generator" content="Antora 2.0.0">
+    <link rel="prev" href="building_middleware.html">
+    <link rel="next" href="building_clients.html">
+    <meta name="generator" content="Antora 2.3.3">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="stylesheet" href="../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -242,7 +244,7 @@ This page is very incomplete and a work in progress.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_overview"><a class="anchor" href="#_overview"></a>Overview</h2>
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This part of the documentation aims to guide you in the process of implementing
@@ -252,7 +254,7 @@ not on specifics of the references nREPL server implementation for Clojure.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_basics"><a class="anchor" href="#_basics"></a>Basics</h2>
+<h2 id="basics"><a class="anchor" href="#basics"></a>Basics</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>To build a server compatible with the nREPL protocol all you need to do is build a solution
@@ -327,12 +329,12 @@ Here&#8217;s the message in question:</p>
 </div>
 <div class="paragraph">
 <p>It might also be a good idea to see the message exchange between some nREPL server and client.
-CIDER provides a <a href="https://docs.cider.mx/cider/troubleshooting.html#_debugging_the_communication_with_nrepl">convenient solution</a> for this.</p>
+CIDER provides a <a href="https://docs.cider.mx/cider/troubleshooting.html#debugging-the-communication-with-nrepl">convenient solution</a> for this.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_best_practices"><a class="anchor" href="#_best_practices"></a>Best Practices</h2>
+<h2 id="best-practices"><a class="anchor" href="#best-practices"></a>Best Practices</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -361,7 +363,7 @@ results are split over several message, so that clients would get feedback faste
 </div>
 </div>
 <div class="sect1">
-<h2 id="_extending_the_core_protocol"><a class="anchor" href="#_extending_the_core_protocol"></a>Extending the Core Protocol</h2>
+<h2 id="extending-the-core-protocol"><a class="anchor" href="#extending-the-core-protocol"></a>Extending the Core Protocol</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><code>cider-nrepl</code> defines a bunch of ops that are supported by many Clojure nREPL clients (e.g. <code>info</code> and <code>complete</code>).
@@ -370,7 +372,7 @@ You can add those ops to your server implementation as well.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_additional_resources"><a class="anchor" href="#_additional_resources"></a>Additional Resources</h2>
+<h2 id="additional-resources"><a class="anchor" href="#additional-resources"></a>Additional Resources</h2>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
@@ -381,6 +383,10 @@ You can add those ops to your server implementation as well.</p>
 </div>
 </div>
 </div>
+<nav class="pagination">
+  <span class="prev"><a href="building_middleware.html">Building Middleware</a></span>
+  <span class="next"><a href="building_clients.html">Building Clients</a></span>
+</nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
   <div class="toc-menu"></div>
