@@ -328,18 +328,18 @@ interface (this output was simply generated with <code>--help</code>):</p>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>When using <code>tools.deps</code> (<code>deps.edn</code>), spaces between sequence values will not work. Instead use comma separated values. Here&#8217;s a working example from <code>deps.edn</code>:</p>
+<p>When defining an alias in <code>deps.edn</code> with <code>:main-opts</code>, spaces between sequence values will not work. Use comma separated values instead. Here&#8217;s a simple example:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">:main-opts ["-m" "nrepl.cmdline"
             "-b" "0.0.0.0"
             "-p" "12345"
-            "--middleware" "[cider.nrepl/cider-middleware,refactor-nrepl.middleware/wrap-refactor,]"]</code></pre>
+            "--middleware" "[cider.nrepl/cider-middleware,refactor-nrepl.middleware/wrap-refactor]"]</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Some additional details can be found <a href="https://ask.clojure.org/index.php/9034/clj-m-works-from-shell-but-not-as-alias">here</a>.</p>
+<p>Some additional details on the subject can be found <a href="https://ask.clojure.org/index.php/9034/clj-m-works-from-shell-but-not-as-alias">here</a>.</p>
 </div>
 </td>
 </tr>
