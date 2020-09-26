@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://nrepl.org/nrepl/about/contributing.html">
     <link rel="prev" href="support.html">
     <link rel="next" href="compatibility.html">
-    <meta name="generator" content="Antora 2.3.3">
+    <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="stylesheet" href="../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -269,15 +269,15 @@ passing and that your patch is in line with the <a href="https://github.com/nrep
 <p>Consider improving and extending this manual.</p>
 </div>
 <div class="sect2">
-<h3 id="working-on-the-manual"><a class="anchor" href="#working-on-the-manual"></a>Working on the Manual</h3>
+<h3 id="working-on-the-docs-site"><a class="anchor" href="#working-on-the-docs-site"></a>Working on the Docs Site</h3>
 <div class="paragraph">
-<p>The manual is generated from the AsciiDoc files in the <a href="https://github.com/nrepl/nrepl/tree/master/doc">doc</a> folder of nREPL&#8217;s GitHub repo and is published to <a href="https://nrepl.org" class="bare">https://nrepl.org</a>.
+<p>The <a href="https://nrepl.org">documentation site</a> is generated from the AsciiDoc files in the <a href="https://github.com/nrepl/nrepl/tree/master/doc">doc</a> folder of nREPL&#8217;s GitHub repo and is published to <a href="https://nrepl.org" class="bare">https://nrepl.org</a>.
 <a href="https://antora.org">Antora</a> is used to convert the manual into HTML.
 The filesystem layout is described at <a href="https://docs.antora.org/antora/2.0/component-structure/" class="bare">https://docs.antora.org/antora/2.0/component-structure/</a>.</p>
 </div>
 <div class="paragraph">
 <p>To make changes to the manual you simply have to change the files under <code>doc</code>.
-The manual will be regenerated manually periodically.</p>
+The site will be regenerated manually periodically.</p>
 </div>
 <div class="sect3">
 <h4 id="installing-antora"><a class="anchor" href="#installing-antora"></a>Installing Antora</h4>
@@ -298,11 +298,11 @@ The instructions here assume you already have (the right version of) node.js ins
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>$ npm i -g @antora/cli@2.0 @antora/site-generator-default@2.0</code></pre>
+<pre class="highlightjs highlight"><code>$ npm i -g @antora/cli@2.3 @antora/site-generator-default@2.3</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Check out <a href="https://docs.antora.org/antora/2.0/install/install-antora/">the detailed installation instructions</a>
+<p>Check out <a href="https://docs.antora.org/antora/2.3/install/install-antora/">the detailed installation instructions</a>
 if you run into any problems.</p>
 </div>
 </div>
@@ -343,6 +343,35 @@ You&#8217;ll need commit access to the repository for this to work.
 <div class="paragraph">
 <p>If you want to make changes to the manual&#8217;s page structure you&#8217;ll have to edit
 <a href="https://github.com/nrepl/nrepl/blob/master/doc/modules/ROOT/nav.adoc">nav.adoc</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="testing-local-changes"><a class="anchor" href="#testing-local-changes"></a>Testing Local Changes</h4>
+<div class="paragraph">
+<p>By default Antora will build the documentation for nREPL&#8217;s <code>master</code> branch and all recent stable
+releases by fetching the data from nREPL main GitHub repository.</p>
+</div>
+<div class="paragraph">
+<p>If you want to check changes you&#8217;ve made locally you&#8217;ll have to update the <code>antora-playbook.yml</code>
+file in the <code>nrepl.org</code> repository. There you should instruct Antora to build the docs from your
+local git repo instead of the main repo on GitHub:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml"># you have to change this
+content:
+   sources:
+   - url: https://github.com/nrepl/nrepl.git
+     branches: ['master']
+     tags: ['0.5.3', '0.6.0', '0.7.0', '0.8.2']
+
+# to something like
+content:
+   sources:
+   - url: /path/to/local/nrepl/clone
+     branches: ['issues/207']
+     start_path: doc</code></pre>
+</div>
 </div>
 </div>
 </div>
