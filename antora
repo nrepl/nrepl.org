@@ -1,5 +1,0 @@
-#!/bin/sh
-
-$(npm bin)/antora "$@"
-
-touch docs/.nojekyll
