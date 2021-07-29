@@ -14,6 +14,7 @@
 <link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
     <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+    <script>var uiRootPath = '../../_'</script>
   </head>
   <body class="article">
 <header class="header" role="banner">
@@ -182,7 +183,7 @@
   </div>
   <ul class="components">
     <li class="component is-current">
-      <span class="title">nREPL</span>
+      <a class="title" href="../index.html">nREPL</a>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../index.html">master</a>
@@ -230,6 +231,9 @@
   <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/edit/master/doc/modules/ROOT/pages/usage/server.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
 <article class="doc">
 <h1 class="page">nREPL Server</h1>
 <div class="sect1">
@@ -302,6 +306,31 @@ how you can easily start a ClojureScript capable nREPL:</p>
 </div>
 </div>
 <div class="paragraph">
+<p>By default, nREPL listens for connections on a randomly chosen local
+port with no authentication, but you can specify the address or port,
+or, if you&#8217;re using JDK 16 or newer, or you add a
+<a href="https://kohlschutter.github.io/junixsocket/">junixsocket</a> dependency,
+you can ask it to listen on a UNIX domain (filesystem) socket instead:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{
+;; ...
+:aliases {:nREPL
+          {:extra-deps
+           ;; UNIX domain socket support was added in 0.9.0
+           {nrepl/nrepl {:mvn/version "0.9.0"}
+            com.kohlschutter.junixsocket/junixsocket-core {:mvn/version "2.3.2"}}}}
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ mkdir -m go-rwx nrepl-test
+$ clj -R:nREPL -m nrepl.cmdline --socket nrepl-test/socket</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>Here&#8217;s a listing of all the options available via nREPL&#8217;s command-line
 interface (this output was simply generated with <code>--help</code>):</p>
 </div>
@@ -313,6 +342,7 @@ interface (this output was simply generated with <code>--help</code>):</p>
 -b/--bind ADDR              Bind address, by default "127.0.0.1".
 -h/--host ADDR              Host address to connect to when using --connect. Defaults to "127.0.0.1".
 -p/--port PORT              Start nREPL on PORT. Defaults to 0 (random port) if not specified.
+-s/--socket PATH            Start nREPL on filesystem socket at PATH.
 --ack ACK-PORT              Acknowledge the port of this server to another nREPL server running on ACK-PORT.
 -n/--handler HANDLER        The nREPL message handler to use for each incoming connection; defaults to the result of `(nrepl.server/default-handler)`.
 -m/--middleware MIDDLEWARE  A sequence of vars, representing middleware you wish to mix in to the nREPL handler.
@@ -491,6 +521,21 @@ your app and modify its behaviour or run code on the remote host.
 </table>
 </div>
 <div class="paragraph">
+<p>You can also ask nREPL to listen on a UNIX domain (filesystem) socket
+with the <code>:socket</code> keyword (if you&#8217;re using JDK 16 or newer add a
+<a href="https://kohlschutter.github.io/junixsocket/">junixsocket</a> dependency),
+which should be as secure as the access to the socket's parent
+directories:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">=&gt; (require '[nrepl.server :refer [start-server stop-server]])
+nil
+=&gt; (defonce server (start-server :socket "/some/where/safe/nrepl"))
+='user/server</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>Depending on what the lifecycle of your application is, whether you want to be
 able to easily restart the server, etc., you might want to put the value
 <code>start-server</code> returns into an atom or somesuch.  Anyway, once your app is
@@ -602,6 +647,19 @@ project). Its purpose is to set project-specific settings (e.g. a common port
 you always want to use with a particular project). Any setting in <code>.nrepl.edn</code>
 will take precedence over a setting in <code>.nrepl/nrepl.edn</code>.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Settings passed via the command-line interface will take
+precedence over settings specified via the configuration files.
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Here&#8217;s an example global configuration file:</p>
 </div>
@@ -660,9 +718,6 @@ interface and by Leiningen 2.8.3+.
   <span class="next"><a href="clients.html">Clients</a></span>
 </nav>
 </article>
-<aside class="toc sidebar" data-title="Contents" data-levels="2">
-  <div class="toc-menu"></div>
-</aside>
   </div>
 </main>
 </div>

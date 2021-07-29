@@ -14,6 +14,7 @@
 <link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
     <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+    <script>var uiRootPath = '../../_'</script>
   </head>
   <body class="article">
 <header class="header" role="banner">
@@ -182,7 +183,7 @@
   </div>
   <ul class="components">
     <li class="component is-current">
-      <span class="title">nREPL</span>
+      <a class="title" href="../index.html">nREPL</a>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../index.html">master</a>
@@ -230,6 +231,9 @@
   <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/edit/master/doc/modules/ROOT/pages/usage/misc.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
 <article class="doc">
 <h1 class="page">Misc Functionality</h1>
 <div id="preamble">
@@ -311,6 +315,30 @@ setting <code>nrepl.middleware.completion/<strong>complete-fn</strong></code>.</
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">user=&gt; (set! nrepl.middleware.completion/*complete-fn* my.namespace/my-completion)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="options"><a class="anchor" href="#options"></a>Options</h3>
+<div class="paragraph">
+<p>The default completion function accepts the <code>extra-metadata</code> option. It allows clients to request additional metadata about completion items. For example, to request docstrings and argument lists for applicable completion items:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; -&gt; client sends completion op
+{:op "completions"
+ :prefix "ma"
+ :ns "clojure.core"
+ :options {:extra-metadata ["arglists" "doc"]}}
+
+;; &lt;- server returns completion items
+{:completions
+ [,,,
+  {:candidate "map"
+   :type "function"
+   :arglists "([f] [f coll] [f c1 c2] [f c1 c2 c3] [f c1 c2 c3 &amp; colls])"
+   :doc "Returns a lazy sequence..."}
+  ,,,]}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -653,9 +681,6 @@ nil</code></pre>
   <span class="next"><a href="../design/overview.html">Overview</a></span>
 </nav>
 </article>
-<aside class="toc sidebar" data-title="Contents" data-levels="2">
-  <div class="toc-menu"></div>
-</aside>
   </div>
 </main>
 </div>

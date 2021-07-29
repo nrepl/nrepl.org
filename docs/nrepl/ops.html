@@ -14,6 +14,7 @@
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
     <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+    <script>var uiRootPath = '../_'</script>
   </head>
   <body class="article">
 <header class="header" role="banner">
@@ -182,7 +183,7 @@
   </div>
   <ul class="components">
     <li class="component is-current">
-      <span class="title">nREPL</span>
+      <a class="title" href="index.html">nREPL</a>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="index.html">master</a>
@@ -229,12 +230,15 @@
   <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/edit/master/doc/modules/ROOT/pages/ops.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
 <article class="doc">
 <h1 class="page">Supported nREPL operations</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="small">generated from a verbose 'describe' response (nREPL v0.8.0)</span></p>
+<p><span class="small">generated from a verbose 'describe' response (nREPL v0.9.0-SNAPSHOT)</span></p>
 </div>
 </div>
 </div>
@@ -368,13 +372,13 @@
 <div class="ulist">
 <ul>
 <li>
-<p><code>:complete</code> The fully qualified name of a completion function to use instead of the default one (e.g. <code>my.ns/completion</code>).</p>
+<p><code>:complete-fn</code> The fully qualified name of a completion function to use instead of the default one (e.g. <code>my.ns/completion</code>).</p>
 </li>
 <li>
 <p><code>:ns</code> The namespace in which we want to obtain completion candidates. Defaults to <code>*ns*</code>.</p>
 </li>
 <li>
-<p><code>:options</code> A map of options supported by the completion function.</p>
+<p><code>:options</code> A map of options supported by the completion function. Supported keys: <code>extra-metadata</code> (possible values: <code>:arglists</code>, <code>:docs</code>).</p>
 </li>
 </ul>
 </div>
@@ -896,9 +900,6 @@
   <span class="next"><a href="extensions.html">Extensions</a></span>
 </nav>
 </article>
-<aside class="toc sidebar" data-title="Contents" data-levels="2">
-  <div class="toc-menu"></div>
-</aside>
   </div>
 </main>
 </div>
