@@ -281,7 +281,7 @@ This section assumes you&#8217;re using Clojure 1.9+ and nREPL 0.4.4+.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -R:nREPL -m nrepl.cmdline</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -M:nREPL -m nrepl.cmdline</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -302,7 +302,7 @@ how you can easily start a ClojureScript capable nREPL:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -R:nREPL -m nrepl.cmdline --middleware "[cider.piggieback/wrap-cljs-repl]"</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -M:nREPL -m nrepl.cmdline --middleware "[cider.piggieback/wrap-cljs-repl]"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -327,7 +327,7 @@ you can ask it to listen on a UNIX domain (filesystem) socket instead:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ mkdir -m go-rwx nrepl-test
-$ clj -R:nREPL -m nrepl.cmdline --socket nrepl-test/socket</code></pre>
+$ clj -M:nREPL -m nrepl.cmdline --socket nrepl-test/socket</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -525,7 +525,8 @@ your app and modify its behaviour or run code on the remote host.
 with the <code>:socket</code> keyword (if you&#8217;re using JDK 16 or newer add a
 <a href="https://kohlschutter.github.io/junixsocket/">junixsocket</a> dependency),
 which should be as secure as the access to the socket's parent
-directories:</p>
+directories (POSIX doesn&#8217;t specify the effect of the socket file&#8217;s
+permissions (if any), and some systems have ignored them):</p>
 </div>
 <div class="listingblock">
 <div class="content">

@@ -309,22 +309,22 @@ to see in responses generated as a result of an <code>eval</code> op invocation.
 <div class="ulist">
 <ul>
 <li>
-<p><code>:ns</code> The stringified value of <code><strong>ns</strong></code> at the time of the response message&#8217;s
+<p><code>:ns</code> The stringified value of <code>*ns*</code> at the time of the response message&#8217;s
 generation.</p>
 </li>
 <li>
-<p><code>:out</code> Contains content written to <code><strong>out</strong></code> while the request&#8217;s code was being evaluated.  Messages containing <code><strong>out</strong></code> content may be sent at the discretion
+<p><code>:out</code> Contains content written to <code>*out*</code> while the request&#8217;s code was being evaluated.  Messages containing <code><strong>out</strong></code> content may be sent at the discretion
 of the server, though at minimum corresponding with flushes of the underlying
 stream/writer.</p>
 </li>
 <li>
-<p><code>:err</code> Same as <code>:out</code>, but for <code><strong>err</strong></code>.</p>
+<p><code>:err</code> Same as <code>:out</code>, but for <code>*err*</code>.</p>
 </li>
 <li>
 <p><code>:value</code> The result of printing a result of evaluating a form in the code sent
   in the corresponding request.  More than one value may be sent, if more than
 one form can be read from the request&#8217;s code string.  In contrast to the output
-written to <code><strong>out</strong></code> and <code><strong>err</strong></code>, this may be usefully/reliably read and utilized
+written to <code>*out*</code> and <code>*err*</code>, this may be usefully/reliably read and utilized
 by the client, e.g. in tooling contexts, assuming the evaluated code returns a
 printable and readable value.  Interactive clients will likely want to simply
 stream <code>:value</code>'s content to their UI&#8217;s primary output / log.</p>
