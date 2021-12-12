@@ -189,6 +189,9 @@
           <a href="index.html">master</a>
         </li>
         <li class="version">
+          <a href="0.9/index.html">0.9</a>
+        </li>
+        <li class="version">
           <a href="0.8/index.html">0.8</a>
         </li>
         <li class="version">
@@ -210,7 +213,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="0.8/index.html" class="home-link"></a>
+  <a href="0.9/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">nREPL</a></li>
@@ -221,6 +224,7 @@
   <button class="version-menu-toggle" title="Show other versions of page">master</button>
   <div class="version-menu">
     <a class="version is-current" href="building_clients.html">master</a>
+    <a class="version" href="0.9/building_clients.html">0.9</a>
     <a class="version" href="0.8/building_clients.html">0.8</a>
     <a class="version" href="0.7.0/building_clients.html">0.7.0</a>
     <a class="version is-missing" href="0.6.0/index.html">0.6.0</a>
@@ -506,14 +510,14 @@ is to request the extra namespace to be loaded at <code>add-middleware</code> ti
 {:op "add-middleware"
  :middleware ["cider.nrepl.middleware/wrap-version"]
  :extra-namespaces ["cider.nrepl.middleware.version"]}
- ;; now, the following shoud work
+ ;; now, the following should work
  {:op "cider-version"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>There is no operation to remove a single middleware, but it&#8217;s possible to reset
 the stack to a baseline with the <code>swap-middleware</code> operation. If the goal is to
-simply reset the middleware stack, use this in conjuction with
+simply reset the middleware stack, use this in conjunction with
 <code>nrepl.server/default-middleware</code>.</p>
 </div>
 <div class="paragraph">
