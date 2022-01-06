@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://nrepl.org/nrepl/building_servers.html">
     <link rel="prev" href="building_middleware.html">
     <link rel="next" href="building_clients.html">
-    <meta name="generator" content="Antora 2.3.4">
+    <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="stylesheet" href="../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -270,7 +270,7 @@ not on specifics of the references nREPL server implementation for Clojure.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>To build a server compatible with the nREPL protocol all you need to do is build a solution
-that handles the <a href="ops.html" class="page">protocol ops</a> and uses <code>bencode</code> as the default data exchange format.</p>
+that handles the <a href="ops.html" class="xref page">protocol ops</a> and uses <code>bencode</code> as the default data exchange format.</p>
 </div>
 <div class="paragraph">
 <p>You can completely ignore concepts like middleware, handles and so on - those are just
@@ -294,7 +294,7 @@ implementation details are transparent to them.</p>
 <p>Has a notion of sessions</p>
 </li>
 <li>
-<p>Provides all <a href="ops.html" class="page">ops defined by the protocol</a></p>
+<p>Provides all <a href="ops.html" class="xref page">ops defined by the protocol</a></p>
 </li>
 <li>
 <p>Messages are processed asynchronously</p>

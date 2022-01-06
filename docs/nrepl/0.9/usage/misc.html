@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://nrepl.org/nrepl/usage/misc.html">
     <link rel="prev" href="clients.html">
     <link rel="next" href="../design/overview.html">
-    <meta name="generator" content="Antora 2.3.4">
+    <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -370,8 +370,8 @@ considered experimental.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-In nREPL 0.8.1 and older, <a href="../ops.html#lookup" class="page">the <code>lookup</code> op</a> fails for some symbols
-because the result contains data that the <a href="../design/transports.html#bencode-transport" class="page">Bencode transport</a> does not support (see <a href="https://github.com/nrepl/nrepl/issues/207">nrepl/nrepl#207</a>). In versions newer than 0.8.1, <code>:arglists</code> and <code>:arglists-str</code> have identical string values. <code>:arglists-str</code> is subject to removal.
+In nREPL 0.8.1 and older, <a href="../ops.html#lookup" class="xref page">the <code>lookup</code> op</a> fails for some symbols
+because the result contains data that the <a href="../design/transports.html#bencode-transport" class="xref page">Bencode transport</a> does not support (see <a href="https://github.com/nrepl/nrepl/issues/207">nrepl/nrepl#207</a>). In versions newer than 0.8.1, <code>:arglists</code> and <code>:arglists-str</code> have identical string values. <code>:arglists-str</code> is subject to removal.
 </td>
 </tr>
 </table>
@@ -546,7 +546,7 @@ user=&gt;</code></pre>
 <p>However, note well that <code>clojure.pprint/pprint</code> rebinds <code>*out*</code> internally, and
 so if anything else prints to <code>*out*</code> while evaluating, that output will end up
 intermingled in the result. See the
-<a href="../design/middleware.html#pretty-printing" class="page">print middleware documentation</a> for a
+<a href="../design/middleware.html#pretty-printing" class="xref page">print middleware documentation</a> for a
 more detailed explanation.</p>
 </div>
 <div class="admonitionblock tip">

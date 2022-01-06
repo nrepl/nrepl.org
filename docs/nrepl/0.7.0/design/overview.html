@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://nrepl.org/nrepl/design/overview.html">
     <link rel="prev" href="../usage/misc.html">
     <link rel="next" href="handlers.html">
-    <meta name="generator" content="Antora 2.3.4">
+    <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -237,7 +237,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>nREPL largely consists of three abstractions: <a href="handlers.html" class="page">handlers</a>, <a href="middleware.html" class="page">middleware</a>, and <a href="transports.html" class="page">transports</a>.
+<p>nREPL largely consists of three abstractions: <a href="handlers.html" class="xref page">handlers</a>, <a href="middleware.html" class="xref page">middleware</a>, and <a href="transports.html" class="xref page">transports</a>.
 These are roughly analogous to the handlers, middleware, and
 adapters of <a href="https://github.com/ring-clojure/ring">Ring</a>, though there are some
 important semantic differences. Finally, nREPL is fundamentally message-oriented
@@ -250,7 +250,7 @@ provided by e.g.  terminals).</p>
 <h2 id="messages"><a class="anchor" href="#messages"></a>Messages</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>It is convention to express nREPL messages as EDN maps. For most purposes, it&#8217;s sufficient to imagine that we communicate with nREPL via EDN, much the same way as we send and receive JSON to and from a REST endpoint. This is typically not what actually happens, and the details are discussed in <a href="transports.html" class="page">the transport section</a>, however, this conceptual simplification serves us well.</p>
+<p>It is convention to express nREPL messages as EDN maps. For most purposes, it&#8217;s sufficient to imagine that we communicate with nREPL via EDN, much the same way as we send and receive JSON to and from a REST endpoint. This is typically not what actually happens, and the details are discussed in <a href="transports.html" class="xref page">the transport section</a>, however, this conceptual simplification serves us well.</p>
 </div>
 <div class="sect2">
 <h3 id="requests"><a class="anchor" href="#requests"></a>Requests</h3>

@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://nrepl.org/nrepl/usage/server.html">
     <link rel="prev" href="../installation.html">
     <link rel="next" href="clients.html">
-    <meta name="generator" content="Antora 2.3.4">
+    <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <link rel="stylesheet" href="../../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css">
@@ -484,7 +484,7 @@ production, but that&#8217;s a subject for an unrelated discussion.
 </div>
 <div class="paragraph">
 <p>nREPL provides a socket-based server that you can trivially start from your
-application.  <a href="../installation.html" class="page">Add it to your project&#8217;s dependencies</a>, and add code
+application.  <a href="../installation.html" class="xref page">Add it to your project&#8217;s dependencies</a>, and add code
 like this to your app:</p>
 </div>
 <div class="listingblock">
@@ -546,7 +546,7 @@ able to easily restart the server, etc., you might want to put the value
 <code>start-server</code> returns into an atom or somesuch.  Anyway, once your app is
 running an nREPL server, you can connect to it from a tool like Leiningen or
 Counterclockwise or REPL-y, or from another Clojure process, as shown
- <a href="clients.html" class="page">here</a>.</p>
+ <a href="clients.html" class="xref page">here</a>.</p>
 </div>
 <div class="paragraph">
 <p>You can stop the server with <code>(stop-server server)</code>.</p>
@@ -606,7 +606,7 @@ public class App {
 default use of sockets.  nREPL provides a <em>transport</em> abstraction for
 implementing support for alternative protocols and connection methods.
 Alternative transport implementations are available, and implementing your own
-is not difficult; read more about transports <a href="../design/transports.html" class="page">here</a>.</p>
+is not difficult; read more about transports <a href="../design/transports.html" class="xref page">here</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="server-configuration"><a class="anchor" href="#server-configuration"></a>Server Configuration</h3>
