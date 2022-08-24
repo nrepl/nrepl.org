@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Building Middleware :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.org/nrepl/building_middleware.html">
+    <link rel="prev" href="hacking_on_nrepl.html">
+    <link rel="next" href="building_servers.html">
+    <meta name="generator" content="Antora 3.0.1">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="stylesheet" href="../../_/css/site-extra.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a href="https://nrepl.org">nREPL</a>
+        <span class="separator">//</span>
+        <a href="https://nrepl.org">Docs</a>
+      </div>
+      <div class="navbar-item">
+        <div id="docsearch"></div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <a class="navbar-item" href="https://cljdoc.org/d/nrepl/nrepl/CURRENT">API Docs</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Projects</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/nrepl/nrepl">nREPL</a>
+            <a class="navbar-item" href="https://github.com/nrepl/piggieback">Piggieback</a>
+            <a class="navbar-item" href="https://github.com/nrepl/drawbridge">Drawbridge</a>
+            <a class="navbar-item" href="https://github.com/nrepl/fastlane">Fastlane</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/nrepl/about/support.html">Support</a>
+            <a class="navbar-item" href="/nrepl/about/contributing.html">Contributing</a>
+            <a class="navbar-item" href="https://opencollective.com/nrepl">Open Collective</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="nrepl" data-version="1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">nREPL</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Usage</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/server.html">Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/clients.html">Clients</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/misc.html">Misc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/middleware.html">Middleware</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ops.html">Built-in Ops</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="extensions.html">Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="building_middleware.html">Building Middleware</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="building_servers.html">Building Servers</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="building_clients.html">Building Clients</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="troubleshooting.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="alternatives.html">Alternatives</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="additional_resources.html">Additional Resources</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">About</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/history.html">History</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/team.html">Team</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/support.html">Support</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/contributing.html">Contributing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/compatibility.html">Compatibility</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/release_policy.html">Release Policy</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/license.html">License</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">nREPL</span>
+    <span class="version">1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">nREPL</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../index.html">default</a>
+        </li>
+        <li class="version is-current">
+          <a href="index.html">1</a>
+        </li>
+        <li class="version">
+          <a href="../0.9/index.html">0.9</a>
+        </li>
+        <li class="version">
+          <a href="../0.8/index.html">0.8</a>
+        </li>
+        <li class="version">
+          <a href="../0.7.0/index.html">0.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../0.6.0/index.html">0.6.0</a>
+        </li>
+        <li class="version">
+          <a href="../0.5.3/index.html">0.5.3</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">nREPL</a></li>
+    <li><a href="building_middleware.html">Building Middleware</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">1</button>
+  <div class="version-menu">
+    <a class="version" href="../building_middleware.html">default</a>
+    <a class="version is-current" href="building_middleware.html">1</a>
+    <a class="version" href="../0.9/building_middleware.html">0.9</a>
+    <a class="version" href="../0.8/building_middleware.html">0.8</a>
+    <a class="version is-missing" href="../0.7.0/index.html">0.7.0</a>
+    <a class="version is-missing" href="../0.6.0/index.html">0.6.0</a>
+    <a class="version is-missing" href="../0.5.3/index.html">0.5.3</a>
+  </div>
+</div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/blob/1.0.0/doc/modules/ROOT/pages/building_middleware.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Building Middleware</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This page is very incomplete and a work in progress.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This part of the documentation aims to guide you in the process of implementing
+nREPL middleware. We&#8217;ll cover the basics, the best practices and some of the common pitfalls you might
+encounter.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This page complements <a href="design/middleware.html" class="xref page">the middleware design documentation</a>. Make sure you&#8217;re
+familiar with it before proceeding to implement any middleware.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="basics"><a class="anchor" href="#basics"></a>Basics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The basic structure of most middleware is pretty simple:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>An op dispatch function (a.k.a. <code>handler</code>) that intercepts requests to the middleware</p>
+</li>
+<li>
+<p>Some functions that do the actual work for each op and provide the responses</p>
+</li>
+<li>
+<p>A middleware descriptor that specifies which middlewares are provided/required and documents the API of the middleware</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Optionally you can have some dynamic vars for configuration purposes. Below is a complete example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(ns nrepl.middleware.completion
+  "Code completion middleware."
+  (:require
+   [nrepl.util.completion :as complete]
+   [nrepl.middleware :as middleware :refer [set-descriptor!]]
+   [nrepl.misc :refer [response-for] :as misc]
+   [nrepl.transport :as t])
+  (:import nrepl.transport.Transport))
+
+;; middleware configuration
+(def ^:dynamic *complete-fn*
+  "Function to use for completion. Takes three arguments: `prefix`, the completion prefix,
+  `ns`, the namespace in which to look for completions, and `options`, a map of additional
+  options for the completion function."
+  complete/completions)
+
+;; the business logic for the "completions" op
+(defn completion-reply
+  [{:keys [session prefix ns complete-fn options] :as msg}]
+  (let [ns (if ns (symbol ns) (symbol (str (@session #'*ns*))))
+        completion-fn (or (and complete-fn (misc/requiring-resolve (symbol complete-fn))) *complete-fn*)]
+    (try
+      (response-for msg {:status :done :completions (completion-fn prefix ns options)})
+      (catch Exception e
+        (response-for msg {:status #{:done :completion-error :namespace-not-found}})))))
+
+;; the handler
+(defn wrap-completion
+  "Middleware that provides code completion.
+  It understands the following params:
+
+  * `prefix` - the prefix which to complete.
+  * `ns`- the namespace in which to do completion. Defaults to `*ns*`.
+  * `complete-fn` – a fully-qualified symbol naming a var whose function to use for
+  completion. Must point to a function with signature [prefix ns options].
+  * `options` – a map of options to pass to the completion function."
+  [h]
+  (fn [{:keys [op ^Transport transport] :as msg}]
+    (if (= op "completions")
+      (t/send transport (completion-reply msg))
+      (h msg))))
+
+(set-descriptor! #'wrap-completion
+                 {:requires #{"clone"}
+                  :expects #{}
+                  :handles {"completions"
+                            {:doc "Provides a list of completion candidates."
+                             :requires {"prefix" "The prefix to complete."}
+                             :optional {"ns" "The namespace in which we want to obtain completion candidates. Defaults to `*ns*`."
+                                        "complete-fn" "The fully qualified name of a completion function to use instead of the default one (e.g. `my.ns/completion`)."
+                                        "options" "A map of options supported by the completion function."}
+                             :returns {"completions" "A list of completion candidates. Each candidate is a map with `:candidate` and `:type` keys. Vars also have a `:ns` key."}}}})</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Not all middleware respond directly to ops. You can have middleware that simply modify
+requests or responses.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>It&#8217;s important to make sure you don&#8217;t let some exceptions slide, as some clients might block
+when waiting for a response (as some clients will try to handle nREPL messages in a synchronous
+fashion due to various limitation).</p>
+</div>
+<div class="paragraph">
+<p>Notice that you can have multiple statuses for one response - e.g. a combination of <code>:done</code> and
+some error status.</p>
+</div>
+<div class="paragraph">
+<p>Also notice that the example middleware depends on the <code>session</code> middleware, as it&#8217;s fetching
+some data from the session. In practice this means that the <code>session</code> middleware has already
+been applied to the message for the <code>completion</code> middleware before the message made its way to it,
+and the required session data has been added to it.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="testing"><a class="anchor" href="#testing"></a>Testing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Typically we&#8217;d be testing nREPL middleware with integration tests that generate middleware
+requests and check their responses. nREPL bundles a few helper functions to streamline the process.
+Here&#8217;s a simple example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(ns nrepl.middleware.completion-test
+  {:author "Bozhidar Batsov"}
+  (:require
+   [clojure.test :refer :all]
+   [nrepl.core :as nrepl]
+   [nrepl.core-test :refer [def-repl-test repl-server-fixture project-base-dir clean-response]])
+  (:import
+   (java.io File)))
+
+(use-fixtures :each repl-server-fixture)
+
+(defn dummy-completion [prefix _ns _options]
+  [{:candidate prefix}])
+
+(def-repl-test completions-op
+  (let [result (-&gt; (nrepl/message session {:op "completions" :prefix "map" :ns "clojure.core"})
+                   nrepl/combine-responses
+                   clean-response
+                   (select-keys [:completions :status]))]
+    (is (= #{:done} (:status result)))
+    (is (not-empty (:completions result)))))
+
+(def-repl-test completions-op-error
+  (let [result (-&gt; (nrepl/message session {:op "completions"})
+                   nrepl/combine-responses
+                   clean-response
+                   (select-keys [:completions :status]))]
+    (is (= #{:done :completion-error :namespace-not-found} (:status result)))))
+
+(def-repl-test completions-op-custom-fn
+  (let [result (-&gt; (nrepl/message session {:op "completions" :prefix "map" :ns "clojure.core" :complete-fn "nrepl.middleware.completion-test/dummy-completion"})
+                   nrepl/combine-responses
+                   clean-response
+                   (select-keys [:completions :status]))]
+    (is (= #{:done} (:status result)))
+    (is (= [{:candidate "map"}] (:completions result)))))</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="best-practices"><a class="anchor" href="#best-practices"></a>Best Practices</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section we&#8217;ll go over some of the best practices for implementing nREPL middleware.</p>
+</div>
+<div class="sect2">
+<h3 id="code-structure"><a class="anchor" href="#code-structure"></a>Code Structure</h3>
+<div class="paragraph">
+<p>It&#8217;s best to keep the business logic decoupled from the middleware code and have middleware
+serve as a thin wrapper around it. This means that ideally you should have the business logic
+in a different namespace (or even a different library). A good example would be the completion
+middleware bundled with nREPL:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The actual completion logic lives in <code>nrepl.util.completion</code></p>
+</li>
+<li>
+<p>The middleware code lives in <code>nrepl.middleware.completion</code> and it simply delegates to
+<code>nrepl.util.completion</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This separation makes it easier to test the business logic in isolation and to re-use it outside
+of nREPL (a good example here would be the <code>orchard</code> library that <code>cider-nrepl</code> uses heavily).</p>
+</div>
+<div class="paragraph">
+<p>As a corollary - you should avoid creating middleware that provides a lot of unrelated functionality.
+Ideally all ops within some middleware should be closely linked by their purpose.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="naming-conventions"><a class="anchor" href="#naming-conventions"></a>Naming conventions</h3>
+<div class="paragraph">
+<p>It&#8217;s recommended to prefix middleware names with <code>wrap</code> - e.g. <code>wrap-complete</code>, <code>wrap-lookup</code>, etc.
+This naming convention came from <a href="https://github.com/ring-clojure/ring/wiki/Concepts#middleware">Ring middleware</a>,
+which was a major influence on the design of nREPL.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+nREPL itself breaks this convention with names like <code>add-stdin</code> and <code>interruptible-eval</code>, but
+those names are historical and hard to change at this point.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When it comes to ops, ideally their names should be verbs - e.g. <code>complete</code>, <code>lookup</code>, <code>test</code>, etc.
+Related ops can be grouped under some common prefix - e.g. <code>test-var</code>, <code>test-ns</code>, <code>test-all</code>.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s also prudent to prefix op names with some "namespace"-like prefix to avoid conflicts between
+different middleware - e.g. <code>project-name/op-name</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+That&#8217;s the reason why nREPL&#8217;s completion op is named <code>completion</code> instead of <code>complete</code>.
+<code>cider-nrepl</code> already has an op named <code>complete</code> and adding such an op to nREPL would have introduced
+some non-deterministic behaviour when it comes to the ordering of the two competing completion middleware.
+As a result, in some cases you&#8217;d be invoking nREPL&#8217;s op and in other cases <code>cider-nrepl&#8217;s op.
+If `cider-nrepl</code> had named the op <code>cider/complete</code> instead, that would have prevented this unfortunate
+situation.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="additional-resources"><a class="anchor" href="#additional-resources"></a>Additional Resources</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://metaredux.com/posts/2019/12/04/documenting-nrepl-middleware-apis.html" class="bare">https://metaredux.com/posts/2019/12/04/documenting-nrepl-middleware-apis.html</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="hacking_on_nrepl.html">Hacking on nREPL</a></span>
+  <span class="next"><a href="building_servers.html">Building Servers</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright (C) 2019-2022 <a href="https://batsov.com">Bozhidar Batsov</a> and nREPL contributors.</p>
+  <p>Except where otherwise noted, nrepl.org is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> (CC BY-SA 4.0).</p>
+</footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+<script type="text/javascript">
+  docsearch({
+   container: '#docsearch',
+   appId: 'R3RKLGFWJL',
+   apiKey: 'd3cfde049103d19f20bfc204b68f651e',
+   indexName: 'nrepl',
+   debug: false // Set debug to true if you want to inspect the dropdown
+ });
+</script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Building Servers :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.org/nrepl/building_servers.html">
+    <link rel="prev" href="building_middleware.html">
+    <link rel="next" href="building_clients.html">
+    <meta name="generator" content="Antora 3.0.1">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="stylesheet" href="../../_/css/site-extra.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+    <script>var uiRootPath = '../../_'</script>
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a href="https://nrepl.org">nREPL</a>
+        <span class="separator">//</span>
+        <a href="https://nrepl.org">Docs</a>
+      </div>
+      <div class="navbar-item">
+        <div id="docsearch"></div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <a class="navbar-item" href="https://cljdoc.org/d/nrepl/nrepl/CURRENT">API Docs</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Projects</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/nrepl/nrepl">nREPL</a>
+            <a class="navbar-item" href="https://github.com/nrepl/piggieback">Piggieback</a>
+            <a class="navbar-item" href="https://github.com/nrepl/drawbridge">Drawbridge</a>
+            <a class="navbar-item" href="https://github.com/nrepl/fastlane">Fastlane</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/nrepl/about/support.html">Support</a>
+            <a class="navbar-item" href="/nrepl/about/contributing.html">Contributing</a>
+            <a class="navbar-item" href="https://opencollective.com/nrepl">Open Collective</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="nrepl" data-version="1">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">nREPL</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Usage</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/server.html">Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/clients.html">Clients</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/misc.html">Misc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/middleware.html">Middleware</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ops.html">Built-in Ops</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="extensions.html">Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="building_middleware.html">Building Middleware</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="building_servers.html">Building Servers</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="building_clients.html">Building Clients</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="troubleshooting.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="alternatives.html">Alternatives</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="additional_resources.html">Additional Resources</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">About</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/history.html">History</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/team.html">Team</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/support.html">Support</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/contributing.html">Contributing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/compatibility.html">Compatibility</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/release_policy.html">Release Policy</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/license.html">License</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">nREPL</span>
+    <span class="version">1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">nREPL</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../index.html">default</a>
+        </li>
+        <li class="version is-current">
+          <a href="index.html">1</a>
+        </li>
+        <li class="version">
+          <a href="../0.9/index.html">0.9</a>
+        </li>
+        <li class="version">
+          <a href="../0.8/index.html">0.8</a>
+        </li>
+        <li class="version">
+          <a href="../0.7.0/index.html">0.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../0.6.0/index.html">0.6.0</a>
+        </li>
+        <li class="version">
+          <a href="../0.5.3/index.html">0.5.3</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">nREPL</a></li>
+    <li><a href="building_servers.html">Building Servers</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">1</button>
+  <div class="version-menu">
+    <a class="version" href="../building_servers.html">default</a>
+    <a class="version is-current" href="building_servers.html">1</a>
+    <a class="version" href="../0.9/building_servers.html">0.9</a>
+    <a class="version" href="../0.8/building_servers.html">0.8</a>
+    <a class="version is-missing" href="../0.7.0/index.html">0.7.0</a>
+    <a class="version is-missing" href="../0.6.0/index.html">0.6.0</a>
+    <a class="version is-missing" href="../0.5.3/index.html">0.5.3</a>
+  </div>
+</div>
+  <div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/blob/1.0.0/doc/modules/ROOT/pages/building_servers.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Building Servers</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+This page is very incomplete and a work in progress.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview"><a class="anchor" href="#overview"></a>Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This part of the documentation aims to guide you in the process of implementing
+an nREPL server. The focus is going to be on implementing the language-agnostic nREPL protocol,
+not on specifics of the references nREPL server implementation for Clojure.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="basics"><a class="anchor" href="#basics"></a>Basics</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To build a server compatible with the nREPL protocol all you need to do is build a solution
+that handles the <a href="ops.html" class="xref page">protocol ops</a> and uses <code>bencode</code> as the default data exchange format.</p>
+</div>
+<div class="paragraph">
+<p>You can completely ignore concepts like middleware, handles and so on - those are just
+implementation details from the references implementation. If you want to leverage them that&#8217;d be great,
+but if you don&#8217;t - it&#8217;s not a big deal.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s important to understand that clients only care whether some op is there,
+that it behaves as expected, and that the data format is the right one. The
+implementation details are transparent to them.</p>
+</div>
+<div class="paragraph">
+<p>The basic requirements for a server would be:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Uses <code>bencode</code> (by default)</p>
+</li>
+<li>
+<p>Has a notion of sessions</p>
+</li>
+<li>
+<p>Provides all <a href="ops.html" class="xref page">ops defined by the protocol</a></p>
+</li>
+<li>
+<p>Messages are processed asynchronously</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Obviously most clients would work fairly well if messages like <code>interrupt</code> are missing, but your users
+will probably appreciate having those.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Some clients (e.g. CIDER) might be relying on the server startup message to extract connection
+information from it. That&#8217;s why it&#8217;s a good to provide the same message for your own server implementation.
+Here&#8217;s the message in question:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>nREPL server started on port 58567 on host 127.0.0.1 - nrepl://127.0.0.1:58567</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here are a few simple nREPL implementations that you can peruse for inspiration:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/borkdude/nrepl-server">A basic nREPL server written in Clojure</a></p>
+</li>
+<li>
+<p><a href="https://gitlab.com/technomancy/ogion">Ogion, nREPL server for Racket</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It might also be a good idea to see the message exchange between some nREPL server and client.
+CIDER provides a <a href="https://docs.cider.mx/cider/troubleshooting.html#debugging-the-communication-with-nrepl">convenient solution</a> for this.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="best-practices"><a class="anchor" href="#best-practices"></a>Best Practices</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Write an <code>.nrepl-port</code> file on server startup.</p>
+</li>
+<li>
+<p>Add support for <code>.nrepl.edn</code> (at least if you&#8217;re working with a language than can easily handle EDN).</p>
+</li>
+<li>
+<p>Avoid adding runtime dependencies, unless you can somehow isolate them. You don&#8217;t want your server
+to mess up dependencies in the user space.</p>
+</li>
+<li>
+<p>Provide some information in the <code>describe</code> op that makes it easy for clients to recognize your server.</p>
+</li>
+<li>
+<p>Provide streaming results to the clients (e.g. values and output), as an option. This generally means that
+results are split over several message, so that clients would get feedback faster.</p>
+</li>
+<li>
+<p>Provide some means for the clients to configure (pretty-)printing of results.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="extending-the-core-protocol"><a class="anchor" href="#extending-the-core-protocol"></a>Extending the Core Protocol</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>cider-nrepl</code> defines a bunch of ops that are supported by many Clojure nREPL clients (e.g. <code>info</code> and <code>complete</code>).
+You can add those ops to your server implementation as well.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="additional-resources"><a class="anchor" href="#additional-resources"></a>Additional Resources</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/borkdude/nrepl-server/blob/master/README.md">Notes on implementing a basic nREPL server</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="building_middleware.html">Building Middleware</a></span>
+  <span class="next"><a href="building_clients.html">Building Clients</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright (C) 2019-2022 <a href="https://batsov.com">Bozhidar Batsov</a> and nREPL contributors.</p>
+  <p>Except where otherwise noted, nrepl.org is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> (CC BY-SA 4.0).</p>
+</footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+<script type="text/javascript">
+  docsearch({
+   container: '#docsearch',
+   appId: 'R3RKLGFWJL',
+   apiKey: 'd3cfde049103d19f20bfc204b68f651e',
+   indexName: 'nrepl',
+   debug: false // Set debug to true if you want to inspect the dropdown
+ });
+</script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
