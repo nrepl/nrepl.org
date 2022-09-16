@@ -250,24 +250,22 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The standard way to securely access a nREPL server has been
-to use <code>ssh</code> with port forwarding, and letting the nREPL server only bind to <code>127.0.0.1</code>.
+<p>The standard way to securely access a remote nREPL server has been to use <code>ssh</code>
+with port forwarding, and letting the nREPL server only bind to <code>127.0.0.1</code>.
 This will secure and encrypt the communication.</p>
 </div>
 <div class="paragraph">
-<p>Sometimes however <code>ssh</code> may not be available, and thus you need to
-bind to <code>0.0.0.0</code> to make the nREPL server available.</p>
+<p>Sometimes however <code>ssh</code> may not be available, and thus you need to bind to
+<code>0.0.0.0</code> (or some specific public address) to make the nREPL server available.</p>
 </div>
 <div class="paragraph">
-<p>By using TLS, Transport Layer Security, the successor to
-Secure Sockets Layer (SSL), we can open a secure connection
-directly on the nREPL server. The server will require
-each client to authenticate itself.</p>
+<p>By using TLS, Transport Layer Security, the successor to Secure Sockets Layer
+(SSL), we can open a secure connection directly on the nREPL server. The server
+will require each client to authenticate itself.</p>
 </div>
 <div class="paragraph">
-<p>The following
-will show how to generate the certificates and keys required
-for running a TLS nREPL server and client.</p>
+<p>The following will show how to generate the certificates and keys required for
+running a TLS nREPL server and client.</p>
 </div>
 </div>
 </div>
@@ -400,12 +398,12 @@ INFO Started TLS proxy at 127.0.0.1:44063. Proxying to localhost:4001.</code></p
 <p>This will write the locally opened port to the file <code>.nrepl-tls-proxy-port</code>.</p>
 </div>
 <div class="paragraph">
-<p>Then you may connect to localhost:&lt;.nrepl-tls-proxy-port&gt; using a plain (no TLS) TCP connection.</p>
+<p>Then you may connect to <code>localhost:&lt;.nrepl-tls-proxy-port&gt;</code> using a plain (no TLS) TCP connection.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="third-party-integration"><a class="anchor" href="#third-party-integration"></a>Third party integration</h2>
+<h2 id="third-party-clients-integration"><a class="anchor" href="#third-party-clients-integration"></a>Third-party clients integration</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Depending on how the socket is established, there are different
@@ -435,8 +433,8 @@ Then you can create the Socket using <code>nrepl.tls/socket</code>:</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This feature would not have been possible without
-[aphyr&#8217;s](<a href="https://aphyr.com/" class="bare">https://aphyr.com/</a>) great work and in
-particular the [less-awful-ssl](<a href="https://github.com/aphyr/less-awful-ssl/" class="bare">https://github.com/aphyr/less-awful-ssl/</a>) repository.
+<a href="https://aphyr.com/">Kyle Kingsbury&#8217;s (a.k.a "Aphyr")</a> great work and in
+particular the <a href="https://github.com/aphyr/less-awful-ssl/">less-awful-ssl</a> project.
 Thanks!</p>
 </div>
 </div>
