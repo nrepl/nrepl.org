@@ -533,6 +533,41 @@ simply reset the middleware stack, use this in conjunction with
 </div>
 </div>
 <div class="sect1">
+<h2 id="debugging-the-communication-with-nrepl"><a class="anchor" href="#debugging-the-communication-with-nrepl"></a>Debugging the Communication with nREPL</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Occasionally it&#8217;s be useful to inspect the communication between your client and
+nREPL. nREPL clients are generally encouraged to provide some nREPL message logging
+functionality, as that&#8217;d be beneficial for their end users as well. (e.g. CIDER
+has a <code><strong>nrepl-messages</strong></code> where you can monitor all requests and responses)</p>
+</div>
+<div class="paragraph">
+<p>There&#8217;s also <a href="https://github.com/lambdaisland/nrepl-proxy">nrepl-proxy</a>, that
+allows you to intercept the communication between an nREPL server and a client.
+Its output looks something like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">nil ---&gt; 1 clone {}
+J &lt;=== 1 #{:done} {:new-session "002914a8-db79-408d-807a-c5b3955ab6f9"}
+nil ---&gt; 2 clone {}
+X &lt;=== 2 #{:done} {:new-session "6a7e7b99-1b8e-4008-bbe5-ddddf46672a9"}
+Y ---&gt; 3 describe {}
+Y &lt;=== 3 #{:done} {:aux {:current-ns "user"}, :ops {:stdin {}, :add-middleware {}, :lookup {}, :swap-middleware {}, :sideloader-start {}, :ls-middleware {}, :close {}, :sideloader-provide {}, :load-file {}, :ls-sessions {}, :clone {}, :describe {}, :interrupt {}, :completions {}, :eval {}}, :versions {:clojure {:incremental 3, :major 1, :minor 10, :version-string "1.10.3"}, :java {:version-string "17"}, :nrepl {:incremental 0, :major 0, :minor 9, :version-string "0.9.0"}}}
+Y ---&gt; 4 eval {:nrepl.middleware.print/buffer-size 4096, :file "*cider-repl lambdaisland/nrepl-proxy:localhost:5424(clj)*", :nrepl.middleware.print/quota 1048576, :nrepl.middleware.print/print "cider.nrepl.pprint/pprint", :column 1, :line 10, :code "(clojure.core/apply clojure.core/require clojure.main/repl-requires)", :inhibit-cider-middleware "true", :nrepl.middleware.print/stream? "1", :nrepl.middleware.print/options {:right-margin 80}}
+G ---&gt; 5 eval {:code "(seq (.split (System/getProperty \"java.class.path\") \":\"))"}
+Y &lt;--- 4 #{:nrepl.middleware.print/error} #:nrepl.middleware.print{:error "Couldn't resolve print-var cider.nrepl.pprint/pprint"}
+Y &lt;--- 4 #{} {:value "nil"}
+Y &lt;--- 4 #{} {:ns "user"}
+Y &lt;=== 4 #{:done} {}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can read more on the topic <a href="https://github.com/nrepl/nrepl/issues/85">here</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="additional-resources"><a class="anchor" href="#additional-resources"></a>Additional Resources</h2>
 <div class="sectionbody">
 <div class="ulist">
