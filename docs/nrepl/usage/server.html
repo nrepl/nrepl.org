@@ -667,7 +667,7 @@ nil
 <td class="content">
 Keep in mind that running a nREPL server on a public address
 is an epic security hole! As the connections are insecure (no
-authentication, no authorization) by default anyone can connect to
+authentication, no authorization) by default, anyone can connect to
 your app and modify its behaviour or run code on the remote host.
 </td>
 </tr>
@@ -889,7 +889,7 @@ interface and by Leiningen 2.8.3+.
    debug: false // Set debug to true if you want to inspect the dropdown
  });
 </script>
-<script src="../../_/js/site.js"></script>
+<script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
 <script async src="../../_/js/vendor/highlight.js"></script>
   </body>
 </html>
