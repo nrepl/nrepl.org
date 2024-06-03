@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="../index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="../index.html">nREPL</a>
+      <div class="title"><a href="../index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../index.html">default</a>
@@ -301,7 +302,7 @@ servers written in any language.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Both Leiningen and Boot use internally REPL-y, as their command-line nREPL client.
+Leiningen uses REPL-y internally as its command-line nREPL client.
 </td>
 </tr>
 </table>
@@ -329,6 +330,9 @@ for Eclipse)</p>
 </li>
 <li>
 <p><a href="https://github.com/Saikyun/miracle">miracle</a> (fork of <code>monroe</code> targeting Arcadia)</p>
+</li>
+<li>
+<p><a href="https://github.com/Sasanidas/Rail">Rail</a> (generic nREPL client for Emacs that should work with any nREPL server)</p>
 </li>
 <li>
 <p><a href="https://github.com/tpope/vim-fireplace">fireplace.vim</a> (Clojure + nREPL
@@ -418,9 +422,9 @@ and connect with it using the built-in client.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.0"}}}' -M -m nrepl.cmdline --interactive
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.2"}}}' -M -m nrepl.cmdline --interactive
 nREPL server started on port 59403 on host 127.0.0.1 - nrepl://127.0.0.1:59403
-nREPL 1.1.0
+nREPL 1.1.2
 Clojure 1.9.0
 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10
 user=&gt; (+ 1 2)
@@ -432,8 +436,8 @@ user=&gt; (+ 1 2)
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.0"}}}' -M -m nrepl.cmdline --connect --host host --port port
-nREPL 1.1.0
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.2"}}}' -M -m nrepl.cmdline --connect --host host --port port
+nREPL 1.1.2
 Clojure 1.9.0
 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10
 user=&gt; (+ 1 2)
@@ -445,8 +449,8 @@ user=&gt; (+ 1 2)
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.0"}}}' -M -m nrepl.cmdline --connect --socket /some/where/safe/nrepl
-nREPL 1.1.0
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.2"}}}' -M -m nrepl.cmdline --connect --socket /some/where/safe/nrepl
+nREPL 1.1.2
 Clojure 1.9.0
 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10
 user=&gt; (+ 1 2)

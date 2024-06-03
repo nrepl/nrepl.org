@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="index.html">nREPL</a>
+      <div class="title"><a href="index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="index.html">default</a>
@@ -253,8 +254,28 @@
 <h2 id="whats-the-difference-between-contribs-nrepl-and-this-one"><a class="anchor" href="#whats-the-difference-between-contribs-nrepl-and-this-one"></a>What&#8217;s the difference between contrib&#8217;s nREPL and this one?</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See <a href="about/history.html" class="xref page">our history</a>.
-Very simply put - this project is the continuation of the contrib project.</p>
+<p>See <a href="about/history.html" class="xref page">our history</a>. Very simply put - this project is the
+continuation of the contrib project. There were several major changes that
+happened during the migration:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The artifact id changed from <code>org.clojure/clojure.tools.nrepl</code> to <code>nrepl/nrepl</code>.</p>
+</li>
+<li>
+<p>The namespace prefix changed from <code>clojure.tools.nrepl</code> to <code>nrepl</code>.</p>
+</li>
+<li>
+<p>The namespace <code>clojure.tools.nrepl</code> was renamed to <code>nrepl.core</code>.</p>
+</li>
+<li>
+<p>Minimal requirements changed from Java 6 and Clojure 1.2 to Java 8 and Clojure 1.7.</p>
+</li>
+<li>
+<p>All the code which existed for compatibility with nREPL 0.0.x was removed.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>

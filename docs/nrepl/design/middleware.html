@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="../index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="../index.html">nREPL</a>
+      <div class="title"><a href="../index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../index.html">default</a>
@@ -415,7 +416,7 @@ to handling the indicated <code>:op</code></p>
 which provides "a machine- and human-readable directory and documentation for
 the operations supported by an nREPL endpoint" (see
 <code>nrepl.impl.docs/generate-ops-info</code> and the results of
-<code>lein with-profile +maint run nrepl.impl.docs</code> <a href="../ops.html" class="xref page">here</a>).</p>
+<code>lein with-profile +maint run -m nrepl.impl.docs</code> <a href="../ops.html" class="xref page">here</a>).</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -424,8 +425,8 @@ the operations supported by an nREPL endpoint" (see
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-There&#8217;s also <code>lein with-profile +maint run nrepl.impl.docs --output md</code> if you&#8217;d like to
-generate an ops listing in Markdown format.
+There&#8217;s also <code>lein with-profile +maint run -m nrepl.impl.docs --output md</code>
+if you&#8217;d like to generate an ops listing in Markdown format.
 </td>
 </tr>
 </table>

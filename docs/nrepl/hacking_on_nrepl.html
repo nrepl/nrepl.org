@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="index.html">nREPL</a>
+      <div class="title"><a href="index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="index.html">default</a>
@@ -305,11 +306,49 @@ nREPL shouldn&#8217;t ever be necessary (unless you&#8217;re hacking on it).
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.0"}}}' -M -m nrepl.cmdline --interactive</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.2"}}}' -M -m nrepl.cmdline --interactive</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Now you can start playing the server you&#8217;ve built.</p>
+</div>
+<div class="sect2">
+<h3 id="building-libnrepl-native-agent"><a class="anchor" href="#building-libnrepl-native-agent"></a>Building libnrepl native agent</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The reason why nREPL needs a native agent is explained
+<a href="installation.html#jvmti" class="xref page">here</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Native binaries of <a href="https://github.com/nrepl/nrepl/tree/master/libnrepl">libnrepl
+JVMTI agent</a> are built on
+<a href="https://github.com/nrepl/nrepl/actions/workflows/libnrepl.yml">CI</a> and then
+copied into the <a href="https://github.com/nrepl/nrepl/tree/master/res">res/</a> directory
+manually, so to do regular nREPL builds you don&#8217;t have to recompile native code.
+However, if you want to experiment with the agent yourself, then you can rebuild
+the native library for your current platform like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ cd libnrepl/
+$ make all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Makefile will use the default C compiler for your OS (GCC on Linux, Clang on
+MacOS). You will also need <code>JAVA_HOME</code> environment variable to be pointing at
+the JDK installation. After the binary is built, copy it from <code>libnrepl/build/</code>
+directory into <code>res/</code> and restart the REPL. The new binary will be picked up
+automatically.</p>
+</div>
 </div>
 </div>
 </div>

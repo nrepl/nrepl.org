@@ -63,6 +63,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -180,11 +181,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="index.html">nREPL</a>
+      <div class="title"><a href="index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="index.html">default</a>
@@ -287,23 +288,6 @@ that essentially any non-JVM Clojure implementation should be able to
 implement it, with allowances for hosts that lack the concurrency primitives to
 support e.g. asynchronous evaluation, interrupts, etc.</p>
 </div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-For more information about the motivation, architecture, use cases, and
-discussion related to nREPL, see the original design notes,
-available <a href="https://docs.google.com/document/edit?id=1dnb1ONTpK9ttO5W4thxiXkU5Ki89gK62anRqKEK4YZI&amp;authkey=CMuszuMI&amp;hl=en#">here</a>,
-and the <a href="https://github.com/clojure/tools.nrepl/wiki/nREPL.Next">notes</a> and
-<a href="http://groups.google.com/group/clojure-dev/browse_frm/thread/6e366c1d0eaeec59">discussion</a>
-around its recent redesign.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -365,42 +349,21 @@ Check out the how you can help nREPL <a href="about/contributing.html" class="xr
 <h2 id="status"><a class="anchor" href="#status"></a>Status</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Despite its modest version number, nREPL is extremely stable at this
-point. Its communication protocol and API are rock-solid and battle
-tested and have been powering much of the existing Clojure tooling for
-several years now.<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></p>
+<p>nREPL is extremely stable at this point. Its communication protocol and API are
+rock-solid and battle tested and have been powering much of the existing Clojure
+tooling for several years now.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></p>
 </div>
 <div class="paragraph">
 <p>Given the massive community investment in developing all sorts of
 tooling on top of nREPL, nREPL&#8217;s team pledges to evolve the project only in
 a responsible manner and backwards-compatible ways.</p>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The migration of nREPL out of Clojure Contrib is probably the
-only case where we were forced to make breaking changes.<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> Those are documented in great
-detail <a href="installation.html#upgrading" class="xref page">here</a>.
-</td>
-</tr>
-</table>
-</div>
 </div>
 </div>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. It&#8217;s not that recent anymore, as the redesign happened in 2012. It marked the beginning of the long-lived nREPL 0.2 series.
-</div>
-<div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. nREPL had virtually no alternatives before the introduction of the built-in Socket REPL in Clojure 1.8.
-</div>
-<div class="footnote" id="_footnotedef_3">
-<a href="#_footnoteref_3">3</a>. Apart from removing deprecated code that is.
+<a href="#_footnoteref_1">1</a>. nREPL had virtually no alternatives before the introduction of the built-in Socket REPL in Clojure 1.8.
 </div>
 </div>
 <nav class="pagination">

@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="../index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="../index.html">nREPL</a>
+      <div class="title"><a href="../index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../index.html">default</a>
@@ -323,11 +324,6 @@ requirements were bumped in nREPL 0.4.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">0.2.x</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0.3.x</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1.2</p></td>
@@ -374,6 +370,16 @@ requirements were bumped in nREPL 0.4.</p>
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="java-20-compatibility"><a class="anchor" href="#java-20-compatibility"></a>Java 20+ compatibility</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In general, nREPL behavior does not depend on the versions of Java and Clojure.
+As of now, there is one exception to this rule, see
+<a href="../installation.html#jvmti" class="xref page">JVMTI agent</a> page.</p>
+</div>
 </div>
 </div>
 <div class="sect1">

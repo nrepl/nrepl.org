@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="index.html">nREPL</a>
+      <div class="title"><a href="index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="index.html">default</a>
@@ -281,7 +282,7 @@ depending on your requirements and use-cases.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>A <a href="https://clojure.org/reference/repl_and_main#_launching_a_socket_server">socket REPL server</a> was added in Clojure 1.8.
-In essence it&#8217;s just a socket version of the standard REPL - the input in text (code) and the output is text.
+In essence it&#8217;s just a socket version of the standard REPL - the input is text (code) and the output is text.
 Nothing more, nothing less.</p>
 </div>
 <div class="paragraph">
@@ -306,7 +307,7 @@ nil</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>As you can see the main issue with the socket REPL is that it&#8217;s hard to tell apart values from output in the evaluation
+<p>As you can see the main issue with the socket REPL is that it&#8217;s hard to tell apart values (results) from output in the evaluation
 responses. That&#8217;s fine when you&#8217;re interacting with a REPL directly, but is a big issue if you&#8217;re using it programmatically.
 Still, I think it&#8217;s fair to say that the main purpose of the socket REPL server is to give you a basic REPL, not building development tools on top of it.</p>
 </div>
@@ -348,70 +349,13 @@ Still, I think it&#8217;s fair to say that the main purpose of the socket REPL s
 </div>
 </div>
 <div class="sect1">
-<h2 id="unrepl"><a class="anchor" href="#unrepl"></a>unrepl</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="https://github.com/Unrepl/unrepl">unrepl</a> builds on top of the built-socket REPL to provide framed responses. Clients feed <code>unrepl</code> text to be evaluated
-and receive the result as a map. That makes it much easier to use the REPL from development tools. It also includes provisions
-for upgrading a plain socket REPL to <code>unrepl</code>, injecting dependencies straight from the clients and printing huge data structures in an incremental manner.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-<code>unrepl</code>'s author Christophe Grand has been collaborating with nREPL&#8217;s team to bring some of those advanced features to nREPL.
-</td>
-</tr>
-</table>
-</div>
-<div class="sect2">
-<h3 id="pros-2"><a class="anchor" href="#pros-2"></a>Pros</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Builds on top of the Socket REPL</p>
-</li>
-<li>
-<p>Allows clients to inject dependencies</p>
-</li>
-<li>
-<p>Has great provisions for printing big data structures</p>
-</li>
-<li>
-<p>External project that&#8217;s independent of Clojure&#8217;s development cycle</p>
-</li>
-<li>
-<p>Easy to leverage from Clojure(Script)/Java(Script) clients</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="cons-2"><a class="anchor" href="#cons-2"></a>Cons</h3>
-<div class="ulist">
-<ul>
-<li>
-<p>Streaming input means tooling has to be built on top of <code>eval</code></p>
-</li>
-<li>
-<p>Clients have to support EDN, which is a problem in certain environments</p>
-</li>
-<li>
-<p>Clojure-only</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="prepl"><a class="anchor" href="#prepl"></a>prepl</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><code>prepl</code> is pretty similar to <code>unrepl</code> in terms of the way it operates (streaming input, framed output). Its main advantage is that it&#8217;s part of Clojure since 1.10. <code>prepl</code> is rather spartan compared to <code>unrepl</code>, but as a result it&#8217;s simpler.</p>
+<p><a href="https://clojuredocs.org/clojure.core.server/prepl">prepl</a> is a structured REPL
+built into Clojure since version 1.0. Clients feed <code>prepl</code> text to be evaluated
+and receive the result as a map. That makes it much easier to use the REPL from
+development tools.</p>
 </div>
 <div class="paragraph">
 <p>Here&#8217;s a typical exchange between a client and a <code>prepl</code> server:</p>
@@ -444,7 +388,7 @@ for upgrading a plain socket REPL to <code>unrepl</code>, injecting dependencies
 </div>
 </div>
 <div class="sect2">
-<h3 id="pros-3"><a class="anchor" href="#pros-3"></a>Pros</h3>
+<h3 id="pros-2"><a class="anchor" href="#pros-2"></a>Pros</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -460,7 +404,7 @@ for upgrading a plain socket REPL to <code>unrepl</code>, injecting dependencies
 </div>
 </div>
 <div class="sect2">
-<h3 id="cons-3"><a class="anchor" href="#cons-3"></a>Cons</h3>
+<h3 id="cons-2"><a class="anchor" href="#cons-2"></a>Cons</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -496,7 +440,7 @@ Its functionality is powered internally by static code analysis, one can easily 
 an LSP server implementation that&#8217;s powered by a REPL.</p>
 </div>
 <div class="sect2">
-<h3 id="pros-4"><a class="anchor" href="#pros-4"></a>Pros</h3>
+<h3 id="pros-3"><a class="anchor" href="#pros-3"></a>Pros</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -512,7 +456,7 @@ an LSP server implementation that&#8217;s powered by a REPL.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="cons-4"><a class="anchor" href="#cons-4"></a>Cons</h3>
+<h3 id="cons-3"><a class="anchor" href="#cons-3"></a>Cons</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -533,7 +477,7 @@ an LSP server implementation that&#8217;s powered by a REPL.</p>
 <h2 id="comparison"><a class="anchor" href="#comparison"></a>Comparison</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>It&#8217;s important to understand that while the socket REPL, unrepl and prepl are pure REPLs (meaning their
+<p>It&#8217;s important to understand that while the socket REPL and prepl are pure REPLs (meaning their
 sole focus is reading, evaluating and printing), nREPL is both a REPL and a development tooling
 protocol. In this sense it sits somewhere between all other REPL servers and LSP.</p>
 </div>
@@ -577,14 +521,6 @@ infinitely extensible when it comes to supported operations, data formats and co
 <td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">unrepl</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Streaming Input/Structured Output</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">EDN</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">prepl</p></td>

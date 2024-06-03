@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="index.html">nREPL</a>
+      <div class="title"><a href="index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="index.html">default</a>
@@ -252,7 +253,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="small">generated from a verbose 'describe' response (nREPL v1.1.0)</span></p>
+<p><span class="small">generated from a verbose 'describe' response (nREPL v1.1.2)</span></p>
 </div>
 </div>
 </div>
@@ -547,7 +548,7 @@
 <div class="sect2">
 <h3 id="interrupt"><a class="anchor" href="#interrupt"></a><code>interrupt</code></h3>
 <div class="paragraph">
-<p>Attempts to interrupt some executing request. When interruption succeeds, the thread used for execution is killed, and a new thread spawned for the session. While the session middleware ensures that Clojure dynamic bindings are preserved, other ThreadLocals are not. Hence, when running code intimately tied to the current thread identity, it is best to avoid interruptions.</p>
+<p>Attempts to interrupt some executing request. When interruption succeeds, the thread used for execution is killed, and a new thread spawned for the session. While the session middleware ensures that Clojure dynamic bindings are preserved, other ThreadLocals are not. Hence, when running code intimately tied to the current thread identity, it is best to avoid interruptions. On Java 20 and later, if <code>-Djdk.attach.allowAttachSelf</code> is enabled, the JVMTI agent will be used to attempt to stop the thread.</p>
 </div>
 <div class="dlist">
 <dl>

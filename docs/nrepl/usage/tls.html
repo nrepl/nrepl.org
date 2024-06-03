@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="../index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="../index.html">nREPL</a>
+      <div class="title"><a href="../index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="../index.html">default</a>
@@ -411,7 +412,7 @@ nil
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.0"}}}' -M -m nrepl.cmdline --connect --host 127.0.0.1 --port 4001 --tls-keys-file client.keys</code></pre>
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.1.2"}}}' -M -m nrepl.cmdline --connect --host 127.0.0.1 --port 4001 --tls-keys-file client.keys</code></pre>
 </div>
 </div>
 </div>
@@ -424,7 +425,7 @@ nil
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clojure -Sdeps '{:aliases {:proxy {:deps {nrepl/nrepl {:mvn/version "1.1.0"}} :exec-fn nrepl.tls-client-proxy/start-tls-proxy :exec-args {:remote-host "localhost" :remote-port 4001 :tls-keys-file "client.keys"}}}}' -T:proxy
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clojure -Sdeps '{:aliases {:proxy {:deps {nrepl/nrepl {:mvn/version "1.1.2"}} :exec-fn nrepl.tls-client-proxy/start-tls-proxy :exec-args {:remote-host "localhost" :remote-port 4001 :tls-keys-file "client.keys"}}}}' -T:proxy
 INFO Started TLS proxy at 127.0.0.1:44063. Proxying to localhost:4001.</code></pre>
 </div>
 </div>

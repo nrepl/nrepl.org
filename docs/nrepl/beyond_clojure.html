@@ -64,6 +64,7 @@
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
     <h3 class="title"><a href="index.html">nREPL</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
@@ -181,11 +182,11 @@
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
     <span class="title">nREPL</span>
-    <span class="version">default</span>
+    <span class="version"></span>
   </div>
   <ul class="components">
     <li class="component is-current">
-      <a class="title" href="index.html">nREPL</a>
+      <div class="title"><a href="index.html">nREPL</a></div>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="index.html">default</a>
@@ -305,7 +306,7 @@ documentation which clients are known to work well with them.
 <p><a href="https://github.com/vspinu/R-nREPL">R-nREPL</a> - an nREPL server for R</p>
 </li>
 <li>
-<p><a href="https://gitlab.com/sasanidas/python-nrepl">nrepl-python</a> - an nREPL server for <a href="https://www.python.org/">Python</a></p>
+<p><a href="https://codeberg.org/sasanidas/nrepl-python">nrepl-python</a> - an nREPL server for <a href="https://www.python.org/">Python</a></p>
 </li>
 <li>
 <p><a href="https://github.com/clojure/clr.tools.nrepl">nREPL CLR</a> - an nREPL server for ClojureCLR. A 1:1 port of the reference Clojure nREPL. Unfortunately it has been abandoned a long time ago.</p>
@@ -324,6 +325,9 @@ documentation which clients are known to work well with them.
 </li>
 <li>
 <p><a href="https://github.com/viesti/nrepl-cljs-sci">nrepl-cljs-sci</a> - a native Node.js nREPL server implementation using <a href="https://github.com/borkdude/sci">SCI</a>.</p>
+</li>
+<li>
+<p><a href="https://git.sr.ht/~abcdw/guile-ares-rs">guile-ares-rs</a> -  an Asynchronous Reliable Extensible Sleek RPC Server for Guile based on the nREPL protocol.</p>
 </li>
 </ul>
 </div>
