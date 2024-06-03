@@ -351,8 +351,9 @@ dependency to your project.</p>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="jvmti"><a class="anchor" href="#jvmti"></a>Enable libnrepl JVMTI agent</h3>
+<div class="sect1">
+<h2 id="jvmti"><a class="anchor" href="#jvmti"></a>Enable libnrepl JVMTI agent</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Starting with Java 20, the previously deprecated
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#stop()">Thread.stop</a>
@@ -395,7 +396,7 @@ there, the rest of nREPL functionality will still work as always.
 </div>
 <div class="paragraph">
 <p>For the JVMTI agent to be able to attach to the running process, the JVM has to
-be started with the flag <code>-Djdk.attach.allowAttachSelf</code>. Depending on the built
+be started with the flag <code>-Djdk.attach.allowAttachSelf</code>. Depending on the build
 tool, this can be done like this:</p>
 </div>
 <div class="ulist">
@@ -414,7 +415,7 @@ explicitly to your REPL command.</p>
 <div class="paragraph">
 <p>If <code>-Djdk.attach.allowAttachSelf</code> is not enabled, nREPL will not try to load the
 native agent and will not try to stop threads on Java 20 and newer if the
-regular <code>Thread.interrupt()</code> did not succeed.</p>
+regular <code>Thread.interrupt()</code> does not succeed.</p>
 </div>
 <div class="paragraph">
 <p>You can explicitly disable the JVMTI agent so that it does not load even with
@@ -440,6 +441,7 @@ interrupt the evaluating thread.
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 <nav class="pagination">
