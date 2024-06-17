@@ -192,6 +192,9 @@
           <a href="../index.html">default</a>
         </li>
         <li class="version">
+          <a href="../1.2/index.html">1.2</a>
+        </li>
+        <li class="version">
           <a href="../1.1/index.html">1.1</a>
         </li>
         <li class="version">
@@ -207,6 +210,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
+  <a href="../1.2/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">nREPL</a></li>
@@ -218,6 +222,7 @@
   <button class="version-menu-toggle" title="Show other versions of page">default</button>
   <div class="version-menu">
     <a class="version is-current" href="middleware.html">default</a>
+    <a class="version" href="../1.2/design/middleware.html">1.2</a>
     <a class="version" href="../1.1/design/middleware.html">1.1</a>
     <a class="version" href="../1.0/design/middleware.html">1.0</a>
   </div>
@@ -738,86 +743,6 @@ called on a <code>java.lang.Throwable</code> to convey errors interactively.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="sideloading"><a class="anchor" href="#sideloading"></a>Sideloading</h2>
-<div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Sideloading support was added in nREPL 0.7 and the API is still
-considered experimental, and may change.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>nREPL includes <code>sideloader</code> middleware. This provides a Java Class Loader that is able to dynamically load classes and resources at runtime by interacting with the nREPL client (as opposed to using the classpath of the JVM hosting nREPL server).</p>
-</div>
-<div class="paragraph">
-<p>This performs a similar functionality as the <code>load-file</code> operation, where we can load Clojure namespaces (as source files) or Java classes (as bytecode) by simply <code>require</code> or <code>import</code> them.</p>
-</div>
-<div class="paragraph">
-<p>This allows a client to add new functionality to an already running instance of nREPL, and paves the way for a more client configurable nREPL.</p>
-</div>
-<div class="sect2">
-<h3 id="starting-the-sideloader"><a class="anchor" href="#starting-the-sideloader"></a>Starting the sideloader</h3>
-<div class="paragraph">
-<p>The sideloader is initialised by a new operation: <code>sideloader-start</code>. This will never return with status <code>:done</code>, but its message ID will be used for all future sideloading requests.</p>
-</div>
-<div class="paragraph">
-<p>As additional resources/classes are looked up, server will send messages to the client with status <code>:sideloader-lookup</code>, and the following parameters</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>:type</code>, being <code>resource</code> or <code>class</code></p>
-</li>
-<li>
-<p><code>:name</code>, being a string (e.g. <code>foo/bar.clj</code> or <code>foo.bar</code>)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The client is responsible for responding to the lookup. It does so by replying with the operation <code>sideloader-provide</code>, and parameters</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>:type</code> and <code>:name</code> the same as the lookup.</p>
-</li>
-<li>
-<p><code>:content</code> base-64 encoded byte array of the resource or class. An empty response indicates "resource/class not found."</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>See <a href="../building_clients.html" class="xref page">Building Clients</a> on how to implement the server side of this functionality.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="triggering-the-sideloader"><a class="anchor" href="#triggering-the-sideloader"></a>Triggering the sideloader</h3>
-<div class="paragraph">
-<p>Once the sideloader has been started, it can be triggered by an ordinary <code>eval</code> or <code>load-file</code> operation. The nREPL server will first try to find a resource/class on the classpath of its own JVM. Failing this, it will attempt to request it from the nREPL client by the above described mechanism. Should this still fail, expect a <code>ClassNotFoundException</code> as usual.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-Once a class has been loaded, it will become available to all sessions on nREPL server.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="dynamic-middleware-loading"><a class="anchor" href="#dynamic-middleware-loading"></a>Dynamic middleware loading</h2>
 <div class="sectionbody">
 <div class="admonitionblock note">
@@ -835,9 +760,7 @@ considered experimental, and may change.
 </div>
 <div class="paragraph">
 <p>nREPL includes a <code>dynamic-loader</code> middleware, which can be used, at runtime,
-query and change the middleware stack the nREPL server is using. This is especially
-powerful when combined with sideloading, as it allows a client to configure the
-server after connecting, and provides an alternative to having to specify the middleware required by the client as startup time.</p>
+query and change the middleware stack the nREPL server is using.</p>
 </div>
 <div class="paragraph">
 <p>This introduces three new operations:</p>
@@ -848,10 +771,16 @@ server after connecting, and provides an alternative to having to specify the mi
 <p><code>ls-middleware</code>, to return a list of active middleware, ordered from inside outwards.</p>
 </li>
 <li>
-<p><code>add-middleware</code>, which adds a middleware to the stack. Optionally, a list of <code>extra-namespaces</code> could be provided for loading. This is useful when adding middleware that implement some form of deferred loading. Examples include <code>cider-nrepl</code> and <code>refactor-nrepl</code>. In these cases, some of the required namespaces might only be loaded upon first use, which may occur outside of a sideloading session, and thus fail. This feature allows us to pre-load namespaces when we add a middleware. If loading of any particular middleware fails, the stack will be unchanged.</p>
+<p><code>add-middleware</code>, which adds a middleware to the stack. Optionally, a list of
+<code>extra-namespaces</code> could be provided for loading. This is useful when adding
+middleware that implement some form of deferred loading. Examples include
+<code>cider-nrepl</code> and <code>refactor-nrepl</code>. This feature allows us to pre-load
+namespaces when we add a middleware. If loading of any particular middleware
+fails, the stack will be unchanged.</p>
 </li>
 <li>
-<p><code>swap-middleware</code>, similar to <code>add-</code>, but replaces all existing middleware. Note that this <em>may</em> remove the <code>dynamic-loader</code> itself.</p>
+<p><code>swap-middleware</code>, similar to <code>add-</code>, but replaces all existing middleware.
+Note that this <em>may</em> remove the <code>dynamic-loader</code> itself.</p>
 </li>
 </ul>
 </div>

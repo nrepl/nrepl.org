@@ -192,6 +192,9 @@
           <a href="index.html">default</a>
         </li>
         <li class="version">
+          <a href="1.2/index.html">1.2</a>
+        </li>
+        <li class="version">
           <a href="1.1/index.html">1.1</a>
         </li>
         <li class="version">
@@ -207,6 +210,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
+  <a href="1.2/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">nREPL</a></li>
@@ -217,6 +221,7 @@
   <button class="version-menu-toggle" title="Show other versions of page">default</button>
   <div class="version-menu">
     <a class="version is-current" href="building_clients.html">default</a>
+    <a class="version" href="1.2/building_clients.html">1.2</a>
     <a class="version" href="1.1/building_clients.html">1.1</a>
     <a class="version" href="1.0/building_clients.html">1.0</a>
   </div>
@@ -376,86 +381,6 @@ your client Clojure-agnostic.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="implementing-sideloading"><a class="anchor" href="#implementing-sideloading"></a>Implementing sideloading</h2>
-<div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Sideloading is a feature specific to the reference Clojure nREPL server.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Let&#8217;s start by looking at an exchange of messages while using sideloading:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; -&gt; init sideloading
-{:op      "sideloader-start"
- :id      "1"
- :session "x"}
-
-;; -&gt; try to require a namespace that's not available locally
-{:op      "eval"
- :id      "2"
- :session "x"
- :code    (quote (require '[foo.bar :as bar])
-                 (bar/qaz))}
-
-;; &lt;- lookup for foo.bar
-{:id      "1"
- :session "x"
- :status  :sideloader-lookup
- :type    "resource"
- :name    "foo/bar.clj"}
-
-;; -&gt; providing resource
-{:id      "3"
- :session "x"
- :op      "sideloader-provide"
- :type    "resource"
- :name    "foo/bar.clj"
- :content "&lt;base64 package&gt;"}
-
-;; &lt;- ack of provided resource
-{:id      "3"
- :session "x"
- :status  :done}
-
-;; &lt;- result of eval
-{:id      "2"
- :session "x"
- :value   "Qaz"
- :status  :done}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Note that between sending the <code>eval</code> op in message <code>2</code> and receiving the result, two other messages were dealt with:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>We received a response from message <code>1</code>, requesting a resource. This indicates that the the resource was not found on the server JVM, and evaluation is blocked until we provide it, or respond with an empty package (<code>:content</code> should be an empty string).</p>
-</li>
-<li>
-<p>We provide the resource/file using message <code>3</code>, to which the server responds with a <code>:done</code>.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>This unblocks the <code>eval</code> command, which returns the value <code>Qaz</code> in the final message.</p>
-</div>
-<div class="paragraph">
-<p>It&#8217;s thus important, once sideloading has started, to asynchronously handle lookup requests, without these being blocked by waiting on a response from another message.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="modifying-middleware"><a class="anchor" href="#modifying-middleware"></a>Modifying middleware</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -469,25 +394,6 @@ simple as sending the message</p>
 </div>
 </div>
 <div class="paragraph">
-<p>However, if the middleware is loaded, it&#8217;s very likely that it hasn&#8217;t been included
-as a dependency on the server, and thus unavailable on its classpath. Furthermore.
-In this case, we can use the <code>dynamic-loader</code> in conjunction with the <code>sideloader</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:op "sideloader-start"}
-;; handle sideloading separately...
-;; now we add the middleware
-{:op "add-middleware"
- :middleware ["cider.nrepl.middleware/wrap-version"]}
-;; confirm it's being loaded..
-{:op "ls-middleware"}
-;; and we should get something like...
-{:status #{:done}
- :middleware [... "#'cider.nrepl.middleware/wrap-version" ...]}</code></pre>
-</div>
-</div>
-<div class="paragraph">
 <p>However, if we tried to use the middleware with an <code>cider-version</code> op, we&#8217;d get an
 error, because the middleware is implemented in a different namespace, which is
 only loaded on the first use of the <code>cider-version</code> op. This is a practice in
@@ -496,12 +402,12 @@ is to request the extra namespace to be loaded at <code>add-middleware</code> ti
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; after starting the sideloader...
-{:op "add-middleware"
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:op "add-middleware"
  :middleware ["cider.nrepl.middleware/wrap-version"]
  :extra-namespaces ["cider.nrepl.middleware.version"]}
- ;; now, the following should work
- {:op "cider-version"}</code></pre>
+
+;; now, the following should work
+{:op "cider-version"}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -511,7 +417,9 @@ simply reset the middleware stack, use this in conjunction with
 <code>nrepl.server/default-middleware</code>.</p>
 </div>
 <div class="paragraph">
-<p>Also note that updating the middleware stack may also destroy/re-create middleware state. As an example, sideloading would need to be re-started. The impact on each middleware differs, however, as some of them, e.g. <code>session</code> holds their state globally.</p>
+<p>Also note that updating the middleware stack may also destroy/re-create
+middleware state. The impact on each middleware differs, however, as some of
+them, e.g. <code>session</code> holds their state globally.</p>
 </div>
 </div>
 </div>
@@ -536,7 +444,7 @@ J &lt;=== 1 #{:done} {:new-session "002914a8-db79-408d-807a-c5b3955ab6f9"}
 nil ---&gt; 2 clone {}
 X &lt;=== 2 #{:done} {:new-session "6a7e7b99-1b8e-4008-bbe5-ddddf46672a9"}
 Y ---&gt; 3 describe {}
-Y &lt;=== 3 #{:done} {:aux {:current-ns "user"}, :ops {:stdin {}, :add-middleware {}, :lookup {}, :swap-middleware {}, :sideloader-start {}, :ls-middleware {}, :close {}, :sideloader-provide {}, :load-file {}, :ls-sessions {}, :clone {}, :describe {}, :interrupt {}, :completions {}, :eval {}}, :versions {:clojure {:incremental 3, :major 1, :minor 10, :version-string "1.10.3"}, :java {:version-string "17"}, :nrepl {:incremental 0, :major 0, :minor 9, :version-string "0.9.0"}}}
+Y &lt;=== 3 #{:done} {:aux {:current-ns "user"}, :ops {:stdin {}, :add-middleware {}, :lookup {}, :swap-middleware {}, :ls-middleware {}, :close {}, :load-file {}, :ls-sessions {}, :clone {}, :describe {}, :interrupt {}, :completions {}, :eval {}}, :versions {:clojure {:incremental 3, :major 1, :minor 10, :version-string "1.10.3"}, :java {:version-string "17"}, :nrepl {:incremental 0, :major 0, :minor 9, :version-string "0.9.0"}}}
 Y ---&gt; 4 eval {:nrepl.middleware.print/buffer-size 4096, :file "*cider-repl lambdaisland/nrepl-proxy:localhost:5424(clj)*", :nrepl.middleware.print/quota 1048576, :nrepl.middleware.print/print "cider.nrepl.pprint/pprint", :column 1, :line 10, :code "(clojure.core/apply clojure.core/require clojure.main/repl-requires)", :inhibit-cider-middleware "true", :nrepl.middleware.print/stream? "1", :nrepl.middleware.print/options {:right-margin 80}}
 G ---&gt; 5 eval {:code "(seq (.split (System/getProperty \"java.class.path\") \":\"))"}
 Y &lt;--- 4 #{:nrepl.middleware.print/error} #:nrepl.middleware.print{:error "Couldn't resolve print-var cider.nrepl.pprint/pprint"}

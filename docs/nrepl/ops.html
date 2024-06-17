@@ -192,6 +192,9 @@
           <a href="index.html">default</a>
         </li>
         <li class="version">
+          <a href="1.2/index.html">1.2</a>
+        </li>
+        <li class="version">
           <a href="1.1/index.html">1.1</a>
         </li>
         <li class="version">
@@ -207,6 +210,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
+  <a href="1.2/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">nREPL</a></li>
@@ -217,6 +221,7 @@
   <button class="version-menu-toggle" title="Show other versions of page">default</button>
   <div class="version-menu">
     <a class="version is-current" href="ops.html">default</a>
+    <a class="version" href="1.2/ops.html">1.2</a>
     <a class="version" href="1.1/ops.html">1.1</a>
     <a class="version" href="1.0/ops.html">1.0</a>
   </div>
@@ -732,77 +737,6 @@
 <ul>
 <li>
 <p><code>:sessions</code> A list of all available session IDs.</p>
-</li>
-</ul>
-</div>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect2">
-<h3 id="sideloader-provide"><a class="anchor" href="#sideloader-provide"></a><code>sideloader-provide</code></h3>
-<div class="paragraph">
-<p>Provides a requested class or resource.</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Required parameters</dt>
-<dd>
-<div class="ulist">
-<ul>
-<li>
-<p><code>:content</code> base64 string</p>
-</li>
-<li>
-<p><code>:name</code> the class or resource name</p>
-</li>
-<li>
-<p><code>:session</code> the id of the session</p>
-</li>
-<li>
-<p><code>:type</code> "class" or "resource"</p>
-</li>
-</ul>
-</div>
-</dd>
-<dt class="hdlist1">Optional parameters</dt>
-<dd>
-<p></p>
-</dd>
-<dt class="hdlist1">Returns</dt>
-<dd>
-<p></p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect2">
-<h3 id="sideloader-start"><a class="anchor" href="#sideloader-start"></a><code>sideloader-start</code></h3>
-<div class="paragraph">
-<p>Starts a sideloading session.</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Required parameters</dt>
-<dd>
-<div class="ulist">
-<ul>
-<li>
-<p><code>:session</code> the id of the session</p>
-</li>
-</ul>
-</div>
-</dd>
-<dt class="hdlist1">Optional parameters</dt>
-<dd>
-<p></p>
-</dd>
-<dt class="hdlist1">Returns</dt>
-<dd>
-<div class="ulist">
-<ul>
-<li>
-<p><code>:status</code> "sideloader-lookup", never ever returns "done".</p>
 </li>
 </ul>
 </div>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Transports :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.org/nrepl/design/transports.html">
+    <link rel="prev" href="handlers.html">
+    <link rel="next" href="middleware.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/site-extra.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha">
+<link rel="icon" href="../../../_/img/favicon.ico" type="image/x-icon">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a href="https://nrepl.org">nREPL</a>
+        <span class="separator">//</span>
+        <a href="https://nrepl.org">Docs</a>
+      </div>
+      <div class="navbar-item">
+        <div id="docsearch"></div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <a class="navbar-item" href="https://cljdoc.org/d/nrepl/nrepl/CURRENT">API Docs</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Projects</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/nrepl/nrepl">nREPL</a>
+            <a class="navbar-item" href="https://github.com/nrepl/piggieback">Piggieback</a>
+            <a class="navbar-item" href="https://github.com/nrepl/drawbridge">Drawbridge</a>
+            <a class="navbar-item" href="https://github.com/nrepl/fastlane">Fastlane</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/nrepl/about/support.html">Support</a>
+            <a class="navbar-item" href="/nrepl/about/contributing.html">Contributing</a>
+            <a class="navbar-item" href="https://opencollective.com/nrepl">Open Collective</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="nrepl" data-version="1.2">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="../index.html">nREPL</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Usage</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../usage/server.html">Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../usage/clients.html">Clients</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../usage/tls.html">TLS</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../usage/misc.html">Misc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="middleware.html">Middleware</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../ops.html">Built-in Ops</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../extensions.html">Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../beyond_clojure.html">Beyond Clojure</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_middleware.html">Building Middleware</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_servers.html">Building Servers</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_clients.html">Building Clients</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../troubleshooting.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../alternatives.html">Alternatives</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../additional_resources.html">Additional Resources</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">About</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/history.html">History</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/team.html">Team</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/support.html">Support</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/contributing.html">Contributing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compatibility.html">Compatibility</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/release_policy.html">Release Policy</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/license.html">License</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">nREPL</span>
+    <span class="version">1.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <div class="title"><a href="../../index.html">nREPL</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../index.html">default</a>
+        </li>
+        <li class="version is-current">
+          <a href="../index.html">1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1/index.html">1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0/index.html">1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">nREPL</a></li>
+    <li>Design</li>
+    <li><a href="transports.html">Transports</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">1.2</button>
+  <div class="version-menu">
+    <a class="version" href="../../design/transports.html">default</a>
+    <a class="version is-current" href="transports.html">1.2</a>
+    <a class="version" href="../../1.1/design/transports.html">1.1</a>
+    <a class="version" href="../../1.0/design/transports.html">1.0</a>
+  </div>
+</div>
+<div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/blob/v1.2.0-antora/doc/modules/ROOT/pages/design/transports.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Transports</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>Transports</em> are roughly analogous to Ring&#8217;s adapters: they provide an
+implementation of a common protocol (<code>nrepl.transport.Transport</code>)
+to enable nREPL clients and servers to send and receive messages without regard
+for the underlying channel or particulars of message encoding.</p>
+</div>
+<div class="paragraph">
+<p>nREPL includes three transports, all of which are socket-based: a "tty"
+transport that allows one to connect to an nREPL endpoint using e.g. <code>telnet</code>
+(which therefore supports only the most simplistic interactive evaluation of
+expressions), one that uses
+<a href="https://wiki.theory.org/index.php/BitTorrentSpecification#Bencoding">bencode</a> to encode
+nREPL messages over sockets, and one that uses EDN as the data exchange format.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+It&#8217;s the bencode transport that is used by default by
+<code>nrepl.server/start-server</code> and <code>nrepl.core/connect</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/nrepl/nrepl/wiki/Extensions">Other nREPL transports (e.g. HTTP) are available as libraries</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="bencode-transport"><a class="anchor" href="#bencode-transport"></a>Bencode Transport</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is, and will mostly likely remain, nREPL&#8217;s default and primary
+transport. It is pronounced B-Encode, and is a relatively simple format,
+comprising of only two scalar types (byte strings and integer) and two
+collection types (dictionaries and lists).</p>
+</div>
+<div class="paragraph">
+<p>A simple nREPL message, to run the operation <code>eval</code> on the code <code>(+ 2 2)</code> would
+look like this in bencode (line breaks added for clarity):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>d
+4:code
+7:(+ 2 2)
+2:op
+4:eval
+e</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In documentation, this message would typically be expressed in EDN format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:op "eval" :code "(+ 2 2)"}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Given that many, if not most, nREPL clients do not use EDN as their native data
+format, it&#8217;s best to think of this as the format of a message once received by
+nREPL. Correspondingly, responses are in the form they take just before being
+sent through the transport.</p>
+</div>
+<div class="paragraph">
+<p>nREPL&#8217;s bencode encoder/decoder performs the following type conversions:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. How nrepl.bencode handles types</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">EDN type &gt;</th>
+<th class="tableblock halign-left valign-top">Bencode type &gt;</th>
+<th class="tableblock halign-left valign-top">EDN type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Keyword</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Symbol</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Map</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dictionary</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Map</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vector</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vector</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vector</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vector</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In addition, nREPL server performs a <code>keywordize-keys</code> operation on the received
+map, restoring the likes of <code>:op</code> and <code>:code</code> to keywords. Thus, the use of
+keywords in writing nREPL message is mainly for clarity. The following messages,
+when encoded using nREPL&#8217;s bencode encoder and received by nREPL, are equivalent:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure"> {:op "eval"  ...} ;; this is also the internal representation
+ {:op :eval ...}
+ {"op" "eval" ...}
+ {"op" :eval ...}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There&#8217;s nothing special you have to do to use the bencode transport,
+as it&#8217;s the default transport for <code>nrepl.server/start-server</code>.</p>
+</div>
+<div class="paragraph">
+<p>You&#8217;ll need a bencode capable client to connect to an nREPL server that transport.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+nREPL&#8217;s bencode implementation is available as a <a href="https://github.com/nrepl/bencode">standalone library</a>.
+Keep in mind that nREPL itself doesn&#8217;t use this library, as it&#8217;s committed to having 0 runtime dependencies.
+The code in the library and in nREPL <code>nrepl.bencode</code> namespace is identical, though, and will be kept in sync
+in the future.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="edn-transport"><a class="anchor" href="#edn-transport"></a>EDN Transport</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The EDN transport was introduced in nREPL 0.7.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The main difference between the bencode transport and the EDN one is that instead of bencode dictionaries and lists, and being limited to integer and byte string types, you&#8217;d be sending and receiving full EDN structures and types, including maps, vectors, lists, sets, strings, keywords and symbols. The structures of the messages is similar, only the data format changes.</p>
+</div>
+<div class="paragraph">
+<p>This may be useful in a couple of usecases: In some clients, including ClojureScript ones, where EDN is easier to handle than bencode. Furthermore, because this transport exposes more of the richer data types in the internals of nREPL and its middleware, it may support more complex usecases.</p>
+</div>
+<div class="paragraph">
+<p>The introduction of the EDN transport does require more specification of the message format, whereby some vagueness was allowed for by the limitatioms of bencode. For example, <code>:op</code> values are strings, and <code>:status</code> is either a keyword, or a set of keywords. This may cause some surprised, unintended consequences. Thus tweaks to the EDN message format may be possible until the transport is declared mature.</p>
+</div>
+<div class="paragraph">
+<p>These details are reflected in the <code>nrepl.spec</code> ns, against which responses are verified during testing. This is not used by nREPL anywhere else at moment.</p>
+</div>
+<div class="paragraph">
+<p>For example, of the (same as before) four messages</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure"> {:op "eval"  ...}
+ {:op :eval ...}
+ {"op" "eval" ...}
+ {"op" :eval ...}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>the first one is considered canonical, though nREPL will accept the second one as well. The third and fourth one will not work.</p>
+</div>
+<div class="paragraph">
+<p>Using the EDN transport is pretty simple. You just need to start an nREPL server with EDN transport and you&#8217;re good to go:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(require
+ '[nrepl.server :as server]
+ '[nrepl.transport :as transport])
+
+(server/start-server :port 12345 :transport-fn transport/edn)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also start an nREPL with a EDN transport using <code>clj</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -M:nrepl -m nrepl.cmdline -t nrepl.transport/edn
+nREPL server started on port 63266 on host localhost - nrepl+edn://localhost:63266</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="tty-transport"><a class="anchor" href="#tty-transport"></a>TTY Transport</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Using the TTY transport is pretty simple. You just need to start an nREPL server with TTY transport and you&#8217;re good to go:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(require
+ '[nrepl.server :as server]
+ '[nrepl.transport :as transport])
+
+(server/start-server :port 12345 :transport-fn transport/tty :greeting-fn transport/tty-greeting)</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The <code>:greeting-fn</code> is responsible for printing the initial message you&#8217;ll see
+upon connecting.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Afterwards you can simply connect to the server with some TTY client like <code>telnet</code>, <code>nc</code> or <code>inf-clojure</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ nc localhost 12345
+
+;; Clojure 1.9.0
+user=&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Starting with nREPL 0.5 you can also start an nREPL with a TTY transport using <code>clj</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -M:nrepl -m nrepl.cmdline -t nrepl.transport/tty
+nREPL server started on port 63266 on host localhost - telnet://localhost:63266</code></pre>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="handlers.html">Handlers</a></span>
+  <span class="next"><a href="middleware.html">Middleware</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright (C) 2019-2024 <a href="https://batsov.com">Bozhidar Batsov</a> and nREPL contributors.</p>
+  <p>Except where otherwise noted, nrepl.org is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> (CC BY-SA 4.0).</p>
+</footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+<script type="text/javascript">
+  docsearch({
+   container: '#docsearch',
+   appId: 'R3RKLGFWJL',
+   apiKey: 'd3cfde049103d19f20bfc204b68f651e',
+   indexName: 'nrepl',
+   debug: false // Set debug to true if you want to inspect the dropdown
+ });
+</script>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
