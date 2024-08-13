@@ -192,6 +192,9 @@
           <a href="../index.html">default</a>
         </li>
         <li class="version">
+          <a href="../1.3/index.html">1.3</a>
+        </li>
+        <li class="version">
           <a href="../1.2/index.html">1.2</a>
         </li>
         <li class="version">
@@ -210,7 +213,7 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../1.2/index.html" class="home-link"></a>
+  <a href="../1.3/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">nREPL</a></li>
@@ -222,6 +225,7 @@
   <button class="version-menu-toggle" title="Show other versions of page">default</button>
   <div class="version-menu">
     <a class="version is-current" href="middleware.html">default</a>
+    <a class="version" href="../1.3/design/middleware.html">1.3</a>
     <a class="version" href="../1.2/design/middleware.html">1.2</a>
     <a class="version" href="../1.1/design/middleware.html">1.1</a>
     <a class="version" href="../1.0/design/middleware.html">1.0</a>
@@ -447,6 +451,21 @@ unhandled messages will always produce a response message with an <code>:unknown
 <code>:status</code>.  Any handlers otherwise created (e.g. via direct usage of
 <code>linearize-middleware-stack</code> to obtain a ordered sequence of middleware vars)
 should do the same, or use a similar alternative base handler.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="evaluation"><a class="anchor" href="#evaluation"></a>Evaluation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Core evaluation functionality is provided by
+<code>nrepl.middleware.interruptible-eval/interruptible-eval</code> middleware. It drives
+the REPL process using custom implementation instead of <code>clojure.main/repl</code>.
+When a message with <code>eval</code> op reaches this middleware, the forms in <code>:code</code> are
+read (the code can contain multiple forms), evaluated, and the result sent to
+the transport. If an error happens at any point during read phase, the whole
+evaluation is stopped. Otherwise, each separate form in the message is evaluated
+and printed even if some of them throw an exception.</p>
 </div>
 </div>
 </div>

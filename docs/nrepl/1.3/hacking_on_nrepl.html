@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Hacking on nREPL :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.org/nrepl/hacking_on_nrepl.html">
+    <link rel="prev" href="beyond_clojure.html">
+    <link rel="next" href="building_middleware.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="stylesheet" href="../../_/css/site-extra.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a href="https://nrepl.org">nREPL</a>
+        <span class="separator">//</span>
+        <a href="https://nrepl.org">Docs</a>
+      </div>
+      <div class="navbar-item">
+        <div id="docsearch"></div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <a class="navbar-item" href="https://cljdoc.org/d/nrepl/nrepl/CURRENT">API Docs</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Projects</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/nrepl/nrepl">nREPL</a>
+            <a class="navbar-item" href="https://github.com/nrepl/piggieback">Piggieback</a>
+            <a class="navbar-item" href="https://github.com/nrepl/drawbridge">Drawbridge</a>
+            <a class="navbar-item" href="https://github.com/nrepl/fastlane">Fastlane</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/nrepl/about/support.html">Support</a>
+            <a class="navbar-item" href="/nrepl/about/contributing.html">Contributing</a>
+            <a class="navbar-item" href="https://opencollective.com/nrepl">Open Collective</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="nrepl" data-version="1.3">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="index.html">nREPL</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Usage</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/server.html">Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/clients.html">Clients</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/tls.html">TLS</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="usage/misc.html">Misc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="design/middleware.html">Middleware</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="ops.html">Built-in Ops</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="extensions.html">Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="beyond_clojure.html">Beyond Clojure</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="building_middleware.html">Building Middleware</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="building_servers.html">Building Servers</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="building_clients.html">Building Clients</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="troubleshooting.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="alternatives.html">Alternatives</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="additional_resources.html">Additional Resources</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">About</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/history.html">History</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/team.html">Team</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/support.html">Support</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/contributing.html">Contributing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/compatibility.html">Compatibility</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/release_policy.html">Release Policy</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/license.html">License</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">nREPL</span>
+    <span class="version">1.3</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <div class="title"><a href="../index.html">nREPL</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../index.html">default</a>
+        </li>
+        <li class="version is-current">
+          <a href="index.html">1.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.2/index.html">1.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.1/index.html">1.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.0/index.html">1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">nREPL</a></li>
+    <li><a href="hacking_on_nrepl.html">Hacking on nREPL</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">1.3</button>
+  <div class="version-menu">
+    <a class="version" href="../hacking_on_nrepl.html">default</a>
+    <a class="version is-current" href="hacking_on_nrepl.html">1.3</a>
+    <a class="version" href="../1.2/hacking_on_nrepl.html">1.2</a>
+    <a class="version" href="../1.1/hacking_on_nrepl.html">1.1</a>
+    <a class="version" href="../1.0/hacking_on_nrepl.html">1.0</a>
+  </div>
+</div>
+<div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/blob/v1.3.0/doc/modules/ROOT/pages/hacking_on_nrepl.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Hacking on nREPL</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This section is dedicated to people, who&#8217;re hacking on nREPL itself (e.g. to fix bugs or to enhance
+existing functionality).</p>
+</div>
+<div class="paragraph">
+<p>There are generally two approaches to hacking on nREPL - you can either make some changes, build a new server
+and run it locally to test your changes (e.g. via <code>clj</code>) or you can hack on nREPL in the classic
+interactive Lisp manner and just make some changes and test them directly from a running (n)REPL.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="building-nrepl"><a class="anchor" href="#building-nrepl"></a>Building nREPL</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Releases are available from Clojars, and SNAPSHOT builds from master&#8217;s
+HEAD are automatically deployed there as well, so manually building
+nREPL shouldn&#8217;t ever be necessary (unless you&#8217;re hacking on it).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Building nREPL locally is a very simple process:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Clone the repo</p>
+</li>
+<li>
+<p>Make sure you have Leingingen installed</p>
+</li>
+<li>
+<p>Run the build:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein install</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Afterwards you can simply do something like:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.3.0"}}}' -M -m nrepl.cmdline --interactive</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now you can start playing the server you&#8217;ve built.</p>
+</div>
+<div class="sect2">
+<h3 id="building-libnrepl-native-agent"><a class="anchor" href="#building-libnrepl-native-agent"></a>Building libnrepl native agent</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+The reason why nREPL needs a native agent is explained
+<a href="installation.html#jvmti" class="xref page">here</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Native binaries of <a href="https://github.com/nrepl/nrepl/tree/master/libnrepl">libnrepl
+JVMTI agent</a> are built on
+<a href="https://github.com/nrepl/nrepl/actions/workflows/libnrepl.yml">CI</a> and then
+copied into the <a href="https://github.com/nrepl/nrepl/tree/master/res">res/</a> directory
+manually, so to do regular nREPL builds you don&#8217;t have to recompile native code.
+However, if you want to experiment with the agent yourself, then you can rebuild
+the native library for your current platform like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ cd libnrepl/
+$ make all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Makefile will use the default C compiler for your OS (GCC on Linux, Clang on
+MacOS). You will also need <code>JAVA_HOME</code> environment variable to be pointing at
+the JDK installation. After the binary is built, copy it from <code>libnrepl/build/</code>
+directory into <code>res/</code> and restart the REPL. The new binary will be picked up
+automatically.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="interactive-hacking"><a class="anchor" href="#interactive-hacking"></a>Interactive Hacking</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As nREPL is fundamental to the development workflows of many people it might be
+unclear how exactly you can hack on it, while at the same time you&#8217;re already
+running an nREPL server, powering the REPL in which you&#8217;re doing to hacking.</p>
+</div>
+<div class="paragraph">
+<p>Developing nREPL while connected to nREPL is a classic example of eating your own dog food.</p>
+</div>
+<div class="paragraph">
+<p>The development process is actually pretty simple - you just need to
+connect to nREPL as you&#8217;d normally would (e.g. by using CIDER, vim-iced or Calva), make
+some changes and test them by starting new nREPL instances from the
+REPL and connecting to them to see how they are having.</p>
+</div>
+<div class="paragraph">
+<p>In practice it might not be convenient to spin many nREPL connections
+from your editor, so a combination of <code>nrepl.server/start-server</code> and
+<code>nrepl.core/connect</code> is a very good alternative.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; first we have to start a new server
+=&gt; (require '[nrepl.server :refer [start-server stop-server]])
+nil
+=&gt; (def server (start-server :port 7888))
+='user/server
+=&gt; (require '[nrepl.core :as nrepl])
+nil
+;; now you can connect to the server and send it some messages
+=&gt; (with-open [conn (nrepl/connect :port 7888)]
+     (-&gt; (nrepl/client conn 1000)    ; message receive timeout required
+         (nrepl/message {:op "eval" :code "(+ 2 3)"})
+         nrepl/response-values))
+;; when you're done with a server you can stop it
+=&gt; (stop-server server)</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You don&#8217;t really need an nREPL-powered REPL for this
+workflow. It&#8217;s going to work in exactly the same manner regardless of
+the REPL you&#8217;re using.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="task-management"><a class="anchor" href="#task-management"></a>Task Management</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>All command line tasks are written in <code>babashka</code> as to maximize
+compatibility across platforms. Please see
+<a href="https://github.com/babashka/babashka">babashka</a> for installation
+instructions.</p>
+</div>
+<div class="paragraph">
+<p>To get a list of the available tasks (as defined in <code>bb.edn</code>) run:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ bb tasks</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="running-the-tests"><a class="anchor" href="#running-the-tests"></a>Running the tests</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The primary way to run tests is using Kaocha. The following command runs
+the test suite on latest configured Clojure version:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ bb kaocha</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following command is useful while actively working on the codebase:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ bb kaocha --watch --skip-meta :slow</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>as it will re-run tests on changes, but also skip a handful of slower tests.</p>
+</div>
+<div class="sect2">
+<h3 id="running-test-for-clojure-1-7-and-1-8"><a class="anchor" href="#running-test-for-clojure-1-7-and-1-8"></a>Running test for Clojure 1.7 and 1.8</h3>
+<div class="paragraph">
+<p>Kaocha only supports Clojure 1.9 and up. For earlier versions, we can still use
+Leiningen&#8217;s test runner. To run the tests only for a specific version of Clojure,
+use a command like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein with-profile 1.8 test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To run tests for all Clojure versions from 1.7 to latest configured.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein test-all</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="running-tests-on-ci"><a class="anchor" href="#running-tests-on-ci"></a>Running tests on CI</h3>
+<div class="paragraph">
+<p>For ease of use/consistency with other nREPL projects, tests are ran on CI
+environments using a <a href="https://github.com/babashka/babashka">babashka</a>, with the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ bb test</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>this will check the <code>VERSION</code> environmental variable, and switch between Kaocha
+and Leiningen tests based on which is available.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="running-cljfmt"><a class="anchor" href="#running-cljfmt"></a>Running cljfmt</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our CI build enforces consistent indentation in all source files using <code>cljfmt</code>. You can run it
+locally using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein with-profile cljfmt cljfmt check</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can have cljfmt fix indentation problems like this:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein with-profile cljfmt cljfmt fix</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="running-eastwood"><a class="anchor" href="#running-eastwood"></a>Running Eastwood</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our CI build enforces some lint checks via <code>Eastwood</code>. You can run it
+locally using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein with-profile eastwood eastwood</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="regenerating-the-built-in-ops-documentation"><a class="anchor" href="#regenerating-the-built-in-ops-documentation"></a>Regenerating the Built-in Ops Documentation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If you&#8217;ve made any changes to the built-in middleware descriptors you can regenerate their documentation using:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ lein docs</code></pre>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="beyond_clojure.html">Beyond Clojure</a></span>
+  <span class="next"><a href="building_middleware.html">Building Middleware</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright (C) 2019-2024 <a href="https://batsov.com">Bozhidar Batsov</a> and nREPL contributors.</p>
+  <p>Except where otherwise noted, nrepl.org is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> (CC BY-SA 4.0).</p>
+</footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+<script type="text/javascript">
+  docsearch({
+   container: '#docsearch',
+   appId: 'R3RKLGFWJL',
+   apiKey: 'd3cfde049103d19f20bfc204b68f651e',
+   indexName: 'nrepl',
+   debug: false // Set debug to true if you want to inspect the dropdown
+ });
+</script>
+<script id="site-script" src="../../_/js/site.js" data-ui-root-path="../../_"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

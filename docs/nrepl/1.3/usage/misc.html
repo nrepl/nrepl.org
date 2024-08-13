@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Misc Functionality :: nREPL</title>
+    <link rel="canonical" href="https://nrepl.org/nrepl/usage/misc.html">
+    <link rel="prev" href="tls.html">
+    <link rel="next" href="../design/overview.html">
+    <meta name="generator" content="Antora 3.1.3">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<link rel="stylesheet" href="../../../_/css/site-extra.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha">
+<link rel="icon" href="../../../_/img/favicon.ico" type="image/x-icon">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128069102-1"></script>
+    <script>function gtag(){dataLayer.push(arguments)};window.dataLayer=window.dataLayer||[];gtag('js',new Date());gtag('config','UA-128069102-1')</script>
+  </head>
+  <body class="article">
+<header class="header" role="banner">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a href="https://nrepl.org">nREPL</a>
+        <span class="separator">//</span>
+        <a href="https://nrepl.org">Docs</a>
+      </div>
+      <div class="navbar-item">
+        <div id="docsearch"></div>
+      </div>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <a class="navbar-item" href="https://cljdoc.org/d/nrepl/nrepl/CURRENT">API Docs</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Projects</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/nrepl/nrepl">nREPL</a>
+            <a class="navbar-item" href="https://github.com/nrepl/piggieback">Piggieback</a>
+            <a class="navbar-item" href="https://github.com/nrepl/drawbridge">Drawbridge</a>
+            <a class="navbar-item" href="https://github.com/nrepl/fastlane">Fastlane</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Community</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/nrepl/about/support.html">Support</a>
+            <a class="navbar-item" href="/nrepl/about/contributing.html">Contributing</a>
+            <a class="navbar-item" href="https://opencollective.com/nrepl">Open Collective</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="nrepl" data-version="1.3">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <button class="nav-menu-toggle" aria-label="Toggle expand/collapse all" style="display: none"></button>
+    <h3 class="title"><a href="../index.html">nREPL</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../installation.html">Installation</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Usage</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="server.html">Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="clients.html">Clients</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tls.html">TLS</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="misc.html">Misc</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">Design</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../design/overview.html">Overview</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../design/handlers.html">Handlers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../design/transports.html">Transports</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../design/middleware.html">Middleware</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../ops.html">Built-in Ops</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../extensions.html">Extensions</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../beyond_clojure.html">Beyond Clojure</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../hacking_on_nrepl.html">Hacking on nREPL</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_middleware.html">Building Middleware</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_servers.html">Building Servers</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../building_clients.html">Building Clients</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../troubleshooting.html">Troubleshooting</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../faq.html">FAQ</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../alternatives.html">Alternatives</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../additional_resources.html">Additional Resources</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <span class="nav-text">About</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/history.html">History</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/team.html">Team</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/support.html">Support</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/contributing.html">Contributing</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compatibility.html">Compatibility</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/release_policy.html">Release Policy</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/license.html">License</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">nREPL</span>
+    <span class="version">1.3</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <div class="title"><a href="../../index.html">nREPL</a></div>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../index.html">default</a>
+        </li>
+        <li class="version is-current">
+          <a href="../index.html">1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.2/index.html">1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1/index.html">1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0/index.html">1.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">nREPL</a></li>
+    <li>Usage</li>
+    <li><a href="misc.html">Misc</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="version-menu-toggle" title="Show other versions of page">1.3</button>
+  <div class="version-menu">
+    <a class="version" href="../../usage/misc.html">default</a>
+    <a class="version is-current" href="misc.html">1.3</a>
+    <a class="version" href="../../1.2/usage/misc.html">1.2</a>
+    <a class="version" href="../../1.1/usage/misc.html">1.1</a>
+    <a class="version" href="../../1.0/usage/misc.html">1.0</a>
+  </div>
+</div>
+<div class="edit-this-page"><a href="https://github.com/nrepl/nrepl/blob/v1.3.0/doc/modules/ROOT/pages/usage/misc.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Misc Functionality</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This page covers some of the non-essential functionality provided by nREPL.
+Why "non-essential"? For two reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Only <code>eval</code> is truly essential</p>
+</li>
+<li>
+<p>Some of this functionality is specific to Clojure (e.g. pretty printing)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Most of the functionality that follows is implemented as middleware and caters
+directly to the needs of development tools.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="code-completion"><a class="anchor" href="#code-completion"></a>Code Completion</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Code completion support was added in nREPL 0.8 and the API is still
+considered experimental.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>nREPL bundles a completion middleware with a flexible interface. By default it will use nREPL&#8217;s own
+code completion in <code>nrepl.util.completion</code>, but you can instruct nREPL to use
+another completion function (e.g. one based on <code>compliment</code>).</p>
+</div>
+<div class="paragraph">
+<p>The completion function should accept 3 parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>prefix</code>: The completion prefix.</p>
+</li>
+<li>
+<p><code>ns</code>: The namespace in which to look for completion candidates.</p>
+</li>
+<li>
+<p><code>options</code>: A map of additional options.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The function should ideally return results in the following format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">[{:candidate "map", :ns "clojure.core", :type :function}
+ {:candidate "map-entry?", :ns "clojure.core", :type :function}
+ {:candidate "map-indexed", :ns "clojure.core", :type :function}
+ {:candidate "map?", :ns "clojure.core", :type :function}
+ {:candidate "mapcat", :ns "clojure.core", :type :function}
+ {:candidate "mapv", :ns "clojure.core", :type :function}]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can either specify a custom completion function in the requests (via the <code>complete-fn</code> key) or by
+setting <code>nrepl.middleware.completion/*complete-fn*</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">user=&gt; (set! nrepl.middleware.completion/*complete-fn* my.namespace/my-completion)</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="options"><a class="anchor" href="#options"></a>Options</h3>
+<div class="paragraph">
+<p>The default completion function accepts the <code>extra-metadata</code> option. It allows clients to request additional metadata about completion items. For example, to request docstrings and argument lists for applicable completion items:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">;; -&gt; client sends completion op
+{:op "completions"
+ :prefix "ma"
+ :ns "clojure.core"
+ :options {:extra-metadata ["arglists" "doc"]}}
+
+;; &lt;- server returns completion items
+{:completions
+ [,,,
+  {:candidate "map"
+   :type "function"
+   :arglists "([f] [f coll] [f c1 c2] [f c1 c2 c3] [f c1 c2 c3 &amp; colls])"
+   :doc "Returns a lazy sequence..."}
+  ,,,]}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="symbol-lookup"><a class="anchor" href="#symbol-lookup"></a>Symbol Lookup</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Symbol look support was added in nREPL 0.8 and the API is still
+considered experimental.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In nREPL 0.8.1 and older, <a href="../ops.html#lookup" class="xref page">the <code>lookup</code> op</a> fails for some symbols
+because the result contains data that the <a href="../design/transports.html#bencode-transport" class="xref page">Bencode transport</a> does not support (see <a href="https://github.com/nrepl/nrepl/issues/207">nrepl/nrepl#207</a>). In versions newer than 0.8.1, <code>:arglists</code> and <code>:arglists-str</code> have identical string values. <code>:arglists-str</code> is subject to removal.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>nREPL bundles a lookup middleware with a flexible interface. By default it will use nREPL&#8217;s own
+lookup logic in <code>nrepl.util.lookup</code>, but you can instruct nREPL to use
+another lookup function (e.g. <code>info</code> from <code>orchard</code>).</p>
+</div>
+<div class="paragraph">
+<p>The lookup function should accept 2 parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ns</code>: The namespace in which to look for completion candidates.</p>
+</li>
+<li>
+<p><code>sym</code>: The symbol to lookup.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The function should ideally return results in the following format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">{:added "1.0",
+ :ns "clojure.core",
+ :name "map",
+ :file
+ "jar:file:/Users/bozhidar/.m2/repository/org/clojure/clojure/1.10.1/clojure-1.10.1.jar!/clojure/core.clj",
+ :static true,
+ :column 1,
+ :line 2727,
+ :arglists "([f] [f coll] [f c1 c2] [f c1 c2 c3] [f c1 c2 c3 &amp; colls])",
+ :doc
+ "Returns a lazy sequence consisting of the result of applying f to\n  the set of first items of each coll, followed by applying f to the\n  set of second items in each coll, until any one of the colls is\n  exhausted.  Any remaining items in other colls are ignored. Function\n  f should accept number-of-colls arguments. Returns a transducer when\n  no collection is provided."}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+nREPL&#8217;s default lookup function is pretty basic and it can only handle symbols that resolve to special
+forms and vars.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can either specify a custom lookup function in the requests (via the <code>lookup-fn</code> key) or by
+setting <code>nrepl.middleware.lookup/*lookup-fn*</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">user=&gt; (set! nrepl.middleware.lookup/*lookup-fn* my.namespace/my-lookup)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="pretty-printing"><a class="anchor" href="#pretty-printing"></a>Pretty Printing</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Pretty printing support was added in nREPL 0.6 and the API is still
+considered experimental.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The namespace <code>nrepl.middleware.print</code> contains some dynamic vars you can <code>set!</code>
+at the REPL to alter how evaluation results will be printed. Note that if your
+nREPL client supports passing these options in requests, then it may override
+some or all of these options.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>*print-fn*</code>: the function to use for printing. Defaults to the equivalent of
+<code>clojure.core/pr</code>. The function must take two arguments:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>value</code>: the value to print.</p>
+</li>
+<li>
+<p><code>writer</code>: the <code>java.io.Writer</code> to print on.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>*stream?*</code>: if logical true, the result of printing each value will be
+streamed to the client over one or more messages. Defaults to false.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>This lets you see results being printed incrementally, and optionally
+interrupt the evaluation while it is printing.</p>
+</li>
+<li>
+<p>Your nREPL client may not fully support this mode of operation.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>*buffer-size*</code>: size of the buffer to use when streaming results. Defaults
+to 1024.</p>
+</li>
+<li>
+<p><code>*quota*</code>: a hard limit on the number of bytes printed for each value.
+Defaults to nil (no limit).</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Your nREPL client may not indicate if truncation has occurred.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, to prevent printing infinite lazy sequences from causing the REPL
+to hang:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">user=&gt; (set! nrepl.middleware.print/*quota* 32)
+32
+user=&gt; (range)
+(0 1 2 3 4 5 6 7 8 9 10 11 12 13
+user=&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or to use <code>clojure.pprint</code> to print evaluation results:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">user=&gt; (set! nrepl.middleware.print/*print-fn* clojure.pprint/pprint)
+#object[clojure.pprint$pprint 0x2bc11aa0 "clojure.pprint$pprint@2bc11aa0"]
+
+user=&gt; (meta #'int)
+{:added "1.0",
+ :ns #object[clojure.lang.Namespace 0xea12515 "clojure.core"],
+ :name int,
+ :file "clojure/core.clj",
+ :column 1,
+ :line 882,
+ :arglists ([x]),
+ :doc "Coerce to int",
+ :inline
+ #object[clojure.core$int__inliner__5509 0x3c79d89 "clojure.core$int__inliner__5509@3c79d89"]}
+
+user=&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>However, note well that <code>clojure.pprint/pprint</code> rebinds <code>*out*</code> internally, and
+so if anything else prints to <code>*out*</code> while evaluating, that output will end up
+intermingled in the result. See the
+<a href="../design/middleware.html#pretty-printing" class="xref page">print middleware documentation</a> for a
+more detailed explanation.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+For that reason nREPL provides a simple alternative to Clojure&#8217;s <code>pprint</code>,
+that plays well with the print middleware - <code>nrepl.util.print/pprint</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can also easily leverage more powerful pretty-printers like <code>fipp</code> or <code>zprint</code> with nREPL. Here&#8217;s an example
+<code>zprint</code> wrapper compatible with nREPL&#8217;s print middleware:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">(require 'zprint.core :as z)
+
+(defn zprint-pprint
+  ([value writer]
+   (zprint-pprint value writer {}))
+  ([value writer options]
+   (binding [*out* writer]
+     (z/zprint value options))))</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="evaluation-errors"><a class="anchor" href="#evaluation-errors"></a>Evaluation Errors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The dynamic var <code>nrepl.middleware.caught/*caught-fn*</code> can be <code>set!</code> at the REPL
+to alter how evaluation errors will be handled. Like the <code>:caught</code> option to
+<code>clojure.main/repl</code>, this is a function that takes a <code>java.lang.Throwable</code>
+(default <code>clojure.main/repl-caught</code>) and is called when either read, eval, or
+print throws an exception or error.</p>
+</div>
+<div class="paragraph">
+<p>For example, to automatically print the stacktrace of each error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">user&gt; (set! nrepl.middleware.caught/*caught-fn* clojure.repl/pst)
+#function[clojure.repl/pst]
+user&gt; (first 1)
+IllegalArgumentException Don't know how to create ISeq from: java.lang.Long
+	clojure.lang.RT.seqFrom (RT.java:542)
+	clojure.lang.RT.seq (RT.java:523)
+	clojure.lang.RT.first (RT.java:668)
+	clojure.core/first--4339 (core.clj:55)
+	clojure.core/first--4339 (core.clj:55)
+	user/eval11339 (form-init6612168545889071220.clj:12)
+	user/eval11339 (form-init6612168545889071220.clj:12)
+	clojure.lang.Compiler.eval (Compiler.java:6927)
+	clojure.lang.Compiler.eval (Compiler.java:6890)
+	clojure.core/eval (core.clj:3105)
+	clojure.core/eval (core.clj:3101)
+	clojure.main/repl/read-eval-print--7408/fn--7411 (main.clj:240)
+
+user=&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or to use the <a href="https://github.com/AvisoNovate/pretty">pretty</a> stacktrace
+printing library to print stacktraces:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-clojure hljs" data-lang="clojure">user=&gt; (set! nrepl.middleware.caught/*caught-fn* io.aviso.repl/pretty-pst)
+#function[io.aviso.repl/pretty-pst]
+user=&gt; (first 1)
+ clojure.core/eval   core.clj: 3214
+               ...
+     user/eval5945  REPL Input
+clojure.core/first   core.clj:   55
+               ...
+java.lang.IllegalArgumentException: Don't know how to create ISeq from: java.lang.Long
+
+user=&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="hot-loading-dependencies"><a class="anchor" href="#hot-loading-dependencies"></a>Hot-loading dependencies</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>From time to time you&#8217;d want to experiment with some library without
+adding it as a dependency of your project.  You can easily achieve
+this with <code>tools.deps</code> or <code>pomegranate</code>. Let&#8217;s start with a <code>tools.deps</code> example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.3.0"}
+                      org.clojure/tools.deps.alpha {:git/url "https://github.com/clojure/tools.deps.alpha.git"
+                                                    :sha "d492e97259c013ba401c5238842cd3445839d020"}}}' -M -m nrepl.cmdline --interactive
+network-repl
+Clojure 1.9.0
+user=&gt; (require '[clojure.tools.deps.alpha.repl :refer [add-lib]])
+nil
+user=&gt; (add-lib 'org.clojure/core.memoize {:mvn/version "0.7.1"})
+true
+user=&gt; (require 'clojure.core.memoize)
+nil
+user=&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively with <code>pomegranate</code> you can do the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">$ clj -Sdeps '{:deps {nrepl/nrepl {:mvn/version "1.3.0"} com.cemerick/pomegranate {:mvn/version "1.3.0"}}}' -M -m nrepl.cmdline --interactive
+network-repl
+Clojure 1.9.0
+user=&gt; (require '[cemerick.pomegranate :refer [add-dependencies]])
+nil
+user=&gt; (add-dependencies :coordinates '[[org.clojure/core.memoize "0.7.1"]]
+                         :repositories (merge cemerick.pomegranate.aether/maven-central
+                                             {"clojars" "https://clojars.org/repo"}))
+{[org.clojure/core.memoize "0.7.1"] #{[org.clojure/core.cache "0.7.1"] [org.clojure/clojure "1.6.0"]}, [org.clojure/core.cache "0.7.1"] #{[org.clojure/data.priority-map "0.0.7"]}, [org.clojure/data.priority-map "0.0.7"] nil, [org.clojure/clojure "1.6.0"] nil}
+user=&gt; (require 'clojure.core.memoize)
+nil</code></pre>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="tls.html">TLS</a></span>
+  <span class="next"><a href="../design/overview.html">Overview</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>Copyright (C) 2019-2024 <a href="https://batsov.com">Bozhidar Batsov</a> and nREPL contributors.</p>
+  <p>Except where otherwise noted, nrepl.org is licensed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a> (CC BY-SA 4.0).</p>
+</footer>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+<script type="text/javascript">
+  docsearch({
+   container: '#docsearch',
+   appId: 'R3RKLGFWJL',
+   apiKey: 'd3cfde049103d19f20bfc204b68f651e',
+   indexName: 'nrepl',
+   debug: false // Set debug to true if you want to inspect the dropdown
+ });
+</script>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
