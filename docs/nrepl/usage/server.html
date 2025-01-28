@@ -7,7 +7,7 @@
     <link rel="canonical" href="https://nrepl.org/nrepl/usage/server.html">
     <link rel="prev" href="../installation.html">
     <link rel="next" href="clients.html">
-    <meta name="generator" content="Antora 3.1.3">
+    <meta name="generator" content="Antora 3.1.10">
     <link rel="stylesheet" href="../../_/css/site.css">
 <link rel="stylesheet" href="../../_/css/site-extra.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha">
@@ -275,7 +275,7 @@ This section assumes you&#8217;re using Clojure 1.9+.
 ;; ...
 :aliases {:nREPL
           {:extra-deps
-            {nrepl/nrepl {:mvn/version "1.3.0"}}}}
+            {nrepl/nrepl {:mvn/version "1.3.1"}}}}
 }</code></pre>
 </div>
 </div>
@@ -298,7 +298,7 @@ how you can easily start a ClojureScript capable nREPL:</p>
 ;; ...
 :aliases {:nREPL
           {:extra-deps
-           {nrepl/nrepl {:mvn/version "1.3.0"}
+           {nrepl/nrepl {:mvn/version "1.3.1"}
             cider/piggieback {:mvn/version "0.4.2"}}}}
 }</code></pre>
 </div>
@@ -322,7 +322,7 @@ you can ask it to listen on a UNIX domain (filesystem) socket instead:</p>
 :aliases {:nREPL
           {:extra-deps
            ;; UNIX domain socket support was added in 1.0.0
-           {nrepl/nrepl {:mvn/version "1.3.0"}
+           {nrepl/nrepl {:mvn/version "1.3.1"}
             com.kohlschutter.junixsocket/junixsocket-core {:mvn/version "2.3.2"}}}}
 }</code></pre>
 </div>
@@ -526,7 +526,7 @@ has been started.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-shell hljs" data-lang="shell">nREPL server started on port 56249 on host 127.0.0.1 - nrepl://127.0.0.1:56249
-REPL-y 0.4.3, nREPL 1.3.0
+REPL-y 0.4.3, nREPL 1.3.1
 Clojure 1.10.0
 Java HotSpot(TM) 64-Bit Server VM 10.0.1+10
     Docs: (doc function-name-here)
@@ -540,7 +540,7 @@ user=&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Here you can see that Leiningen has started an nREPL 1.3.0 server and has connected to it using REPL-y 0.4.3.</p>
+<p>Here you can see that Leiningen has started an nREPL 1.3.1 server and has connected to it using REPL-y 0.4.3.</p>
 </div>
 </td>
 </tr>
@@ -701,7 +701,7 @@ public class App {
     &lt;dependency&gt;
         &lt;groupId&gt;nrepl&lt;/groupId&gt;
         &lt;artifactId&gt;nrepl&lt;/artifactId&gt;
-        &lt;version&gt;1.3.0&lt;/version&gt;
+        &lt;version&gt;1.3.1&lt;/version&gt;
     &lt;/dependency&gt;
     &lt;dependency&gt;
         &lt;groupId&gt;org.clojure&lt;/groupId&gt;
