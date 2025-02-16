@@ -4,6 +4,8 @@ site:
   start_page: 1.3@nrepl::index.adoc
   keys:
     google_analytics: 'UA-128069102-1'
+urls:
+  latest_version_segment: latest
 content:
   sources:
   - url: https://github.com/nrepl/nrepl.git
