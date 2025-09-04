@@ -1,7 +1,7 @@
 site:
   title: nREPL
   url: https://nrepl.org/
-  start_page: 1.4@nrepl::index.adoc
+  start_page: nrepl::index.adoc
   keys:
     google_analytics: 'UA-128069102-1'
 urls:
@@ -10,7 +10,7 @@ content:
   sources:
   - url: https://github.com/nrepl/nrepl.git
     branches: ['master']
-    tags: ['1.0.0-antora', '1.1.0', 'v1.2.0-antora', 'v1.3.1-antora', '1.4.0']
+    tags: ['1.0.0-antora', '1.1.0', 'v1.2.0-antora', 'v1.3.1-antora', 'v1.4.0']
     start_path: doc
 asciidoc:
   attributes:
