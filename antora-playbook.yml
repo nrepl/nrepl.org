@@ -10,7 +10,7 @@ content:
   sources:
   - url: https://github.com/nrepl/nrepl.git
     branches: ['master']
-    tags: ['1.0.0-antora', '1.1.0', 'v1.2.0-antora', 'v1.3.1-antora', 'v1.4.0']
+    tags: ['1.0.0-antora', '1.1.0', 'v1.2.0-antora', 'v1.3.1-antora', 'v1.4.0', 'v1.6.0', 'v1.7.0']
     start_path: doc
 asciidoc:
   attributes:
