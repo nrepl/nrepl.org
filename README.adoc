@@ -35,27 +35,42 @@ inside a Docker container like this:
 
 [source]
 ----
-$ docker run --rm -t -v $(pwd):/build/site antora/antora:3.1.10 --fetch /docs/antora-playbook.yml
+$ docker run --rm -t -u $(id -u) -v $(pwd):/antora antora/antora:3.2.0 --fetch antora-playbook.yml
 ----
 
 == Updating the Playbook
 
-When cutting new releases you'll have to updated `antora-playbook.yml` to mention
-their relevant tags from which the documentation needs to be build. Here's how this
-looks for one of the projects:
+When cutting a new release you'll have to update `antora-playbook.yml` to mention
+its tag, so the documentation for that version gets built:
 
 [source]
 ----
 - url: https://github.com/nrepl/nrepl.git
   branches: master
   tags: ['v1.7.0', 'v1.8.0']
-  start_path: docs
+  start_path: doc
 ----
 
-TIP: You need to add one such block for each new nREPL module you're adding to the docs site.
+The site is rebuilt on every push to this repository, once a day, and whenever
+the nrepl repository asks for it, so doc changes on nREPL's `master` show up
+without anyone triggering a build.
+
+== Previewing Local Changes
+
+`antora-playbook-local.yml` builds the site from the nREPL checkout next to
+this repository (`../nrepl`), whatever branch it has checked out, uncommitted
+changes included:
+
+[source]
+----
+$ npm run antora -- antora-playbook-local.yml
+----
+
+Only that one branch is built, so the version menu stays empty.
 
 == Troubleshooting
 
-The most common mistake that people make is to forget to update the version of an Antora docs module
-after cutting a release. This will result in an error saying you've got the same version in two branches (e.g. `master`
-and `v1.0`). Fixing this is pretty simple - just update the version to `master` in `antora.yml`.
+The most common mistake is forgetting to set the docs version in `doc/antora.yml`
+on the release commit (or to reset it to `~` afterwards). The former leaves the
+release out of the version menu for good, since the tag can't be changed; the
+latter makes Antora complain that two branches claim the same version.

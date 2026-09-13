@@ -1,4 +1,4 @@
-.PHONY: npm build deploy
+.PHONY: npm build
 .DEFAULT_GOAL := build
 
 npm: package.json
