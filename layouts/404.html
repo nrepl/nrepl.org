@@ -1,3 +1,13 @@
+{{ define "head" }}
+  <script>
+    // The docs used to live under /nrepl/ on this domain. The redirect pages
+    // cover every page they had; anything else under /nrepl/ still gets sent
+    // to the same path on docs.nrepl.org, before the stylesheet holds it up.
+    if (location.pathname.indexOf("/nrepl/") === 0) {
+      location.replace({{ site.Params.docsHost }} + location.pathname + location.search + location.hash);
+    }
+  </script>
+{{- end }}
 {{ define "title" }}Not found - nREPL{{ end }}
 {{ define "main" }}
 {{ partial "topbar.html" dict }}

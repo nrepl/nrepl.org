@@ -47,6 +47,13 @@ jobs:
             ${{ steps.pages.outputs.base_url && format('--baseURL {0}/', steps.pages.outputs.base_url) || '' }}
         env:
           HUGO_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check the redirects to docs.nrepl.org
+        # Every page the docs had here must still answer, or old links break.
+        run: |
+          expected=$(grep -c '^  - /nrepl/.*\.html$' data/legacy_docs.yaml)
+          actual=$(find public/nrepl -name '*.html' | wc -l)
+          echo "redirect pages: $actual of $expected"
+          test "$actual" -eq "$expected"
       - uses: actions/upload-pages-artifact@v5
         if: github.event_name != 'pull_request'
         with:

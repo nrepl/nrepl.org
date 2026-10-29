@@ -1,0 +1,24 @@
+{{- /* The docs lived under /nrepl/ on this domain until they moved to
+       docs.nrepl.org. Every page they had gets a small page here that sends
+       the reader to the same path over there, anchor included; the meta
+       refresh covers browsers without JavaScript, minus the anchor. Search
+       engines treat an instant meta refresh as a permanent redirect, and the
+       canonical link points them at the new address as well. Anything the
+       list misses is caught by the 404 page. */ -}}
+{{- range hugo.Data.legacy_docs.pages }}
+  {{- $target := printf "%s%s" site.Params.docsHost . }}
+  {{- $html := printf `<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Moved to docs.nrepl.org</title>
+<link rel="canonical" href="%[1]s">
+<script>location.replace("%[1]s" + location.search + location.hash)</script>
+<meta http-equiv="refresh" content="0; url=%[1]s">
+<p>The nREPL docs moved to <a href="%[1]s">%[1]s</a>.</p>
+` $target }}
+  {{- (resources.FromString (strings.TrimPrefix "/" .) $html).Publish }}
+{{- end }}
+{{- $logo := resources.Get "img/logo-w1280.png" }}
+{{- range hugo.Data.legacy_docs.images }}
+  {{- (resources.Copy (strings.TrimPrefix "/" .) $logo).Publish }}
+{{- end }}

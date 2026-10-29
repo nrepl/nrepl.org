@@ -23,6 +23,8 @@ ignoreLogs = ["github-fetch", "news-feed"]
   newsFeed = "https://metaredux.com/feed.xml"
   newsTag = "nREPL"
   newsCount = 8
+  # Where the docs moved from nrepl.org/nrepl/ (see data/legacy_docs.yaml).
+  docsHost = "https://docs.nrepl.org"
 
 [caches.getresource]
   # the release and star count are fetched from GitHub; don't keep them forever

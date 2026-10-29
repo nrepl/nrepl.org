@@ -45,6 +45,15 @@ clojure -M -m capture
 Bump the nREPL version in `capture/deps.edn` to re-record against a newer
 release.
 
+## The old docs URLs
+
+The docs used to live here, under `/nrepl/`. Every page they had gets a small
+page that sends readers to the same path on docs.nrepl.org, anchor included
+(`layouts/_partials/redirects.html`, with the list of paths in
+`data/legacy_docs.yaml`), and the 404 page sends anything else under `/nrepl/`
+there too. The list never needs to grow: pages added to the docs since the
+move never had an address here.
+
 ## Running it locally
 
 ```sh

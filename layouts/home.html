@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{- $_ := partialCached "redirects.html" . }}
 {{- $gh := partialCached "github.html" . }}
 {{- $p := site.Params }}
 {{- $clients := hugo.Data.clients }}
