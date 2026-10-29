@@ -1,0 +1,141 @@
+{{ define "main" }}
+{{- $gh := partialCached "github.html" . }}
+{{- $p := site.Params }}
+{{- $clients := hugo.Data.clients }}
+{{- $community := hugo.Data.community }}
+{{- $start := replace .Params.start "{version}" $gh.version }}
+<a class="skip" href="#main">Skip to the content</a>
+{{ partial "topbar.html" (dict "stars" $gh.stars "home" true) }}
+
+<div class="layout" id="top">
+  <main id="main" class="text">
+    <section class="hero" data-pane>
+      <h1 class="logo">{{ (resources.Get "img/logo.svg").Content | safeHTML }}</h1>
+      <p class="tagline">{{ .Params.tagline }}</p>
+      <p class="intro">{{ .Params.intro }}</p>
+      <p class="command-label">{{ .Params.startLabel }}:</p>
+      <div class="command">
+        <span class="prompt" aria-hidden="true">$</span>
+        <code>{{ $start }}</code>
+        <button type="button" class="copy" data-copy="{{ $start }}">copy</button>
+      </div>
+      <p class="version">Latest release: <a href="{{ $gh.releaseURL }}">{{ $gh.version }}</a>,
+        and <a href="{{ $p.changelog }}">what's new in {{ delimit (first 2 (split $gh.version ".")) "." }}</a>.</p>
+      {{ partial "exchange.html" (dict "key" .Params.heroPane "caption" .Params.heroCaption) }}
+    </section>
+
+    <section class="block" id="features">
+      <h2>What it does</h2>
+      {{- range hugo.Data.showcase }}
+      <section class="feature" id="{{ .title | anchorize }}" data-pane>
+        <h3>{{ .title }}</h3>
+        <p>{{ .blurb | markdownify }}</p>
+        <p class="more"><a href="{{ .docs }}">More in the manual</a></p>
+        {{ partial "exchange.html" (dict "key" .exchange "caption" .caption) }}
+      </section>
+      {{- end }}
+
+      {{- with hugo.Data.features }}
+      <section class="feature">
+        <h3 id="the-rest">And the rest</h3>
+        <ul class="links">
+          {{- range . }}
+          <li><a href="{{ .docs }}">{{ .name }}</a></li>
+          {{- end }}
+        </ul>
+      </section>
+      {{- end }}
+    </section>
+
+    <section class="block" id="clients" data-pane>
+      <h2>Who's on the line</h2>
+      <p>{{ $clients.intro }}</p>
+      {{- range $clients.groups }}
+      <h3>{{ .name }}</h3>
+      <ul class="clients">
+        {{- range .items }}
+        <li><a href="{{ .url }}">{{ .name }}</a> <span>{{ .what }}</span></li>
+        {{- end }}
+      </ul>
+      {{- end }}
+      <p>{{ $clients.outro | markdownify }}</p>
+      {{ partial "exchange.html" (dict "key" $clients.exchange "title" $clients.title "caption" $clients.caption) }}
+    </section>
+
+    <section class="block" id="news">
+      <h2>News</h2>
+      <ul class="news">
+        <li><time>latest</time> <a href="{{ $gh.releaseURL }}">nREPL {{ $gh.version }} is the current release</a></li>
+        {{- range partialCached "news.html" . }}
+        <li><time datetime="{{ .date.Format "2006-01-02" }}">{{ .date.Format "2006-01-02" }}</time> <a href="{{ .url }}">{{ .title }}</a></li>
+        {{- end }}
+      </ul>
+    </section>
+
+    <section class="block" id="get-started" data-pane>
+      <h2>Getting started</h2>
+      <ol class="steps">
+        {{- range .Params.steps }}
+        <li>{{ . | markdownify }}</li>
+        {{- end }}
+      </ol>
+      {{ with .Params.stepsNote }}<p>{{ . | markdownify }}</p>{{ end }}
+      {{ partial "terminal.html" $start }}
+    </section>
+
+    {{- with .Content }}
+    <section class="block" id="history" data-pane>
+      <h2>History</h2>
+      {{ . }}
+      {{ partial "milestones.html" . }}
+    </section>
+    {{- end }}
+
+    {{- with hugo.Data.faq }}
+    <section class="block" id="faq">
+      <h2>Questions</h2>
+      <dl class="faq">
+        {{- range . }}
+        <dt>{{ .q }}</dt>
+        <dd>{{ .a | markdownify }}</dd>
+        {{- end }}
+      </dl>
+    </section>
+    {{- end }}
+
+    <section class="block" id="community">
+      <h2>Help and support</h2>
+      <h3 id="help">Getting help</h3>
+      <ul class="plain">
+        {{- range $community.help }}
+        <li><a href="{{ .url }}">{{ .name }}</a> - {{ .blurb }}</li>
+        {{- end }}
+      </ul>
+
+      <h3 id="funding">Supporting nREPL</h3>
+      <p>{{ $community.supportBlurb }}</p>
+      <ul class="plain">
+        {{- range $community.support }}
+        <li><a href="{{ .url }}">{{ .name }}</a>{{ if .recommended }} <span class="tag">recommended</span>{{ end }} - {{ .blurb }}</li>
+        {{- end }}
+      </ul>
+      {{- with $community.ecosystem }}
+      <p>{{ $community.ecosystemIntro }}
+        {{ range $i, $e := . }}{{ if $i }}, {{ end }}<a href="{{ $e.url }}">{{ $e.name }}</a>{{ end }}.</p>
+      {{- end }}
+    </section>
+
+    {{ with .Params.outro }}<p class="signoff">{{ . }}</p>{{ end }}
+    <footer class="colophon">
+      <p>&copy; {{ replace $p.copyright "{year}" (string now.Year) }}
+        The docs live at <a href="{{ $p.docs }}">docs.nrepl.org</a>.
+        <a href="{{ $p.sourceRepo }}">Source</a>.</p>
+    </footer>
+  </main>
+
+  {{- /* The second window: on wide screens, site.js fills it with a copy of
+         the window of every section marked data-pane, and shows the one for
+         the section being read. */}}
+  <aside class="wire" aria-label="The nREPL messages behind the section you're reading"></aside>
+</div>
+{{ end }}

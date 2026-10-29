@@ -1,0 +1,28 @@
+{{ define "title" }}Not found - nREPL{{ end }}
+{{ define "main" }}
+{{ partial "topbar.html" dict }}
+
+<main class="not-found">
+  <figure class="wire-figure">
+    <div class="wire-bar"><span class="wire-title">nrepl.org</span></div>
+    <ol class="msgs">
+      <li class="msg client"><span class="who">client &rarr;</span><pre class="edn"><code><span class="p">{</span><span class="k">:op</span> <span class="s">"fetch"</span> <span class="k">:path</span> <span class="s" data-path>"/"</span><span class="p">}</span></code></pre></li>
+      <li class="msg server"><span class="who">&larr; server</span><pre class="edn"><code><span class="p">{</span><span class="k">:status</span> <span class="p">[</span><span class="s">"not-found"</span> <span class="s">"done"</span><span class="p">]}</span></code></pre></li>
+    </ol>
+  </figure>
+  <h1>There's nothing here</h1>
+  <p>The page you asked for doesn't exist. If you were after nREPL's
+    documentation, it lives at <a href="{{ site.Params.docs }}">docs.nrepl.org</a>
+    now.</p>
+  <ul class="plain">
+    <li><a href="{{ "/" | relURL }}">Go to the front page</a></li>
+    <li><a href="{{ site.Params.docs }}">Read the manual</a></li>
+    <li><a href="{{ site.Params.sourceRepo }}/issues">Report a broken link</a></li>
+  </ul>
+</main>
+
+<script>
+  // Show the path that was asked for, as a string in the request.
+  document.querySelector("[data-path]").textContent = JSON.stringify(location.pathname);
+</script>
+{{ end }}

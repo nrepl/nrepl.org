@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Locale }}">
+<head>
+  <meta charset="utf-8">
+  {{- block "head" . }}{{ end }}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ block "title" . }}{{ site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ site.Params.description }}">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    document.documentElement.classList.add("js");
+    // Apply the theme and the message view picked earlier before the first
+    // paint.
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme) document.documentElement.dataset.theme = theme;
+      var view = localStorage.getItem("view");
+      if (view) document.documentElement.dataset.view = view;
+    } catch (e) {}
+  </script>
+  <link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="32x32">
+  <link rel="icon" href="{{ "icon.svg" | relURL }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ "favicon-152.png" | relURL }}">
+  <link rel="preload" href="{{ "fonts/iosevka-400.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ site.Title }}">
+  <meta property="og:description" content="{{ site.Params.description }}">
+  <meta property="og:url" content="{{ site.BaseURL }}">
+  {{- with site.Params.socialImage }}
+  <meta property="og:image" content="{{ . | absURL }}">
+  <meta name="twitter:card" content="summary_large_image">
+  {{- end }}
+  {{- $css := resources.Get "css/main.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+</head>
+<body>
+  {{ block "main" . }}{{ end }}
+  {{- $js := resources.Get "js/site.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+</body>
+</html>

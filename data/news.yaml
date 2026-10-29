@@ -1,0 +1,39 @@
+# The news archive. Posts tagged nREPL in the Meta Redux feed are picked up
+# automatically when the site is built; add one here to keep it in the list
+# for good, or for news from anywhere else.
+- date: 2026-10-10
+  title: "neorepl: A Terminal REPL for Clojure (and Friends)"
+  url: https://metaredux.com/posts/2026/10/10/neorepl-a-terminal-repl-for-clojure-and-friends.html
+- date: 2026-07-14
+  title: Lowering the Drawbridge
+  url: https://metaredux.com/posts/2026/07/14/lowering-the-drawbridge.html
+- date: 2026-07-01
+  title: "nREPL and ClojureScript: Demystifying Piggieback"
+  url: https://metaredux.com/posts/2026/07/01/demystifying-piggieback.html
+- date: 2025-09-03
+  title: nREPL 1.4
+  url: https://metaredux.com/posts/2025/09/03/nrepl-1-4.html
+- date: 2024-02-20
+  title: "nREPL 1.1.1: Improved Completion with compliment-lite"
+  url: https://metaredux.com/posts/2024/02/20/nrepl-1-1-1-improved-completion-with-compliment-lite.html
+- date: 2023-03-26
+  title: "Bad nREPL: 10 Things You Hate About nREPL"
+  url: https://metaredux.com/posts/2023/03/26/bad-nrepl.html
+- date: 2022-08-25
+  title: nREPL 1.0
+  url: https://metaredux.com/posts/2022/08/25/nrepl-1-0.html
+- date: 2022-07-25
+  title: Leiningen Adds Support for nREPL's Unix Sockets
+  url: https://metaredux.com/posts/2022/07/25/leiningen-adds-support-for-nrepl-s-unix-sockets.html
+- date: 2021-12-12
+  title: nREPL 0.9
+  url: https://metaredux.com/posts/2021/12/12/nrepl-0-9.html
+- date: 2020-06-15
+  title: "nREPL 0.8: Evolving the Protocol"
+  url: https://metaredux.com/posts/2020/06/15/nrepl-0-8-evolving-the-protocol.html
+- date: 2020-04-10
+  title: A Cornucopia of nREPL Updates
+  url: https://metaredux.com/posts/2020/04/10/a-cornucopia-of-nrepl-updates.html
+- date: 2019-12-20
+  title: Understanding nREPL Sessions
+  url: https://metaredux.com/posts/2019/12/20/understanding-nrepl-sessions.html

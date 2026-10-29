@@ -1,0 +1,94 @@
+# The feature sections. Each one shows an exchange recorded by capture/ (a key
+# under "exchanges" in data/exchanges.json) next to it, with the caption.
+- title: Evaluate code, get everything back
+  exchange: output
+  blurb: >-
+    Send an `eval` and nREPL evaluates each form in turn. Values,
+    whatever gets printed to `*out*` and `*err*`, and
+    errors all come back as separate messages, as they happen, and a
+    `done` tells the client there's nothing more to wait for. No
+    guessing where the output ends and the result begins.
+  caption: >-
+    Two forms in one request. The output arrives first, then a value for each
+    form, then done.
+  docs: https://docs.nrepl.org/nrepl/design/overview.html#messages
+
+- title: Sessions remember things
+  exchange: sessions
+  blurb: >-
+    A session holds what a REPL keeps between evaluations: the current
+    namespace, `*1` and `*e`, `*print-length*`
+    and friends. `clone` gives you a new one, and what you
+    `set!` in it sticks around for the next request. Editors tend to
+    keep one session for your code and another for their own tooling, so the
+    two never step on each other.
+  caption: >-
+    A fresh session from clone. Setting *print-length* in it changes how the
+    next value gets printed.
+  docs: https://docs.nrepl.org/nrepl/design/middleware.html#sessions
+
+- title: Stop runaway evaluations
+  exchange: interrupt
+  blurb: >-
+    Started an infinite loop by accident? Send `interrupt` with the
+    evaluation's id and nREPL stops it, while the session and everything in it
+    stays put. On Java 21 and newer, a small native agent that ships with nREPL
+    brings back the thread stopping the JDK took away.
+  caption: >-
+    A minute-long sleep, cut short half a second in. The eval and the
+    interrupt each get their done.
+  docs: https://docs.nrepl.org/nrepl/installation.html#jvmti
+
+- title: Code can read from stdin
+  exchange: stdin
+  blurb: >-
+    When evaluated code reads from `*in*` and there's nothing to
+    read, nREPL asks the client for more with a `need-input`
+    status, and the client sends it over with a `stdin` message.
+    Your `read-line` works the same as it does in a terminal.
+  caption: >-
+    read-line waits, the server asks for input, the client provides it, and
+    the evaluation finishes.
+  docs: https://docs.nrepl.org/nrepl/ops.html#stdin
+
+- title: Answers for your editor
+  exchange: tooling
+  blurb: >-
+    Code completion and documentation lookup are built in, so every client
+    gets them out of the box, straight from the running program. Editors that
+    want to do more add ops of their own: that's how CIDER does debugging,
+    inspection and test runs.
+  caption: >-
+    Completions for a prefix, then everything the runtime knows about one of
+    the candidates.
+  docs: https://docs.nrepl.org/nrepl/usage/misc.html#code-completion
+
+- title: Middleware all the way down
+  exchange: describe
+  blurb: >-
+    Every op is implemented by a middleware, and a server is a stack of them.
+    Tools bring their own: cider-nrepl adds dozens of ops,
+    [Piggieback](https://github.com/nrepl/piggieback) turns the
+    REPL into a ClojureScript one, and yours are a few lines of Clojure away.
+    `describe` tells a client what a server can do.
+  caption: >-
+    A stock nREPL server describing itself: its ops, its middleware stack and
+    the versions it runs on.
+  docs: https://docs.nrepl.org/nrepl/design/middleware.html
+
+- title: A protocol anyone can speak
+  exchange: eval
+  blurb: >-
+    Messages are maps of strings, numbers and lists, sent as
+    [bencode](https://en.wikipedia.org/wiki/Bencode) by default,
+    and a bencode encoder fits on a page in pretty much any language. Flip
+    the view to **bencode** to see the exact bytes. There's also an EDN
+    transport for Clojure clients, and a TTY one for when all you have is
+    telnet. The protocol has a
+    [specification](https://spec.nrepl.org/) of its own, and a
+    [compatibility suite](https://github.com/nrepl/proof) to check
+    a server against it.
+  caption: >-
+    The (+ 1 2) exchange again. In bencode, d starts a map, e ends it, and
+    every string carries its length.
+  docs: https://docs.nrepl.org/nrepl/design/transports.html

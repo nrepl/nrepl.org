@@ -1,0 +1,111 @@
+# Who speaks nREPL. Keep it in sync with the manual's lists in
+# usage/clients.adoc and beyond_clojure.adoc.
+intro: >-
+  nREPL's own server is written in Clojure, but the protocol doesn't care
+  which language either side is written in. Here's who's on the line:
+
+groups:
+  - name: Editors
+    items:
+      - name: CIDER
+        url: https://cider.mx
+        what: Emacs
+      - name: Calva
+        url: https://calva.io
+        what: VS Code
+      - name: Cursive
+        url: https://cursive-ide.com
+        what: IntelliJ
+      - name: Conjure
+        url: https://github.com/Olical/conjure
+        what: Neovim
+      - name: fireplace.vim
+        url: https://github.com/tpope/vim-fireplace
+        what: Vim
+      - name: vim-iced
+        url: https://github.com/liquidz/vim-iced
+        what: Vim and Neovim
+      - name: Clojure Sublimed
+        url: https://github.com/tonsky/Clojure-Sublimed
+        what: Sublime Text
+      - name: nREPL.hx
+        url: https://github.com/waddie/nrepl.hx
+        what: Helix
+      - name: neat
+        url: https://github.com/nrepl/neat
+        what: Emacs, any language
+      - name: monroe
+        url: https://github.com/sanel/monroe
+        what: Emacs, any language
+
+  - name: Terminals
+    items:
+      - name: neorepl
+        url: https://github.com/nrepl/neorepl
+        what: Clojure and friends
+      - name: REPL-y
+        url: https://github.com/trptcolin/reply
+        what: behind lein repl
+      - name: rebel-readline
+        url: https://github.com/bhauman/rebel-readline/tree/master/rebel-readline-nrepl
+        what: Clojure
+      - name: rep
+        url: https://github.com/eraserhd/rep
+        what: one-shot, for scripts
+      - name: brepl
+        url: https://github.com/licht1stein/brepl
+        what: Babashka
+      - name: shevek
+        url: https://git.sr.ht/~technomancy/shevek/
+        what: written in Fennel
+      - name: mezcaml
+        url: https://github.com/nrepl/mezcaml
+        what: written in OCaml
+
+  - name: Servers beyond the JVM
+    items:
+      - name: Babashka
+        url: https://book.babashka.org/#_nrepl
+        what: native Clojure scripting
+      - name: nrepl-cljs
+        url: https://github.com/djblue/nrepl-cljs
+        what: ClojureScript
+      - name: clr.tools.nrepl
+        url: https://github.com/clojure/clr.tools.nrepl
+        what: ClojureCLR
+      - name: nrepl-beam
+        url: https://github.com/nrepl/nrepl-beam
+        what: Erlang and Elixir
+      - name: JeeJah
+        url: https://gitlab.com/technomancy/jeejah
+        what: Fennel and Lua
+      - name: Ogion
+        url: https://gitlab.com/technomancy/ogion
+        what: Racket
+      - name: cl-nrepl
+        url: https://github.com/sjl/cl-nrepl
+        what: Common Lisp
+      - name: guile-ares-rs
+        url: https://git.sr.ht/~abcdw/guile-ares-rs
+        what: Guile
+      - name: nrepl-python
+        url: https://git.sr.ht/~ngraves/nrepl-python
+        what: Python
+      - name: nrepl-janet
+        url: https://github.com/waddie/nrepl-janet
+        what: Janet
+      - name: nrepl-steel
+        url: https://github.com/waddie/nrepl-steel
+        what: Steel Scheme
+
+outro: >-
+  Missing one? The manual keeps
+  [the full list](https://docs.nrepl.org/nrepl/usage/clients.html).
+
+# The exchange next to the section: the same kind of request, sent to a
+# server that isn't nREPL's JVM one.
+exchange: babashka
+title: bb nrepl-server
+caption: >-
+  Babashka's server answers just like the JVM one does. It's a native binary,
+  running nREPL's own code.

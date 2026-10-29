@@ -1,0 +1,46 @@
+- q: Isn't nREPL just for Clojure?
+  a: >-
+    The reference server is, but the protocol isn't. There are servers for
+    Fennel, Racket, Common Lisp, Python, Erlang, Elixir and more, and clients
+    like neat and monroe work with any of them. See
+    [who's on the line](#clients).
+
+- q: How is it different from Clojure's socket REPL and prepl?
+  a: >-
+    The socket REPL is a plain REPL over a socket: text goes in, text comes
+    out, and telling the output apart from the results is up to you. prepl
+    answers with maps, which fixes that, but all it does is evaluate code, so
+    everything else a tool needs has to be built out of evaluations, and
+    clients have to speak EDN. nREPL has ops for that, and you can add your
+    own. The manual has
+    [a longer comparison](https://docs.nrepl.org/nrepl/alternatives.html).
+
+- q: Does it work with ClojureScript?
+  a: >-
+    Yes, with a bit of middleware that turns an nREPL session into a
+    ClojureScript REPL: [Piggieback](https://github.com/nrepl/piggieback),
+    or the one that ships with
+    [shadow-cljs](https://github.com/thheller/shadow-cljs).
+
+- q: Bencode or EDN?
+  a: >-
+    Bencode is the default, and the only transport every server and
+    middleware supports. The EDN transport keeps keywords, sets and other
+    Clojure types intact, which is handy if you only ever talk to Clojure
+    servers.
+
+- q: Is it safe to expose an nREPL server?
+  a: >-
+    Anyone who can connect can run any code they like, so treat the port like
+    a shell. The server only listens on localhost by default. If you need it
+    reachable from elsewhere, use
+    [TLS](https://docs.nrepl.org/nrepl/usage/tls.html) or an SSH
+    tunnel.
+
+- q: Why doesn't interrupt stop my evaluation?
+  a: >-
+    Java 21 and newer won't stop a thread from the outside anymore, so code
+    that doesn't check for interrupts keeps running. nREPL ships a native
+    agent that gets around this; it needs the JVM started with
+    `-Djdk.attach.allowAttachSelf`. See
+    [the setup instructions](https://docs.nrepl.org/nrepl/installation.html#jvmti).

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!-- The link preview picture, static/img/social.png. To redraw it, from this
+     directory:
+       "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
+         --hide-scrollbars --window-size=1200,630 --screenshot=../static/img/social.png card.html -->
+<html lang="en">
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Iosevka"; src: url("../static/fonts/iosevka-400.woff2"); }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    display: grid;
+    grid-template-columns: 560px 1fr;
+    gap: 56px;
+    align-items: center;
+    padding: 0 72px;
+    box-sizing: border-box;
+    background:
+      radial-gradient(700px 360px at 10% -60px, rgba(7, 164, 253, 0.16), transparent 70%),
+      radial-gradient(700px 360px at 90% -60px, rgba(150, 253, 154, 0.2), transparent 70%),
+      #f6f8fa;
+    color: #17202b;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  body::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 8px;
+    background: linear-gradient(90deg, #07a4fd, #3fd0c9 55%, #96fd9a);
+  }
+  img { width: 440px; display: block; margin-bottom: 36px; }
+  p { margin: 0; font-size: 46px; font-weight: 800; line-height: 1.15; letter-spacing: -0.025em; }
+  .wire {
+    background: #0b1016;
+    border-radius: 16px;
+    padding: 26px 26px;
+    font: 19px/1.6 "Iosevka", ui-monospace, Menlo, monospace;
+    color: #d8dfe7;
+    box-shadow: 0 30px 70px -30px rgba(3, 22, 44, 0.6);
+  }
+  .msg { border-left: 3px solid #3cb2ff; padding-left: 14px; margin-bottom: 16px; }
+  .msg.server { border-color: #6be6a6; margin-left: 22px; }
+  .msg:last-child { margin-bottom: 0; }
+  .k { color: #84c9ff; } .s { color: #e9c47f; } .p { color: #8995a2; }
+</style>
+<div>
+  <img src="../assets/img/logo.svg" alt="nREPL">
+  <p>The network REPL Clojure's tooling is built on</p>
+</div>
+<div class="wire">
+  <div class="msg"><span class="p">{</span><span class="k">:op</span> <span class="s">"eval"</span><br>&nbsp;<span class="k">:code</span> <span class="s">"(+ 1 2)"</span><span class="p">}</span></div>
+  <div class="msg server"><span class="p">{</span><span class="k">:value</span> <span class="s">"3"</span><br>&nbsp;<span class="k">:ns</span> <span class="s">"user"</span><span class="p">}</span></div>
+  <div class="msg server"><span class="p">{</span><span class="k">:status</span> <span class="p">[</span><span class="s">"done"</span><span class="p">]}</span></div>
+</div>
+</html>

@@ -1,0 +1,33 @@
+# The "and the rest" links, each to its spot in the manual.
+- name: TLS, with mutual authentication
+  docs: https://docs.nrepl.org/nrepl/usage/tls.html
+- name: Unix domain sockets
+  docs: https://docs.nrepl.org/nrepl/faq.html#can-i-use-nrepl-with-unix-domain-sockets
+- name: Configuration files
+  docs: https://docs.nrepl.org/nrepl/usage/server.html#server-configuration
+- name: Embedding nREPL in your app
+  docs: https://docs.nrepl.org/nrepl/usage/server.html#embedding-nrepl
+- name: Server discovery with .nrepl-port
+  docs: https://docs.nrepl.org/nrepl/usage/server.html#nrepl-port
+- name: Pretty printing
+  docs: https://docs.nrepl.org/nrepl/usage/misc.html#pretty-printing
+- name: Hot-loading dependencies
+  docs: https://docs.nrepl.org/nrepl/usage/misc.html#hot-loading-dependencies
+- name: System output forwarding
+  docs: https://docs.nrepl.org/nrepl/usage/misc.html#system-output-forwarding
+- name: The EDN transport
+  docs: https://docs.nrepl.org/nrepl/design/transports.html#edn-transport
+- name: The TTY transport
+  docs: https://docs.nrepl.org/nrepl/design/transports.html#tty-transport
+- name: ClojureScript via Piggieback
+  docs: https://docs.nrepl.org/nrepl/extensions.html#clojurescript-support
+- name: HTTP via Drawbridge
+  docs: https://docs.nrepl.org/nrepl/extensions.html#http-support
+- name: The built-in command-line client
+  docs: https://docs.nrepl.org/nrepl/usage/clients.html#using-the-built-in-client
+- name: Writing middleware
+  docs: https://docs.nrepl.org/nrepl/building_middleware.html
+- name: Writing a client
+  docs: https://docs.nrepl.org/nrepl/building_clients.html
+- name: Writing a server
+  docs: https://docs.nrepl.org/nrepl/building_servers.html

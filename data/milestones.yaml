@@ -1,0 +1,25 @@
+# The history log shown next to the history section, oldest first.
+- date: "2010"
+  what: Chas Emerick starts nREPL as a personal project
+- date: "2011-10-11"
+  what: 0.0.1, as Clojure Contrib's tools.nrepl
+- date: "2012"
+  what: REPL-y and nrepl.el (later CIDER) are built on it
+- date: "2013-01-13"
+  what: 0.2, a massive redesign
+- date: "2018-05-18"
+  what: 0.3 leaves Contrib as nrepl/nrepl
+- date: "2018-11-28"
+  what: 0.5 adds configuration files
+- date: "2020-03-28"
+  what: 0.7 adds the EDN transport and sideloading
+- date: "2020-08-01"
+  what: 0.8 adds built-in completion and lookup
+- date: "2021-12-12"
+  what: 0.9 adds Unix domain sockets
+- date: "2022-08-24"
+  what: "1.0"
+- date: "2023-11-01"
+  what: 1.1 adds TLS
+- date: "2026-10-02"
+  what: 1.8, the current release series

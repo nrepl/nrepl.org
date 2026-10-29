@@ -1,2 +1,4 @@
-node_modules
-build
+public/
+resources/_gen/
+.hugo_build.lock
+capture/.cpcache/

@@ -1,0 +1,14 @@
+{{- /* Starting a server from the shell, as recorded by capture/, with the
+       same command as the one at the top of the page:
+       (partial "terminal.html" $start) */ -}}
+{{- $startup := hugo.Data.exchanges.startup }}
+<figure class="wire-figure">
+  <div class="wire-bar">
+    <span class="wire-title">~/my-project</span>
+  </div>
+  <pre class="term-body"><code><span class="prompt">$</span> {{ . }}
+{{ $startup.output }}
+<span class="prompt">$</span> cat .nrepl-port
+{{ $startup.port }}</code></pre>
+  <figcaption>The server prints where it's listening, and leaves the port in .nrepl-port for editors to pick up.</figcaption>
+</figure>

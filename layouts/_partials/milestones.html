@@ -1,0 +1,11 @@
+{{- /* The history log. */ -}}
+<figure class="wire-figure">
+  <div class="wire-bar">
+    <span class="wire-title">milestones</span>
+  </div>
+  <ol class="log">
+    {{- range hugo.Data.milestones }}
+    <li><time>{{ .date }}</time> <span>{{ .what }}</span></li>
+    {{- end }}
+  </ol>
+</figure>

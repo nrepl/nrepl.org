@@ -1,0 +1,49 @@
+help:
+  - name: "#nrepl on Clojurians Slack"
+    url: http://clojurians.net/
+    blurb: The best place to get hold of the maintainers.
+  - name: GitHub Discussions
+    url: https://github.com/nrepl/nrepl/discussions
+    blurb: Questions, ideas and protocol proposals.
+  - name: Issue tracker
+    url: https://github.com/nrepl/nrepl/issues
+    blurb: Bugs and feature requests.
+  - name: Stack Overflow
+    url: https://stackoverflow.com/questions/tagged/nrepl
+    blurb: Questions tagged nrepl.
+
+supportBlurb: >-
+  nREPL is free, and pretty much every Clojure developer uses it every day,
+  often without knowing it. Keeping it in good shape takes a lot of time. If
+  it's useful to you or your company, please consider supporting its
+  development:
+ecosystemIntro: "Your support also helps nREPL's sibling projects:"
+
+# The funding platforms; the recommended ones come first.
+support:
+  - name: Open Collective
+    url: https://opencollective.com/nrepl
+    recommended: true
+    blurb: fully transparent, and the easiest option for companies
+  - name: GitHub Sponsors
+    url: https://github.com/sponsors/bbatsov
+    recommended: true
+    blurb: monthly or one-time, right from your GitHub account
+  - name: Clojurists Together
+    url: https://www.clojuriststogether.org/
+    blurb: funds the maintenance of nREPL and other Clojure projects
+  - name: Patreon
+    url: https://www.patreon.com/bbatsov
+    blurb: monthly memberships
+
+ecosystem:
+  - name: Piggieback
+    url: https://github.com/nrepl/piggieback
+  - name: Drawbridge
+    url: https://github.com/nrepl/drawbridge
+  - name: neorepl
+    url: https://github.com/nrepl/neorepl
+  - name: bencode
+    url: https://github.com/nrepl/bencode
+  - name: the protocol spec
+    url: https://spec.nrepl.org/

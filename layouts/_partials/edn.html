@@ -1,0 +1,4 @@
+{{- /* A message's EDN view: lines of tokens. */ -}}
+{{- range $n, $line := . -}}
+{{- if $n }}{{ "\n" }}{{ end }}{{ partial "tokens.html" $line -}}
+{{- end -}}

@@ -1,0 +1,29 @@
+baseURL = "https://nrepl.org/"
+locale = "en-US"
+title = "nREPL - the network REPL Clojure's tooling is built on"
+disableKinds = ["taxonomy", "term", "section", "RSS", "sitemap"]
+
+# A GitHub API or feed hiccup shouldn't fail the deploy (CI builds with
+# --panicOnWarning); the fallback version and data/news.yaml cover it.
+ignoreLogs = ["github-fetch", "news-feed"]
+
+[params]
+  description = "nREPL is a network REPL: a server that evaluates code in your running program, and a simple protocol that CIDER, Calva, Cursive, Conjure and most other Clojure tools talk to it with."
+  docs = "https://docs.nrepl.org/nrepl/"
+  changelog = "https://docs.nrepl.org/nrepl/about/changelog.html"
+  spec = "https://spec.nrepl.org/"
+  github = "https://github.com/nrepl/nrepl"
+  repo = "nrepl/nrepl"
+  sourceRepo = "https://github.com/nrepl/nrepl.org"
+  copyright = "2010-{year} Chas Emerick, Bozhidar Batsov and nREPL contributors."
+  socialImage = "img/social.png"
+  # Used only when GitHub can't be reached at build time.
+  fallbackVersion = "1.8.0"
+  # News: posts with this tag in the feed, merged with data/news.yaml.
+  newsFeed = "https://metaredux.com/feed.xml"
+  newsTag = "nREPL"
+  newsCount = 8
+
+[caches.getresource]
+  # the release and star count are fetched from GitHub; don't keep them forever
+  maxAge = "1h"

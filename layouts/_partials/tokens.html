@@ -1,0 +1,7 @@
+{{- /* [class text] tokens from capture/, as spans: k(eyword), s(tring),
+       n(umber or length prefix), p(unctuation), t(ext of a bencode string),
+       or "" for plain text, plus r on the keys that route a message. */ -}}
+{{- range . -}}
+{{- $class := index . 0 }}{{ $text := index . 1 -}}
+{{- if $class }}<span class="{{ $class }}">{{ $text }}</span>{{ else }}{{ $text }}{{ end -}}
+{{- end -}}

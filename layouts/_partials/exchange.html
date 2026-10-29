@@ -1,0 +1,27 @@
+{{- /* An exchange recorded by capture/: the messages that went back and
+       forth, readable as EDN or as the bencode that went over the wire.
+
+         {{ partial "exchange.html" (dict "key" "eval" "caption" "..."
+              "title" "nrepl://localhost") }} */ -}}
+{{- $msgs := index hugo.Data.exchanges.exchanges .key }}
+{{- if not $msgs }}{{ errorf "exchange: no %q in data/exchanges.json, re-run capture/" .key }}{{ end }}
+<figure class="wire-figure">
+  <div class="wire-bar">
+    <span class="wire-title">{{ .title | default "nrepl://localhost" }}</span>
+    <span class="view-switch" role="group" aria-label="Show the messages as">
+      <button type="button" data-set-view="edn" aria-pressed="true">EDN</button><button type="button" data-set-view="bencode" aria-pressed="false">bencode</button>
+    </span>
+  </div>
+  <ol class="msgs">
+    {{- range $i, $m := $msgs }}
+    <li class="msg {{ $m.from }}" style="--i: {{ $i }}">
+      <span class="who">{{ if eq $m.from "client" }}client &rarr;{{ else }}&larr; server{{ end }}</span>
+      <pre class="edn"><code>{{ partial "edn.html" $m.edn }}</code></pre>
+      <pre class="bencode"><code>{{ partial "tokens.html" $m.bencode }}</code></pre>
+    </li>
+    {{- end }}
+  </ol>
+  {{- with .caption }}
+  <figcaption>{{ . }}</figcaption>
+  {{- end }}
+</figure>
