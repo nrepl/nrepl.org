@@ -1,0 +1,5 @@
+;; The nREPL version the exchanges on the page were recorded with. Bump it to
+;; re-record them against a newer release.
+{:paths ["."]
+ :deps {org.clojure/clojure {:mvn/version "1.12.5"}
+        nrepl/nrepl {:mvn/version "1.8.0"}}}
