@@ -47,14 +47,16 @@ in 2013.
 
 Contrib turned out to be a tough place for a project that needed to move
 quickly, though, and work on nREPL slowed to a crawl. In 2018 Chas handed it
-over to the team behind CIDER, and it left Contrib as `nrepl/nrepl`. I've been
-maintaining it ever since. The next few years went into the problems that had
-piled up and the gaps people kept running into: configuration files, the EDN
-transport, sideloading, built-in completion and lookup, Unix domain sockets,
-TLS. nREPL 1.0 came out in 2022.
+over to the team behind CIDER, and it left Contrib as `nrepl/nrepl`, with
+Bozhidar Batsov as its maintainer. The next few years went into the problems
+that had piled up and the gaps people kept running into: configuration files,
+the EDN transport, sideloading, built-in completion and lookup, Unix domain
+sockets. nREPL 1.0 came out in 2022, and TLS followed a year later.
 
-These days nREPL is boring in the best possible way. The protocol has been
-stable since 0.2, and the tools people built on it a decade ago still work.
-It's looked after by its core team, Michael Griffiths, Oleksandr Yakushev and
-myself, with help from
+Since then most of the work has gone into the details: an `interrupt` that
+still works on JDKs that removed `Thread.stop`, shorter stacktraces, output
+written straight to `System.out` reaching the editor. nREPL is boring in the
+best possible way. The protocol has been stable since 0.2, and the tools people
+built on it a decade ago still work. It's looked after by its core team,
+Bozhidar Batsov, Michael Griffiths and Oleksandr Yakushev, with help from
 [plenty of contributors](https://github.com/nrepl/nrepl/graphs/contributors).

@@ -18,8 +18,20 @@
 - date: "2021-12-12"
   what: 0.9 adds Unix domain sockets
 - date: "2022-08-24"
-  what: "1.0"
+  what: 1.0, eleven years after 0.0.1
 - date: "2023-11-01"
   what: 1.1 adds TLS
+- date: "2024-06-10"
+  what: 1.2 keeps interrupt working on JDKs without Thread.stop
+- date: "2024-08-13"
+  what: 1.3 gets its own REPL loop and drops sideloading
+- date: "2025-09-02"
+  what: 1.4 lets clients say who they are
+- date: "2025-10-15"
+  what: 1.5 can forward System.out and System.err to the client
+- date: "2026-02-26"
+  what: 1.6 adds optional middleware
+- date: "2026-09-14"
+  what: Babashka runs nREPL itself, from source
 - date: "2026-10-02"
-  what: 1.8, the current release series
+  what: 1.8 connects the built-in client by URL
