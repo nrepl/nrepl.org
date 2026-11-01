@@ -1,0 +1,6 @@
+{{- /* Buttons that evaluate the examples in data/playground.yaml */ -}}
+<p class="examples">
+  {{- range hugo.Data.playground.examples }}
+  <button type="button" data-example="{{ .code }}"{{ if .input }} data-input{{ end }}>{{ .code }}</button>
+  {{- end }}
+</p>

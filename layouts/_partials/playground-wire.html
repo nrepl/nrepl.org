@@ -1,0 +1,10 @@
+{{- /* The playground's wire window, where assets/js/playground.js shows the
+       messages: (partial "playground-wire.html" "A caption"), or without
+       one. */ -}}
+<figure class="wire-figure" data-playground-wire{{ if not . }} aria-label="The messages"{{ end }}>
+  {{ partial "wire-bar.html" "nrepl-sci" }}
+  <ol class="msgs" data-empty="The messages show up here once you start using the REPL."></ol>
+  {{- with . }}
+  <figcaption>{{ . }}</figcaption>
+  {{- end }}
+</figure>

@@ -24,7 +24,7 @@ ignoreLogs = ["github-fetch", "news-feed"]
   newsTag = "nREPL"
   newsCount = 8
   # The nrepl-sci release the "Try it" section runs (see
-  # layouts/_partials/playground.html).
+  # layouts/_partials/playground-worker.html).
   playgroundVersion = "0.1.0"
   # Where the docs moved from nrepl.org/nrepl/ (see data/legacy_docs.yaml).
   docsHost = "https://docs.nrepl.org"

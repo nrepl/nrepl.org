@@ -1,0 +1,23 @@
+{{- /* The playground's REPL. assets/js/playground.js runs it, talking to
+       the worker in the data-worker of the element marked data-playground
+       around it, and shows the messages in the wire windows marked
+       data-playground-wire, from the templates. */ -}}
+<div class="repl">
+  <div class="wire-bar">
+    <span class="wire-title">nrepl-sci, in this page</span>
+    <button type="button" class="interrupt" hidden>interrupt</button>
+  </div>
+  <div class="repl-log" aria-live="polite"></div>
+  <div class="repl-input">
+    <label class="prompt" for="repl-code">user=&gt;</label>
+    {{- /* Password managers don't go by autocomplete="off", only by their
+           own attributes. */}}
+    <textarea id="repl-code" rows="1" spellcheck="false" autocomplete="off" autocapitalize="off"
+              data-1p-ignore data-lpignore="true" data-bwignore
+              placeholder="(+ 1 2)"></textarea>
+  </div>
+</div>
+<template data-msg="client">{{ partial "msg.html" (dict "from" "client") }}</template>
+<template data-msg="server">{{ partial "msg.html" (dict "from" "server") }}</template>
+{{- $js := resources.Get "js/playground.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>

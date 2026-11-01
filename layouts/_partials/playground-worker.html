@@ -1,0 +1,17 @@
+{{- /* nrepl-sci's worker, for the playground: the one from the release in
+       playgroundVersion (hugo.toml), fetched when the site is built. A build
+       of it in assets/playground/ takes its place, to try one that isn't
+       released. Without either, there's no worker, and a warning, which
+       fails the deploy, so call this with partialCached. */ -}}
+{{- $worker := resources.Get "playground/nrepl-sci-worker.js" }}
+{{- if not $worker }}
+  {{- $url := printf "https://github.com/nrepl/nrepl-sci/releases/download/v%s/nrepl-sci-worker.js" site.Params.playgroundVersion }}
+  {{- with try (resources.GetRemote $url) }}
+    {{- with .Err }}{{ warnf "playground: couldn't fetch %s: %s" $url . }}
+    {{- else with .Value }}{{ $worker = . | resources.Copy "playground/nrepl-sci-worker.js" }}
+    {{- else }}{{ warnf "playground: there's no %s" $url }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- with $worker }}{{ $worker = . | fingerprint }}{{ end }}
+{{- return $worker }}
