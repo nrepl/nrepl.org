@@ -77,7 +77,8 @@ a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 3
 a:hover { color: var(--link-hover); }
 :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 4px; }
 
-code, kbd, pre { font-family: var(--mono); }
+/* Code shows the characters it's made of: -> isn't an arrow. */
+code, kbd, pre { font-family: var(--mono); font-variant-ligatures: none; }
 :not(pre) > code {
   font-size: 0.88em;
   padding: 0.1em 0.35em;
@@ -318,6 +319,8 @@ dl.faq dd { margin: 0.3rem 0 0; }
   border-radius: 12px;
   box-shadow: 0 24px 60px -28px rgba(3, 22, 44, 0.55);
   font: 13px/1.55 var(--mono);
+  /* user=> is a prompt, and -> isn't an arrow */
+  font-variant-ligatures: none;
 }
 .wire-bar {
   display: flex;
