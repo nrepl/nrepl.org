@@ -47,9 +47,10 @@ release.
 
 ## The playground
 
-The "Try it" section runs [nrepl-sci](https://github.com/nrepl/nrepl-sci), an
-nREPL server for SCI that runs in Web Workers, and shows its messages in the
-wire window as they go back and forth. The worker comes from the nrepl-sci
+The "Try it" section and the playground's own page (`/playground/`) run
+[nrepl-sci](https://github.com/nrepl/nrepl-sci), an nREPL server for SCI that
+runs in Web Workers, and show its messages in a wire window as they go back
+and forth. The worker comes from the nrepl-sci
 release in `playgroundVersion` in `hugo.toml`, fetched when the site is built,
 so a new release is a one-line change. If it can't be fetched, the build warns,
 which fails the deploy. To try a build that isn't released, put its
@@ -57,7 +58,13 @@ which fails the deploy. To try a build that isn't released, put its
 
 Code can only wait for input, and be stopped without the server starting over,
 when the page is cross-origin isolated, which takes headers GitHub Pages can't
-send. Without them, the section hides the example that reads input.
+send. The front page goes without, and hides the example that reads input. The
+playground's page gets them from a service worker
+(`assets/js/playground-sw.js`, published as `/playground/sw.js`), which adds
+them to the page and to the scripts of nrepl-sci's workers, so those have to
+stay under `/playground/` too. The first visit installs it and loads the page
+again, and a browser that won't isolate the page gets the playground without,
+and a note that says so.
 
 ## The old docs URLs
 

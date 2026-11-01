@@ -2,7 +2,13 @@
        playgroundVersion (hugo.toml), fetched when the site is built. A build
        of it in assets/playground/ takes its place, to try one that isn't
        released. Without either, there's no worker, and a warning, which
-       fails the deploy, so call this with partialCached. */ -}}
+       fails the deploy, so call this with partialCached.
+
+       It's published under /playground/, where the playground page's
+       service worker serves it, with the headers that page needs (see
+       assets/js/playground-sw.js). It serves the front page's copy that way
+       too, once it's installed, which changes nothing there: the worker
+       loads nothing from other sites. */ -}}
 {{- $worker := resources.Get "playground/nrepl-sci-worker.js" }}
 {{- if not $worker }}
   {{- $url := printf "https://github.com/nrepl/nrepl-sci/releases/download/v%s/nrepl-sci-worker.js" site.Params.playgroundVersion }}

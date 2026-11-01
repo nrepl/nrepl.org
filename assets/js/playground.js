@@ -1,8 +1,9 @@
-// The "Try it" section: a REPL talking to nrepl-sci, an nREPL server that
-// runs in Web Workers. The worker takes and returns the bencode of each
-// message, and everything that goes back and forth shows in the section's
-// wire windows (the one in the text and site.js's copy in the second
-// window), laid out like the exchanges capture/ records.
+// The playground, in the "Try it" section and on a page of its own: a REPL
+// talking to nrepl-sci, an nREPL server that runs in Web Workers. The worker
+// takes and returns the bencode of each message, and everything that goes
+// back and forth shows in the wire windows (on the front page, the one in
+// the text and site.js's copy in the second window), laid out like the
+// exchanges capture/ records.
 (function () {
   "use strict";
 
@@ -440,6 +441,13 @@
   });
 
   input.addEventListener("input", resize);
+
+  // A click anywhere in the REPL but on its text, or a button, puts the
+  // cursor in the input, as in a terminal.
+  section.querySelector(".repl").addEventListener("click", function (event) {
+    if (event.target.closest("pre, button") || !getSelection().isCollapsed) return;
+    input.focus();
+  });
 
   // The server takes a moment to start, so it starts as soon as it might
   // be needed.

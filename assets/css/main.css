@@ -226,14 +226,14 @@ code, kbd, pre { font-family: var(--mono); font-variant-ligatures: none; }
 /* Sections */
 
 .block { padding-top: 72px; }
-h2 {
+h2, .playground-page h1 {
   margin: 0 0 1rem;
   font-size: 1.8rem;
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.02em;
 }
-h2::before {
+h2::before, .playground-page h1::before {
   content: "";
   display: block;
   width: 44px;
@@ -421,7 +421,7 @@ dl.faq dd { margin: 0.3rem 0 0; }
 .playground { display: none; }
 .js .playground { display: block; }
 /* The REPL's window looks like the wire windows (see .wire-figure). */
-.repl-log { max-height: 22rem; overflow: auto; padding: 0.6rem 0.9rem 0; }
+.repl-log { overflow: auto; padding: 0.6rem 0.9rem 0; }
 .repl-log:empty { display: none; }
 .repl-log .input { color: var(--w-dim); }
 .repl-log .err { color: #ff8f8f; }
@@ -460,8 +460,30 @@ dl.faq dd { margin: 0.3rem 0 0; }
   cursor: pointer;
 }
 .examples button:hover { border-color: var(--blue); }
-/* In the text, the messages would push everything below them down. */
+/* In the text, the REPL and the messages would push everything below them
+   down. */
+.playground .repl-log { max-height: 22rem; }
 .playground .msgs { max-height: 26rem; overflow: auto; }
+
+/* The playground's own page: the REPL and its messages side by side, as
+   tall as the screen allows, or one above the other on small screens */
+
+.playground-page { max-width: 1280px; margin: 0 auto; padding: 48px 16px 24px; }
+.playground-page > p { max-width: 760px; }
+.playground-app { display: none; }
+.js .playground-app { display: flex; flex-direction: column; }
+.isolation-note { display: none; color: var(--muted); font-size: 0.92rem; }
+[data-isolation="off"] .isolation-note { display: block; }
+.playground-windows { display: grid; gap: 24px; margin-top: 1.25rem; }
+.playground-windows > .repl, .playground-windows > .wire-figure { display: flex; flex-direction: column; height: min(32rem, 75vh); margin: 0; }
+.playground-windows .msgs { flex: 1; overflow: auto; }
+
+@media (min-width: 900px) {
+  .playground-page { display: flex; flex-direction: column; height: calc(100vh - 58px); min-height: 40rem; padding: 40px 24px 24px; }
+  .js .playground-app { flex: 1; min-height: 0; }
+  .playground-windows { flex: 1; min-height: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  .playground-windows > .repl, .playground-windows > .wire-figure { height: auto; }
+}
 
 /* The 404 page */
 

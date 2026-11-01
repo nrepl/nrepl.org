@@ -2,7 +2,8 @@
        its messages. assets/js/playground.js fills the window, and the copy
        site.js makes for the second window, as messages go back and forth.
        Without JavaScript there's nothing to try, so the section hides, and
-       without nrepl-sci's worker, there's no section. */ -}}
+       without nrepl-sci's worker, there's no section. The playground's own
+       page (layouts/playground.html) has the same REPL, with more room. */ -}}
 {{- $p := hugo.Data.playground }}
 {{- with partialCached "playground-worker.html" . }}
 <section class="block playground" id="try" data-pane data-playground data-worker="{{ .RelPermalink }}">

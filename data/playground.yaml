@@ -1,5 +1,6 @@
-# The "Try it" section: an nREPL server running in the page (nrepl-sci, in
-# Web Workers), with its messages in the section's wire window.
+# The playground: an nREPL server running in the page (nrepl-sci, in Web
+# Workers), with its messages in a wire window. The blurb and the caption are
+# the "Try it" section's; the examples are on the playground's page too.
 blurb: >-
   This is a real nREPL server, running right here in your browser:
   [nrepl-sci](https://github.com/nrepl/nrepl-sci), which evaluates
@@ -7,7 +8,8 @@ blurb: >-
   code and watch the messages go back and forth. Tab completes, and
   Shift+Enter starts a new line.
 # Examples marked input need the page to be cross-origin isolated, which is
-# what lets code wait for input.
+# what lets code wait for input. The playground's page is, and the front page
+# isn't, so they only show there.
 examples:
   - code: (+ 1 2)
   - code: (println "Hello from nREPL!")

@@ -1,0 +1,56 @@
+{{- /* The playground's own page: the REPL from the front page with more
+       room, and its messages next to it. */ -}}
+{{ define "head" }}
+  {{- /* A service worker keeps its address, so it's not fingerprinted. */}}
+  {{- $sw := resources.FromString "playground/sw.js" (resources.Get "js/playground-sw.js" | minify).Content }}
+  <script>
+    // The page is cross-origin isolated once the service worker in
+    // assets/js/playground-sw.js serves it. The first visit installs it and
+    // loads the page again, and so does a visit that skipped it (a hard
+    // reload does). Only once, though: the second load has ?isolating in its
+    // address (taken out right away), and if it isn't isolated either, the
+    // browser won't, so the playground goes without, and
+    // data-isolation="off" says so.
+    (function () {
+      var url = new URL(location.href);
+      var tried = url.searchParams.has("isolating");
+      if (tried) {
+        url.searchParams.delete("isolating");
+        history.replaceState(history.state, "", url);
+      }
+      if (self.crossOriginIsolated) return;
+      function off() { document.documentElement.dataset.isolation = "off"; }
+      var sw = navigator.serviceWorker;
+      if (tried || !sw || sw.controller) return off();
+      sw.register({{ $sw.RelPermalink }}).catch(off);
+      // location.reload() would skip the service worker again after a hard
+      // reload, and this doesn't. The address says it was tried because
+      // sessionStorage can't: a page with other COOP headers gets a copy.
+      sw.ready.then(function () {
+        url.searchParams.set("isolating", "");
+        location.replace(url);
+      });
+    })();
+  </script>
+{{- end }}
+{{ define "main" }}
+{{- $gh := partialCached "github.html" . }}
+<a class="skip" href="#main">Skip to the content</a>
+{{ partial "topbar.html" (dict "stars" $gh.stars "current" "playground") }}
+
+<main id="main" class="playground-page">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <noscript><p>The playground runs in your browser, so it needs JavaScript.</p></noscript>
+  {{- with partialCached "playground-worker.html" . }}
+  <div class="playground-app" data-playground data-worker="{{ .RelPermalink }}">
+    <p class="isolation-note">{{ $.Params.isolationNote }}</p>
+    {{ partial "playground-examples.html" }}
+    <div class="playground-windows">
+      {{ partial "playground-repl.html" }}
+      {{ partial "playground-wire.html" }}
+    </div>
+  </div>
+  {{- end }}
+</main>
+{{ end }}

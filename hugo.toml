@@ -23,8 +23,8 @@ ignoreLogs = ["github-fetch", "news-feed"]
   newsFeed = "https://metaredux.com/feed.xml"
   newsTag = "nREPL"
   newsCount = 8
-  # The nrepl-sci release the "Try it" section runs (see
-  # layouts/_partials/playground-worker.html).
+  # The nrepl-sci release the playground runs, on the front page and its own
+  # (see layouts/_partials/playground-worker.html).
   playgroundVersion = "0.1.0"
   # Where the docs moved from nrepl.org/nrepl/ (see data/legacy_docs.yaml).
   docsHost = "https://docs.nrepl.org"
