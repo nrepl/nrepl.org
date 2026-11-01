@@ -33,7 +33,10 @@
     <div class="repl-log" aria-live="polite"></div>
     <div class="repl-input">
       <label class="prompt" for="repl-code">user=&gt;</label>
+      {{- /* Password managers don't go by autocomplete="off", only by their
+             own attributes. */}}
       <textarea id="repl-code" rows="1" spellcheck="false" autocomplete="off" autocapitalize="off"
+                data-1p-ignore data-lpignore="true" data-bwignore
                 placeholder="(+ 1 2)"></textarea>
     </div>
   </div>
