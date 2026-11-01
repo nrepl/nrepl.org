@@ -1,4 +1,5 @@
-{{- /* The bar at the top: (partial "topbar.html" (dict "stars" 907 "home" true)) */ -}}
+{{- /* The bar at the top: (partial "topbar.html" (dict "stars" 907 "home" true)),
+       with "current" naming the page it's on, if it links to it. */ -}}
 {{- $p := site.Params }}
 <header class="topbar">
   <a class="brand" href="{{ if .home }}#top{{ else }}{{ "/" | relURL }}{{ end }}">
@@ -7,8 +8,9 @@
   <nav class="topnav" aria-label="Site">
     <a href="{{ $p.docs }}">Docs</a>
     <a href="{{ $p.spec }}">Spec</a>
+    <a href="{{ "playground/" | relURL }}"{{ if eq .current "playground" }} aria-current="page"{{ end }}>Playground</a>
     {{- if .home }}
-    <a href="#news">News</a>
+    <a href="#news" class="news-link">News</a>
     {{- end }}
     <a href="{{ $p.github }}">GitHub{{ with .stars }} <span class="stars">{{ if ge . 1000 }}{{ printf "%.1fk" (div (float .) 1000) }}{{ else }}{{ . }}{{ end }}&#9733;</span>{{ end }}</a>
     <button type="button" class="theme-toggle" aria-label="Switch between light and dark theme" title="Switch between light and dark theme">

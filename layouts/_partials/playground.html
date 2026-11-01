@@ -11,6 +11,7 @@
   <p>{{ $p.blurb | markdownify }}</p>
   {{ partial "playground-repl.html" }}
   {{ partial "playground-examples.html" }}
+  <p class="more"><a href="{{ "playground/" | relURL }}">More in the playground</a></p>
   {{ partial "playground-wire.html" $p.caption }}
 </section>
 {{- end }}

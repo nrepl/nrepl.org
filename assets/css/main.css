@@ -127,7 +127,7 @@ code, kbd, pre { font-family: var(--mono); font-variant-ligatures: none; }
 .brand:hover { color: var(--text); }
 .topnav { display: flex; align-items: center; gap: 1.2rem; font-size: 0.95rem; }
 .topnav a { color: var(--muted); text-decoration: none; }
-.topnav a:hover { color: var(--text); }
+.topnav a:hover, .topnav a[aria-current="page"] { color: var(--text); }
 .stars { font-family: var(--mono); font-size: 0.85em; }
 .theme-toggle {
   display: none;
@@ -143,9 +143,18 @@ code, kbd, pre { font-family: var(--mono); font-variant-ligatures: none; }
 }
 .theme-toggle:hover { color: var(--text); }
 .js .theme-toggle { display: grid; }
+/* On phones the bar drops what it can do without: the star count, the link
+   to the news further down, and then the name next to the logo, which
+   screen readers still get. */
 @media (max-width: 520px) {
   .topnav { gap: 0.8rem; font-size: 0.9rem; }
-  .topnav .stars { display: none; }
+  .topnav .stars, .topnav .news-link { display: none; }
+}
+@media (max-width: 420px) {
+  .brand span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (max-width: 340px) {
+  .topnav { gap: 0.6rem; }
 }
 
 /* The two windows */
