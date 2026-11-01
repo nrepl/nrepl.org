@@ -1,0 +1,8 @@
+{{- /* The bar of a wire window: its title, and the switch between the
+       messages as EDN and as bencode. */ -}}
+<div class="wire-bar">
+  <span class="wire-title">{{ . }}</span>
+  <span class="view-switch" role="group" aria-label="Show the messages as">
+    <button type="button" data-set-view="edn" aria-pressed="true">EDN</button><button type="button" data-set-view="bencode" aria-pressed="false">bencode</button>
+  </span>
+</div>

@@ -1,0 +1,10 @@
+{{- /* A message in a wire window, from the client or the server, as EDN
+       and as bencode. Without them, it's the empty one the playground
+       fills in.
+
+         {{ partial "msg.html" (dict "from" "client" "i" 0 "edn" ... "bencode" ...) }} */ -}}
+<li class="msg {{ .from }}"{{ with .i }} style="--i: {{ . }}"{{ end }}>
+  <span class="who">{{ if eq .from "client" }}client &rarr;{{ else }}&larr; server{{ end }}</span>
+  <pre class="edn"><code>{{ with .edn }}{{ partial "edn.html" . }}{{ end }}</code></pre>
+  <pre class="bencode"><code>{{ with .bencode }}{{ partial "tokens.html" . }}{{ end }}</code></pre>
+</li>
