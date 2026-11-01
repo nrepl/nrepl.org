@@ -90,6 +90,9 @@
 ;; bencode string), or "" for plain text. In the EDN view the id and session
 ;; also get an r, and the page dims them: they're there to route the message,
 ;; and the session's UUID is mostly noise to a reader.
+;;
+;; The playground lays out its live messages the same way, with a port of
+;; this in assets/js/playground.js, which has to change along with it.
 
 (def ^:private lead
   "The keys a message reads best starting with: a request's op and its

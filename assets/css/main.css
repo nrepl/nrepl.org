@@ -310,8 +310,8 @@ dl.faq dd { margin: 0.3rem 0 0; }
 
 /* Wire windows: the messages of an exchange */
 
-.wire-figure {
-  margin: 1.5rem 0 0;
+.wire-figure { margin: 1.5rem 0 0; }
+.wire-figure, .repl {
   overflow: hidden;
   color: var(--w-text);
   background: var(--w-bg);
@@ -373,7 +373,8 @@ dl.faq dd { margin: 0.3rem 0 0; }
 .who { display: block; margin-bottom: 0.1rem; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
 .client .who { color: var(--w-client); }
 .server .who { color: var(--w-server); }
-.msg pre { margin: 0; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.msgs:empty::before { content: attr(data-empty); color: var(--w-dim); font-style: italic; }
+.msg pre, .repl-log pre { margin: 0; font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
 .msg .bencode { display: none; word-break: break-all; }
 [data-view="bencode"] .msg .bencode { display: block; }
 [data-view="bencode"] .msg:has(.bencode) .edn { display: none; }
@@ -413,6 +414,54 @@ dl.faq dd { margin: 0.3rem 0 0; }
     to { opacity: 1; transform: none; }
   }
 }
+
+/* The playground: a REPL in the page. Without JavaScript there's nothing
+   to try. */
+
+.playground { display: none; }
+.js .playground { display: block; }
+/* The REPL's window looks like the wire windows (see .wire-figure). */
+.repl-log { max-height: 22rem; overflow: auto; padding: 0.6rem 0.9rem 0; }
+.repl-log:empty { display: none; }
+.repl-log .input { color: var(--w-dim); }
+.repl-log .err { color: #ff8f8f; }
+.repl-log .value { color: var(--w-server); }
+.repl-log .note { color: var(--w-dim); font-style: italic; }
+.repl-input { display: flex; gap: 0.6rem; padding: 0.6rem 0.9rem 0.7rem; }
+.repl-input .prompt { flex: none; color: var(--w-server); user-select: none; }
+.repl-input textarea {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  color: var(--w-t);
+  background: none;
+  border: 0;
+  outline: none;
+  resize: none;
+  font: inherit;
+}
+.interrupt {
+  padding: 0.12rem 0.6rem;
+  color: var(--w-text);
+  background: #3a1f26;
+  border: 1px solid #5c2c37;
+  border-radius: 6px;
+  font: 12px var(--mono);
+  cursor: pointer;
+}
+.examples { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0.9rem 0 0; }
+.examples button {
+  padding: 0.2rem 0.55rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font: 0.8rem var(--mono);
+  cursor: pointer;
+}
+.examples button:hover { border-color: var(--blue); }
+/* In the text, the messages would push everything below them down. */
+.playground .msgs { max-height: 26rem; overflow: auto; }
 
 /* The 404 page */
 

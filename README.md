@@ -45,6 +45,20 @@ clojure -M -m capture
 Bump the nREPL version in `capture/deps.edn` to re-record against a newer
 release.
 
+## The playground
+
+The "Try it" section runs [nrepl-sci](https://github.com/nrepl/nrepl-sci), an
+nREPL server for SCI that runs in Web Workers, and shows its messages in the
+wire window as they go back and forth. The worker comes from the nrepl-sci
+release in `playgroundVersion` in `hugo.toml`, fetched when the site is built,
+so a new release is a one-line change. If it can't be fetched, the build warns,
+which fails the deploy. To try a build that isn't released, put its
+`nrepl-sci-worker.js` in `assets/playground/` (it's ignored by git).
+
+Code can only wait for input, and be stopped without the server starting over,
+when the page is cross-origin isolated, which takes headers GitHub Pages can't
+send. Without them, the section hides the example that reads input.
+
 ## The old docs URLs
 
 The docs used to live here, under `/nrepl/`. Every page they had gets a small

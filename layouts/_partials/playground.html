@@ -1,0 +1,55 @@
+{{- /* The "Try it" section: a REPL talking to nrepl-sci, which runs in Web
+       Workers. Its wire window starts empty, and assets/js/playground.js
+       fills it, and the copy site.js makes for the second window, from the
+       message templates as messages go back and forth. Without JavaScript
+       there's nothing to try, so the section hides.
+
+       The worker is nrepl-sci's, from the release in playgroundVersion
+       (hugo.toml), fetched when the site is built. A build of it in
+       assets/playground/ takes its place, to try one that isn't released.
+       Without either, there's no section, and a warning, which fails the
+       deploy. */ -}}
+{{- $p := hugo.Data.playground }}
+{{- $worker := resources.Get "playground/nrepl-sci-worker.js" }}
+{{- if not $worker }}
+  {{- $url := printf "https://github.com/nrepl/nrepl-sci/releases/download/v%s/nrepl-sci-worker.js" site.Params.playgroundVersion }}
+  {{- with try (resources.GetRemote $url) }}
+    {{- with .Err }}{{ warnf "playground: couldn't fetch %s: %s" $url . }}
+    {{- else with .Value }}{{ $worker = . | resources.Copy "playground/nrepl-sci-worker.js" }}
+    {{- else }}{{ warnf "playground: there's no %s" $url }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- with $worker }}
+{{- $worker = . | fingerprint }}
+<section class="block playground" id="try" data-pane data-playground data-worker="{{ $worker.RelPermalink }}">
+  <h2>Try it</h2>
+  <p>{{ $p.blurb | markdownify }}</p>
+  <div class="repl">
+    <div class="wire-bar">
+      <span class="wire-title">nrepl-sci, in this page</span>
+      <button type="button" class="interrupt" hidden>interrupt</button>
+    </div>
+    <div class="repl-log" aria-live="polite"></div>
+    <div class="repl-input">
+      <label class="prompt" for="repl-code">user=&gt;</label>
+      <textarea id="repl-code" rows="1" spellcheck="false" autocomplete="off" autocapitalize="off"
+                placeholder="(+ 1 2)"></textarea>
+    </div>
+  </div>
+  <p class="examples">
+    {{- range $p.examples }}
+    <button type="button" data-example="{{ .code }}"{{ if .input }} data-input{{ end }}>{{ .code }}</button>
+    {{- end }}
+  </p>
+  <figure class="wire-figure" data-playground-wire>
+    {{ partial "wire-bar.html" "nrepl-sci" }}
+    <ol class="msgs" data-empty="The messages show up here once you start using the REPL."></ol>
+    <figcaption>{{ $p.caption }}</figcaption>
+  </figure>
+  <template data-msg="client">{{ partial "msg.html" (dict "from" "client") }}</template>
+  <template data-msg="server">{{ partial "msg.html" (dict "from" "server") }}</template>
+</section>
+{{- $js := resources.Get "js/playground.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{- end }}
