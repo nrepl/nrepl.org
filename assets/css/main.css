@@ -50,6 +50,7 @@
   --w-p: #8995a2;
   --w-t: #eef2f6;
   --w-b: #ff7cb9;
+  --w-err: #ff8f8f;
 }
 :root[data-theme="light"] { color-scheme: light; }
 :root[data-theme="dark"] { color-scheme: dark; }
@@ -433,22 +434,13 @@ dl.faq dd { margin: 0.3rem 0 0; }
 .repl-log { overflow: auto; padding: 0.6rem 0.9rem 0; }
 .repl-log:empty { display: none; }
 .repl-log .input { color: var(--w-dim); }
-.repl-log .err { color: #ff8f8f; }
+.repl-log .err { color: var(--w-err); }
 .repl-log .value { color: var(--w-server); }
 .repl-log .note { color: var(--w-dim); font-style: italic; }
 .repl-input { display: flex; gap: 0.6rem; padding: 0.6rem 0.9rem 0.7rem; }
 .repl-input .prompt { flex: none; color: var(--w-server); user-select: none; }
-.repl-input textarea {
-  flex: 1;
-  min-width: 0;
-  padding: 0;
-  color: var(--w-t);
-  background: none;
-  border: 0;
-  outline: none;
-  resize: none;
-  font: inherit;
-}
+/* The editor's own styles are in assets/js/playground-editor.js. */
+.repl-code { flex: 1; min-width: 0; }
 .interrupt {
   padding: 0.12rem 0.6rem;
   color: var(--w-text);

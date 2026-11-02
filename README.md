@@ -66,6 +66,12 @@ stay under `/playground/` too. The first visit installs it and loads the page
 again, and a browser that won't isolate the page gets the playground without,
 and a note that says so.
 
+The REPL's editor is [CodeMirror](https://codemirror.net/) with
+[clojure-mode](https://github.com/nextjournal/clojure-mode)
+(`assets/js/playground-editor.js`). Hugo bundles it into the playground's
+script, from the packages in `package.json`, so they have to be installed
+before a build.
+
 ## The old docs URLs
 
 The docs used to live here, under `/nrepl/`. Every page they had gets a small
@@ -79,6 +85,7 @@ move never had an address here.
 
 ```sh
 brew install hugo   # or see https://gohugo.io/installation/
+npm ci              # the playground's editor
 hugo server
 ```
 

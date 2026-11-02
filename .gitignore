@@ -4,3 +4,4 @@ resources/_gen/
 capture/.cpcache/
 # A build of nrepl-sci's worker, to try in the playground before it's released
 assets/playground/
+node_modules/

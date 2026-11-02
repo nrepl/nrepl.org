@@ -3,7 +3,10 @@
 // takes and returns the bencode of each message, and everything that goes
 // back and forth shows in the wire windows (on the front page, the one in
 // the text and site.js's copy in the second window), laid out like the
-// exchanges capture/ records.
+// exchanges capture/ records. The code's typed in a CodeMirror editor (see
+// assets/js/playground-editor.js).
+import { createEditor, insertCode, setCode, setMode, unfinished } from "./playground-editor.js";
+
 (function () {
   "use strict";
 
@@ -211,10 +214,10 @@
   // The REPL
 
   var log = section.querySelector(".repl-log");
-  var input = section.querySelector("#repl-code");
+  var codeBox = section.querySelector(".repl-code");
   var prompt = section.querySelector(".prompt");
   var interruptButton = section.querySelector(".interrupt");
-  var placeholder = input.placeholder;
+  var placeholder = codeBox.dataset.placeholder;
 
   var worker = null;
   var started = null;
@@ -243,21 +246,19 @@
     schedule();
   }
 
+  var editorReading = false;
+
   function setPrompt() {
     prompt.textContent = reading ? "stdin>" : ns + "=>";
-    input.placeholder = reading ? "Type a line, Enter sends it" : placeholder;
+    if (reading !== editorReading) {
+      editorReading = reading;
+      setMode(editor, !reading, reading ? "Type a line, Enter sends it" : placeholder);
+    }
     interruptButton.hidden = typeof running !== "string";
   }
 
-  // The textarea grows with its code.
-  function resize() {
-    input.style.height = "auto";
-    input.style.height = input.scrollHeight + "px";
-  }
-
-  function setInput(text) {
-    input.value = text;
-    resize();
+  function code() {
+    return editor.state.doc.toString();
   }
 
   // Sends `msg` with an id, and the session once there is one, calling
@@ -356,24 +357,22 @@
 
   // The symbol right before the cursor, if there's one to complete.
   function completable() {
-    if (input.selectionStart !== input.selectionEnd) return null;
-    var match = input.value.slice(0, input.selectionStart).match(/[^\s()[\]{}"'`,;@^~]+$/);
+    var selection = editor.state.selection.main;
+    if (!selection.empty) return null;
+    var match = editor.state.doc.sliceString(0, selection.head).match(/[^\s()[\]{}"'`,;@^~]+$/);
     return match && match[0];
   }
 
   function complete(prefix) {
-    var code = input.value;
-    var at = input.selectionStart;
+    var doc = editor.state.doc;
+    var at = editor.state.selection.main.head;
     whenReady(function () {
       send({ op: "complete", prefix: prefix, ns: ns }, function (reply) {
         var candidates = (reply.completions || []).map(function (c) { return c.candidate; });
         // The code can change while the server's busy with something else.
-        if (!candidates.length || input.value !== code || input.selectionStart !== at) return;
+        if (!candidates.length || editor.state.doc !== doc || editor.state.selection.main.head !== at) return;
         var completion = candidates.length === 1 ? candidates[0] + " " : common(candidates);
-        if (completion.length > prefix.length) {
-          input.setRangeText(completion.slice(prefix.length), at, at, "end");
-          resize();
-        }
+        if (completion.length > prefix.length) insertCode(editor, at, completion.slice(prefix.length));
         if (candidates.length > 1) {
           print("note", candidates.slice(0, 40).join("  ") + (candidates.length > 40 ? "  …" : "") + "\n");
         }
@@ -381,77 +380,77 @@
     });
   }
 
-  // Whether the brackets in `code` close, so Enter sends it rather than
-  // starting a new line.
-  function balanced(code) {
-    var depth = 0;
-    for (var i = 0; i < code.length; i++) {
-      var c = code[i];
-      if (c === "\\") i++;
-      else if (c === ";") while (i < code.length && code[i] !== "\n") i++;
-      else if (c === '"') {
-        for (i++; i < code.length && code[i] !== '"'; i++) if (code[i] === "\\") i++;
-        if (i >= code.length) return false;
-      }
-      else if ("([{".indexOf(c) >= 0) depth++;
-      else if (")]}".indexOf(c) >= 0) depth--;
-    }
-    return depth <= 0;
-  }
-
   function submit() {
-    var text = input.value;
+    var text = code();
     if (reading) {
-      setInput("");
+      setCode(editor, "");
       sendInput(text + "\n", "input", text + "\n");
     } else if (!running && text.trim()) {
-      setInput("");
+      setCode(editor, "");
       evaluate(text.trim());
     }
   }
 
-  input.addEventListener("keydown", function (event) {
-    if (event.isComposing) return;
-    if (event.key === "Enter" && !event.shiftKey && (reading || balanced(input.value))) {
-      event.preventDefault();
-      submit();
-    } else if (event.key === "Tab" && !event.shiftKey && !reading) {
-      // Anywhere there's nothing to complete, Tab moves on, so the REPL
-      // doesn't trap the keyboard.
-      var prefix = completable();
-      if (!prefix) return;
-      event.preventDefault();
-      complete(prefix);
-    } else if (event.key === "d" && event.ctrlKey && reading && !input.value) {
-      // The end of the input, as in a terminal
-      event.preventDefault();
-      sendInput("", "note", "End of input\n");
-    } else if ((event.key === "ArrowUp" || event.key === "ArrowDown") && !reading && history.length) {
-      var up = event.key === "ArrowUp";
+  // Up on the code's first line, or Down on its last, goes through what
+  // was sent before.
+  function browse(up) {
+    return function (view) {
+      if (reading || !history.length) return false;
+      var doc = view.state.doc;
+      var selection = view.state.selection.main;
       var atEdge = up
-        ? input.value.lastIndexOf("\n", input.selectionStart - 1) < 0
-        : input.value.indexOf("\n", input.selectionEnd) < 0;
-      if (!atEdge) return;
-      event.preventDefault();
+        ? doc.lineAt(selection.from).number === 1
+        : doc.lineAt(selection.to).number === doc.lines;
+      if (!atEdge) return false;
       // What's being written comes back past the newest entry.
-      if (back === history.length) draft = input.value;
+      if (back === history.length) draft = code();
       back = Math.max(0, Math.min(history.length, back + (up ? -1 : 1)));
-      setInput(back < history.length ? history[back] : draft);
-    }
-  });
+      setCode(view, back < history.length ? history[back] : draft);
+      return true;
+    };
+  }
 
-  input.addEventListener("input", resize);
+  // The REPL's keys. Each one that doesn't apply leaves the key to the
+  // editor.
+  var keys = [
+    // Enter sends the code once its forms close, wherever the cursor is, as
+    // CIDER's REPL does. Brackets close as they open, so a new line takes
+    // Shift+Enter, unless something's left open.
+    { key: "Enter", run: function () {
+      if (!reading && unfinished(editor.state)) return false;
+      submit();
+      return true;
+    } },
+    // Anywhere there's nothing to complete, Tab moves on, so the REPL
+    // doesn't trap the keyboard.
+    { key: "Tab", run: function () {
+      var prefix = !reading && completable();
+      if (!prefix) return false;
+      complete(prefix);
+      return true;
+    } },
+    // The end of the input, as in a terminal
+    { key: "Ctrl-d", run: function () {
+      if (!reading || editor.state.doc.length) return false;
+      sendInput("", "note", "End of input\n");
+      return true;
+    } },
+    { key: "ArrowUp", run: browse(true) },
+    { key: "ArrowDown", run: browse(false) }
+  ];
+
+  var editor = createEditor(codeBox, prompt.id, placeholder, keys);
 
   // A click anywhere in the REPL but on its text, or a button, puts the
-  // cursor in the input, as in a terminal.
+  // cursor in the code, as in a terminal.
   section.querySelector(".repl").addEventListener("click", function (event) {
     if (event.target.closest("pre, button") || !getSelection().isCollapsed) return;
-    input.focus();
+    editor.focus();
   });
 
   // The server takes a moment to start, so it starts as soon as it might
   // be needed.
-  input.addEventListener("focus", function () { start(); });
+  editor.contentDOM.addEventListener("focus", function () { start(); });
 
   interruptButton.addEventListener("click", function () {
     if (typeof running === "string") send({ op: "interrupt", "interrupt-id": running });
@@ -466,7 +465,7 @@
     button.addEventListener("click", function () {
       if (running) return;
       evaluate(button.dataset.example);
-      input.focus();
+      editor.focus();
     });
   });
 })();

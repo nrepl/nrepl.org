@@ -9,15 +9,13 @@
   </div>
   <div class="repl-log" aria-live="polite"></div>
   <div class="repl-input">
-    <label class="prompt" for="repl-code">user=&gt;</label>
-    {{- /* Password managers don't go by autocomplete="off", only by their
-           own attributes. */}}
-    <textarea id="repl-code" rows="1" spellcheck="false" autocomplete="off" autocapitalize="off"
-              data-1p-ignore data-lpignore="true" data-bwignore
-              placeholder="(+ 1 2)"></textarea>
+    <span class="prompt" id="repl-prompt">user=&gt;</span>
+    <div class="repl-code" data-placeholder="(+ 1 2)"></div>
   </div>
 </div>
 <template data-msg="client">{{ partial "msg.html" (dict "from" "client") }}</template>
 <template data-msg="server">{{ partial "msg.html" (dict "from" "server") }}</template>
-{{- $js := resources.Get "js/playground.js" | minify | fingerprint }}
+{{- /* js.Build bundles in the editor, from the packages in package.json
+       (npm ci installs them). */}}
+{{- $js := resources.Get "js/playground.js" | js.Build (dict "minify" true) | fingerprint }}
 <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
