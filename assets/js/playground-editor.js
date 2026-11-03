@@ -6,8 +6,8 @@ import { EditorView, drawSelection, keymap, placeholder } from "@codemirror/view
 import { Compartment, EditorState, Prec, Transaction } from "@codemirror/state";
 import { HighlightStyle, ensureSyntaxTree, syntaxHighlighting } from "@codemirror/language";
 import { history, historyKeymap } from "@codemirror/commands";
-import { tags } from "@lezer/highlight";
-import { builtin_keymap, default_extensions, paredit_keymap } from "@nextjournal/clojure-mode";
+import { highlightCode, tags } from "@lezer/highlight";
+import { builtin_keymap, default_extensions, paredit_keymap, syntax } from "@nextjournal/clojure-mode";
 
 // The REPL's window is dark in either theme, with the wire windows' colors
 // (see main.css).
@@ -46,7 +46,6 @@ var newline = paredit_keymap.find(function (binding) { return binding.key === "E
 // Clojure, or a line typed for code that reads input, which is just text.
 var clojure = [
   default_extensions,
-  syntaxHighlighting(highlighting),
   keymap.of([{ key: "Shift-Enter", run: newline }].concat(paredit))
 ];
 var mode = new Compartment();
@@ -65,6 +64,8 @@ export function createEditor(parent, label, text, keys) {
       extensions: [
         Prec.highest(keymap.of(keys)),
         mode.of(modeFor(true, text)),
+        // Out of the mode, so its styles stay for highlighted()
+        syntaxHighlighting(highlighting),
         keymap.of(builtin_keymap.concat(historyKeymap)),
         history(),
         drawSelection(),
@@ -86,6 +87,25 @@ export function createEditor(parent, label, text, keys) {
 // Code, in Clojure, or a line of input, with the placeholder `text`.
 export function setMode(view, code, text) {
   view.dispatch({ effects: mode.reconfigure(modeFor(code, text)) });
+}
+
+var clojureParser = syntax().parser;
+
+// `code` colored as the editor colors it, for the REPL's log
+export function highlighted(code) {
+  var shown = document.createDocumentFragment();
+  highlightCode(code, clojureParser.parse(code), highlighting, function (text, classes) {
+    var span = text;
+    if (classes) {
+      span = document.createElement("span");
+      span.className = classes;
+      span.textContent = text;
+    }
+    shown.append(span);
+  }, function () {
+    shown.append("\n");
+  });
+  return shown;
 }
 
 // Whether the code leaves a form open: clojure-mode's parser puts an empty

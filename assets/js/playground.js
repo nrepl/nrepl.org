@@ -5,7 +5,7 @@
 // the text and site.js's copy in the second window), laid out like the
 // exchanges capture/ records. The code's typed in a CodeMirror editor (see
 // assets/js/playground-editor.js).
-import { createEditor, insertCode, setCode, setMode, unfinished } from "./playground-editor.js";
+import { createEditor, highlighted, insertCode, setCode, setMode, unfinished } from "./playground-editor.js";
 
 (function () {
   "use strict";
@@ -240,10 +240,20 @@ import { createEditor, insertCode, setCode, setMode, unfinished } from "./playgr
     } else {
       var pre = document.createElement("pre");
       pre.className = kind;
-      pre.textContent = text;
+      pre.append(text);
       log.appendChild(pre);
     }
     schedule();
+  }
+
+  // What was sent, after the prompt it was typed at
+  function echo(at, sent) {
+    var shown = document.createDocumentFragment();
+    var atPrompt = document.createElement("span");
+    atPrompt.className = "prompt";
+    atPrompt.textContent = at;
+    shown.append(atPrompt, " ", sent, "\n");
+    return shown;
   }
 
   var editorReading = false;
@@ -314,7 +324,7 @@ import { createEditor, insertCode, setCode, setMode, unfinished } from "./playgr
   }
 
   function evaluate(code) {
-    print("input", ns + "=> " + code + "\n");
+    print("input", echo(ns + "=>", highlighted(code)));
     history.push(code);
     back = history.length;
     draft = "";
@@ -384,7 +394,7 @@ import { createEditor, insertCode, setCode, setMode, unfinished } from "./playgr
     var text = code();
     if (reading) {
       setCode(editor, "");
-      sendInput(text + "\n", "input", text + "\n");
+      sendInput(text + "\n", "input", echo("stdin>", text));
     } else if (!running && text.trim()) {
       setCode(editor, "");
       evaluate(text.trim());
