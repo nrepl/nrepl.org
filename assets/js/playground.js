@@ -5,7 +5,7 @@
 // the text and site.js's copy in the second window), laid out like the
 // exchanges capture/ records. The code's typed in a CodeMirror editor (see
 // assets/js/playground-editor.js).
-import { createEditor, highlighted, insertCode, setCode, setMode, unfinished } from "./playground-editor.js";
+import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMode, unfinished } from "./playground-editor.js";
 
 (function () {
   "use strict";
@@ -200,15 +200,21 @@ import { createEditor, highlighted, insertCode, setCode, setMode, unfinished } f
     var items = shown.splice(0).slice(-keep).map(function (m) { return build(m[0], m[1]); });
     if (items.length) {
       lists.forEach(function (list, n) {
+        // Messages someone scrolled back to read stay put.
+        var following = list.scrollHeight - list.scrollTop - list.clientHeight < 2;
         var fragment = document.createDocumentFragment();
         items.forEach(function (li) { fragment.appendChild(n ? li.cloneNode(true) : li); });
         list.appendChild(fragment);
         while (list.childElementCount > keep) list.firstElementChild.remove();
-        list.scrollTop = list.scrollHeight;
+        if (following) list.scrollTop = list.scrollHeight;
       });
     }
-    while (log.childElementCount > keep) log.firstElementChild.remove();
-    log.scrollTop = log.scrollHeight;
+    // The editor's questions don't move the REPL's text, only what it prints.
+    if (printed) {
+      printed = false;
+      while (log.childElementCount > keep) log.firstElementChild.remove();
+      log.scrollTop = log.scrollHeight;
+    }
   }
 
   // The REPL
@@ -231,8 +237,13 @@ import { createEditor, highlighted, insertCode, setCode, setMode, unfinished } f
   var history = [];
   var back = 0;
   var draft = "";
+  var printed = false;
+  // What the editor asks the server about a symbol, an op at a time (see
+  // ask), until code runs, which can change the answers
+  var answers = {};
 
   function print(kind, text) {
+    printed = true;
     var last = log.lastElementChild;
     if (last && last.className === kind && kind !== "input") {
       last.append(text);
@@ -248,12 +259,12 @@ import { createEditor, highlighted, insertCode, setCode, setMode, unfinished } f
 
   // What was sent, after the prompt it was typed at
   function echo(at, sent) {
-    var shown = document.createDocumentFragment();
+    var line = document.createDocumentFragment();
     var atPrompt = document.createElement("span");
     atPrompt.className = "prompt";
     atPrompt.textContent = at;
-    shown.append(atPrompt, " ", sent, "\n");
-    return shown;
+    line.append(atPrompt, " ", sent, "\n");
+    return line;
   }
 
   var editorReading = false;
@@ -313,6 +324,7 @@ import { createEditor, highlighted, insertCode, setCode, setMode, unfinished } f
       worker = null;
       started = null;
       handlers = {};
+      answers = {};
       running = null;
       setPrompt();
     });
@@ -341,11 +353,27 @@ import { createEditor, highlighted, insertCode, setCode, setMode, unfinished } f
         if (status.indexOf("done") >= 0) {
           running = null;
           reading = false;
+          answers = {};
+          forgetArguments(editor);
         }
         if (reply.status || reply.ns) setPrompt();
       });
       setPrompt();
     });
+  }
+
+  // The editor's question about a symbol, an op such as eldoc (see
+  // assets/js/playground-editor.js), as a promise of the reply. It doesn't
+  // start a server that failed to start; sending code does.
+  function ask(op, sym) {
+    if (!started) return Promise.resolve({});
+    var key = op + " " + ns + " " + sym;
+    if (!answers[key]) {
+      answers[key] = new Promise(function (resolve) {
+        whenReady(function () { send({ op: op, sym: sym, ns: ns }, resolve); });
+      });
+    }
+    return answers[key];
   }
 
   // Sends a line of input, or the end of it, to the code reading it.
@@ -449,7 +477,7 @@ import { createEditor, highlighted, insertCode, setCode, setMode, unfinished } f
     { key: "ArrowDown", run: browse(false) }
   ];
 
-  var editor = createEditor(codeBox, prompt.id, placeholder, keys);
+  var editor = createEditor(codeBox, prompt.id, placeholder, keys, ask);
 
   // A click anywhere in the REPL but on its text, or a button, puts the
   // cursor in the code, as in a terminal.
