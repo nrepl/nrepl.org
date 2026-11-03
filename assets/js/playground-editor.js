@@ -4,6 +4,8 @@
 // own keys, and they go first. The editor asks the server about the code
 // as an editor plugged into nREPL does, for the arguments of the call the
 // cursor's in (eldoc) and the docs of the symbol under the mouse (lookup).
+// Its Clojure parser also reads the messages typed in on the playground's
+// page (readMessage).
 import { EditorView, ViewPlugin, drawSelection, hoverTooltip, keymap, placeholder, repositionTooltips, showTooltip } from "@codemirror/view";
 import { Compartment, EditorState, Prec, StateEffect, StateField, Transaction } from "@codemirror/state";
 import { HighlightStyle, ensureSyntaxTree, syntaxHighlighting, syntaxTree } from "@codemirror/language";
@@ -252,8 +254,9 @@ function lookup(ask) {
 
 // An editor for code in `parent`, labelled by the element with the id
 // `label`, with the placeholder `text`. `keys` are CodeMirror key bindings,
-// which go before the editor's own. `ask(op, sym)` sends the server the op
-// about the symbol, and gives a promise of its reply.
+// which go before the editor's own. With `ask(op, sym)`, which sends the
+// server the op about the symbol and gives a promise of its reply, it
+// shows what the server says about the code.
 export function createEditor(parent, label, text, keys, ask) {
   return new EditorView({
     parent: parent,
@@ -264,8 +267,7 @@ export function createEditor(parent, label, text, keys, ask) {
         // Out of the mode, so its styles stay for highlighted()
         syntaxHighlighting(highlighting),
         // While it reads input, there's no syntax tree, and nothing to ask.
-        eldoc(ask),
-        lookup(ask),
+        ask ? [eldoc(ask), lookup(ask)] : [],
         keymap.of(builtin_keymap.concat(historyKeymap)),
         history(),
         drawSelection(),
@@ -311,6 +313,76 @@ export function highlighted(code) {
     shown.append("\n");
   });
   return shown;
+}
+
+// A message typed in, which is EDN, as bencode carries it: strings,
+// integers, and lists and maps of them, with keywords and symbols as
+// strings
+
+var brackets = ["(", ")", "[", "]", "{", "}"];
+
+// The forms in `node`, but for its brackets, comments and discarded forms
+function forms(node) {
+  var found = [];
+  for (var child = node.firstChild; child; child = child.nextSibling) {
+    if (child.type.isError) throw new Error("The message isn't finished.");
+    if (brackets.indexOf(child.name) < 0 && skipped.indexOf(child.name) < 0) found.push(child);
+  }
+  return found;
+}
+
+function readForm(node, text) {
+  var source = text.slice(node.from, node.to);
+  switch (node.name) {
+    case "String":
+      try {
+        // Clojure's escapes are JSON's, but a string can have a line break
+        // in it.
+        return JSON.parse(source.replace(/[\u0000-\u001f]/g, function (c) {
+          return "\\u" + ("000" + c.charCodeAt(0).toString(16)).slice(-4);
+        }));
+      } catch (e) {
+        throw new Error("Can't read the string " + source + ".");
+      }
+    case "Number":
+      if (!/^[-+]?\d+$/.test(source)) throw new Error("Bencode's numbers are integers, which " + source + " isn't.");
+      var n = parseInt(source, 10);
+      if (!Number.isSafeInteger(n)) throw new Error(source + " is past 2^53, where the page's numbers lose digits.");
+      return n;
+    case "Keyword":
+      return source.slice(1);
+    case "Symbol":
+    case "DefLike":
+    case "NS":
+      return source;
+    // Symbols at the start of a list, as the parser has them
+    case "Operator":
+    case "VarName":
+    case "DocString":
+      return readForm(node.firstChild, text);
+    case "Vector":
+    case "List":
+      return forms(node).map(function (form) { return readForm(form, text); });
+    case "Map":
+      var entries = forms(node);
+      if (entries.length % 2) throw new Error("A map needs a value for each key.");
+      var map = Object.create(null);
+      for (var i = 0; i < entries.length; i += 2) {
+        var key = readForm(entries[i], text);
+        if (typeof key !== "string") throw new Error("Bencode's map keys are strings, and not " + text.slice(entries[i].from, entries[i].to) + ".");
+        map[key] = readForm(entries[i + 1], text);
+      }
+      return map;
+    default:
+      throw new Error("Bencode has strings, integers, lists and maps, and " + source + " isn't one.");
+  }
+}
+
+// The message in `text`, a map, or an error saying why it isn't one
+export function readMessage(text) {
+  var top = forms(clojureParser.parse(text).topNode);
+  if (top.length !== 1 || top[0].name !== "Map") throw new Error("A message is a map, like {:op \"describe\"}.");
+  return readForm(top[0], text);
 }
 
 // Whether the code leaves a form open: clojure-mode's parser puts an empty

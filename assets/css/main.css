@@ -352,15 +352,15 @@ dl.faq dd { margin: 0.3rem 0 0; }
   box-shadow: 0 0 8px rgba(63, 208, 201, 0.7);
 }
 .view-switch { display: none; }
-/* The switch, and the playground page's session tabs, which look like
-   it */
+/* The switch, and the playground page's session tabs and buttons, which
+   look like it */
 .js .view-switch, .session {
   display: inline-flex;
   border: 1px solid #2a3644;
   border-radius: 7px;
   overflow: hidden;
 }
-.view-switch button, .session button, .clone {
+.view-switch button, .session button, .clone, .composer-examples button {
   padding: 0.18rem 0.6rem;
   color: var(--w-dim);
   background: transparent;
@@ -441,10 +441,11 @@ dl.faq dd { margin: 0.3rem 0 0; }
 .repl-log .value { color: var(--w-server); }
 .repl-log .note { color: var(--w-dim); font-style: italic; }
 .repl .prompt { color: var(--w-server); user-select: none; }
-.repl-input { display: flex; gap: 0.6rem; padding: 0.6rem 0.9rem 0.7rem; }
-.repl-input .prompt { flex: none; }
-/* The editor's own styles are in assets/js/playground-editor.js. */
-.repl-code { flex: 1; min-width: 0; }
+.repl-input, .composer-input { display: flex; gap: 0.6rem; }
+.repl-input { padding: 0.6rem 0.9rem 0.7rem; }
+.repl-input .prompt, .composer .prompt { flex: none; }
+/* The editors' own styles are in assets/js/playground-editor.js. */
+.repl-code, .composer-code { flex: 1; min-width: 0; }
 .interrupt {
   padding: 0.12rem 0.6rem;
   color: var(--w-text);
@@ -496,7 +497,7 @@ dl.faq dd { margin: 0.3rem 0 0; }
 .sessions { display: flex; align-items: center; gap: 0.4rem; min-width: 0; }
 .sessions [role="tablist"] { display: flex; gap: 0.35rem; min-width: 0; overflow-x: auto; }
 .session { flex: none; }
-.session button:hover, .clone:hover { color: var(--w-t); }
+.session button:hover, .clone:hover, .composer-examples button:hover { color: var(--w-t); }
 .session .close-session { padding: 0.18rem 0.45rem; }
 .session.closing { opacity: 0.5; pointer-events: none; }
 .one-open .close-session { display: none; }
@@ -504,6 +505,14 @@ dl.faq dd { margin: 0.3rem 0 0; }
 .session [data-state="reading"]::before { color: var(--w-s); }
 .clone { flex: none; border: 1px solid #2a3644; border-radius: 7px; }
 
+/* Messages typed in, under the playground page's messages */
+.composer { flex: none; padding: 0.6rem 0.9rem 0.7rem; border-top: 1px solid var(--w-line); }
+.composer-examples { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0 0 0.55rem; }
+.composer-examples button { padding: 0.1rem 0.45rem; border: 1px solid #2a3644; border-radius: 6px; }
+.composer-examples button:hover { border-color: var(--w-client); }
+.composer .prompt { color: var(--w-client); user-select: none; }
+.composer-error { margin: 0.35rem 0 0; color: var(--w-err); }
+.composer-error:empty { display: none; }
 
 /* The 404 page */
 

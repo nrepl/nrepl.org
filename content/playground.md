@@ -22,4 +22,6 @@ you point at.
 
 Each of the REPL's tabs is a session of its own, with its own namespace and
 history. **+** clones the session you're in and **×** closes one, so code can
-keep running in one tab while you carry on in another.
+keep running in one tab while you carry on in another. Under the messages,
+you can also write messages of your own, as EDN maps, and send them just as
+they are.

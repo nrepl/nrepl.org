@@ -5,8 +5,9 @@
 // the text and site.js's copy in the second window), laid out like the
 // exchanges capture/ records. The code's typed in a CodeMirror editor (see
 // assets/js/playground-editor.js). On the playground's page, each of the
-// REPL's sessions has a tab.
-import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMode, unfinished } from "./playground-editor.js";
+// REPL's sessions has a tab, and messages can be typed in and sent as they
+// are.
+import { createEditor, forgetArguments, highlighted, insertCode, readMessage, setCode, setMode, unfinished } from "./playground-editor.js";
 
 (function () {
   "use strict";
@@ -324,17 +325,23 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
     return editor.state.doc.toString();
   }
 
-  // Sends `msg` with an id, calling `handle` with each reply until done.
-  // Unless the editor sent it on its own, the wire windows go to the end
-  // to show it.
-  function send(msg, handle, onItsOwn) {
-    var id = String(++nextId);
-    msg.id = id;
-    if (handle) handlers[id] = handle;
+  // Sends `msg` as it is. Unless the editor sent it on its own, the wire
+  // windows go to the end to show it.
+  function post(msg, onItsOwn) {
     var bytes = textEncoder.encode(encode(msg));
     sentByHand = sentByHand || !onItsOwn;
     show("client", parse(bytes));
     worker.postMessage(bytes, [bytes.buffer]);
+  }
+
+  // Sends `msg` with an id, calling `handle` with each reply until done.
+  // The replies have to come from the session it names, so those to a
+  // message typed in with the same id aren't taken for them.
+  function send(msg, handle, onItsOwn) {
+    var id = String(++nextId);
+    msg.id = id;
+    if (handle) handlers[id] = { session: msg.session, handle: handle };
+    post(msg, onItsOwn);
     return id;
   }
 
@@ -342,10 +349,10 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
     var reply = parse(event.data);
     show("server", reply);
     var msg = reply.msg;
-    var handle = handlers[msg.id];
-    if (!handle) return;
+    var handler = handlers[msg.id];
+    if (!handler || handler.session !== msg.session) return;
     if ((msg.status || []).indexOf("done") >= 0) delete handlers[msg.id];
-    handle(msg);
+    handler.handle(msg);
   }
 
   // Starts the server, the first time it's needed, with the REPL's first
@@ -646,5 +653,46 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
   if (tabList) {
     addTab(current);
     repl.querySelector(".clone").addEventListener("click", cloneTab);
+  }
+
+  // Messages typed in, on the playground's page, sent as they are. Their
+  // replies only show in the wire window, and what's wrong with one that
+  // isn't a message shows under it.
+
+  var composerBox = section.querySelector(".composer-code");
+  var composerError = section.querySelector(".composer-error");
+  var messages = newHistory();
+
+  function sendMessage(text) {
+    var msg;
+    try {
+      msg = readMessage(text);
+    } catch (e) {
+      composerError.textContent = e.message;
+      return false;
+    }
+    composerError.textContent = "";
+    remember(messages, text);
+    whenReady(function () { post(msg); });
+    return true;
+  }
+
+  if (composerBox) {
+    var composerLabel = section.querySelector(".composer .prompt").id;
+    var composer = createEditor(composerBox, composerLabel, composerBox.dataset.placeholder, [
+      { key: "Enter", run: function (view) {
+        if (unfinished(view.state)) return false;
+        var text = view.state.doc.toString().trim();
+        if (text && sendMessage(text)) setCode(view, "");
+        return true;
+      } }
+    ].concat(historyKeys(function () { return messages; })));
+    composer.contentDOM.addEventListener("focus", function () { start(); });
+    section.querySelectorAll("[data-message]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        sendMessage(button.dataset.message);
+        composer.focus();
+      });
+    });
   }
 })();

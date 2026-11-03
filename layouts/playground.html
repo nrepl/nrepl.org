@@ -1,6 +1,6 @@
 {{- /* The playground's own page: the REPL from the front page with more
        room and a tab for each of its sessions, and its messages next to
-       it. */ -}}
+       it, where messages can be typed in by hand too. */ -}}
 {{ define "head" }}
   {{- /* A service worker keeps its address, so it's not fingerprinted. */}}
   {{- $sw := resources.FromString "playground/sw.js" (resources.Get "js/playground-sw.js" | minify).Content }}
@@ -49,7 +49,7 @@
     {{ partial "playground-examples.html" }}
     <div class="playground-windows">
       {{ partial "playground-repl.html" (dict "sessions" true) }}
-      {{ partial "playground-wire.html" }}
+      {{ partial "playground-wire.html" (dict "composer" true) }}
     </div>
   </div>
   {{- end }}

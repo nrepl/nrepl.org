@@ -20,6 +20,14 @@ examples:
     input: true
   - code: (range)
   - code: (throw (ex-info "Boom!" {:why "testing"}))
+# Messages for the playground's page to send as they are, from its wire
+# window. None of them names a session, so each gets one of its own.
+messages:
+  - '{:op "describe"}'
+  - '{:op "ls-sessions"}'
+  - '{:op "eval" :code "(+ 1 2)"}'
+  - '{:op "lookup" :sym "reduce"}'
+  - '{:op "frobnicate"}'
 caption: >-
   Everything that went back and forth between this page and the server,
   live.

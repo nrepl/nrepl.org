@@ -1,10 +1,25 @@
 {{- /* The playground's wire window, where assets/js/playground.js shows the
-       messages: (partial "playground-wire.html" "A caption"), or without
-       one. */ -}}
-<figure class="wire-figure" data-playground-wire{{ if not . }} aria-label="The messages"{{ end }}>
+       messages: (partial "playground-wire.html" (dict "caption" "A
+       caption")), or without one. With "composer", as on the playground's
+       page, messages can be typed in and sent from it too. */ -}}
+<figure class="wire-figure" data-playground-wire{{ if not .caption }} aria-label="The messages"{{ end }}>
   {{ partial "wire-bar.html" "nrepl-sci" }}
   <ol class="msgs" data-empty="The messages show up here once you start using the REPL."></ol>
-  {{- with . }}
+  {{- if .composer }}
+  <div class="composer">
+    <p class="composer-examples">
+      {{- range hugo.Data.playground.messages }}
+      <button type="button" data-message="{{ . }}">{{ . }}</button>
+      {{- end }}
+    </p>
+    <div class="composer-input">
+      <span class="prompt" id="composer-prompt" aria-label="A message to send">→</span>
+      <div class="composer-code" data-placeholder="{:op &quot;describe&quot;}"></div>
+    </div>
+    <p class="composer-error" aria-live="polite"></p>
+  </div>
+  {{- end }}
+  {{- with .caption }}
   <figcaption>{{ . }}</figcaption>
   {{- end }}
 </figure>
