@@ -9,7 +9,7 @@
 <section class="block playground" id="try" data-pane data-playground data-worker="{{ .RelPermalink }}">
   <h2>Try it</h2>
   <p>{{ $p.blurb | markdownify }}</p>
-  {{ partial "playground-repl.html" }}
+  {{ partial "playground-repl.html" dict }}
   {{ partial "playground-examples.html" }}
   <p class="more"><a href="{{ "playground/" | relURL }}">More in the playground</a></p>
   {{ partial "playground-wire.html" $p.caption }}

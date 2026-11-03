@@ -6,7 +6,8 @@ description: >-
 layout: playground
 isolationNote: >-
   Your browser wouldn't let this page be cross-origin isolated, so code can't
-  ask you for input here, and interrupting code starts the server over.
+  ask you for input here, interrupting code (or closing a tab that's running
+  it) starts the server over, and sessions take turns running code.
 ---
 
 This is a real nREPL server, running right here in your browser:
@@ -18,3 +19,7 @@ can ask you for input with `read-line`. As you write, the editor asks the
 server about your code, the way editors hooked up to nREPL do: `eldoc` for
 the arguments of the call you're in, and `lookup` for the docs of any symbol
 you point at.
+
+Each of the REPL's tabs is a session of its own, with its own namespace and
+history. **+** clones the session you're in and **×** closes one, so code can
+keep running in one tab while you carry on in another.

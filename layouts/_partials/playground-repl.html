@@ -1,10 +1,20 @@
 {{- /* The playground's REPL. assets/js/playground.js runs it, talking to
        the worker in the data-worker of the element marked data-playground
        around it, and shows the messages in the wire windows marked
-       data-playground-wire, from the templates. */ -}}
+       data-playground-wire, from the templates. With sessions, as on the
+       playground's page (partial "playground-repl.html" (dict "sessions"
+       true)), its sessions are tabs, and new ones are cloned from the one
+       shown. */ -}}
 <div class="repl">
   <div class="wire-bar">
+    {{- if .sessions }}
+    <div class="sessions">
+      <div role="tablist" aria-label="Sessions"></div>
+      <button type="button" class="clone" title="Clone this session">+</button>
+    </div>
+    {{- else }}
     <span class="wire-title">nrepl-sci, in this page</span>
+    {{- end }}
     <button type="button" class="interrupt" hidden>interrupt</button>
   </div>
   <div class="repl-log" aria-live="polite"></div>
@@ -15,6 +25,9 @@
 </div>
 <template data-msg="client">{{ partial "msg.html" (dict "from" "client") }}</template>
 <template data-msg="server">{{ partial "msg.html" (dict "from" "server") }}</template>
+{{- if .sessions }}
+<template data-tab><span class="session"><button type="button" role="tab" aria-selected="false"></button><button type="button" class="close-session" aria-label="Close the session">×</button></span></template>
+{{- end }}
 {{- /* js.Build bundles in the editor, from the packages in package.json
        (npm ci installs them). */}}
 {{- $js := resources.Get "js/playground.js" | js.Build (dict "minify" true) | fingerprint }}

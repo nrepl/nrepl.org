@@ -352,13 +352,15 @@ dl.faq dd { margin: 0.3rem 0 0; }
   box-shadow: 0 0 8px rgba(63, 208, 201, 0.7);
 }
 .view-switch { display: none; }
-.js .view-switch {
+/* The switch, and the playground page's session tabs, which look like
+   it */
+.js .view-switch, .session {
   display: inline-flex;
   border: 1px solid #2a3644;
   border-radius: 7px;
   overflow: hidden;
 }
-.view-switch button {
+.view-switch button, .session button, .clone {
   padding: 0.18rem 0.6rem;
   color: var(--w-dim);
   background: transparent;
@@ -366,8 +368,8 @@ dl.faq dd { margin: 0.3rem 0 0; }
   font: 12px var(--mono);
   cursor: pointer;
 }
-.view-switch button + button { border-left: 1px solid #2a3644; }
-.view-switch button[aria-pressed="true"] { color: var(--w-t); background: #203041; }
+.view-switch button + button, .session button + button { border-left: 1px solid #2a3644; }
+.view-switch button[aria-pressed="true"], .session [aria-selected="true"] { color: var(--w-t); background: #203041; }
 
 .msgs {
   display: flex;
@@ -487,6 +489,21 @@ dl.faq dd { margin: 0.3rem 0 0; }
   .playground-windows { flex: 1; min-height: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   .playground-windows > .repl, .playground-windows > .wire-figure { height: auto; }
 }
+
+/* The REPL's sessions, as tabs in its bar. A tab's dot says its session
+   is running code, or waiting for input, and a tab that's closing is
+   faded till the server's closed its session. */
+.sessions { display: flex; align-items: center; gap: 0.4rem; min-width: 0; }
+.sessions [role="tablist"] { display: flex; gap: 0.35rem; min-width: 0; overflow-x: auto; }
+.session { flex: none; }
+.session button:hover, .clone:hover { color: var(--w-t); }
+.session .close-session { padding: 0.18rem 0.45rem; }
+.session.closing { opacity: 0.5; pointer-events: none; }
+.one-open .close-session { display: none; }
+.session [data-state="running"]::before, .session [data-state="reading"]::before { content: "● "; color: var(--w-client); }
+.session [data-state="reading"]::before { color: var(--w-s); }
+.clone { flex: none; border: 1px solid #2a3644; border-radius: 7px; }
+
 
 /* The 404 page */
 

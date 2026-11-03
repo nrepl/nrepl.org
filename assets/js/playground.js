@@ -4,7 +4,8 @@
 // back and forth shows in the wire windows (on the front page, the one in
 // the text and site.js's copy in the second window), laid out like the
 // exchanges capture/ records. The code's typed in a CodeMirror editor (see
-// assets/js/playground-editor.js).
+// assets/js/playground-editor.js). On the playground's page, each of the
+// REPL's sessions has a tab.
 import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMode, unfinished } from "./playground-editor.js";
 
 (function () {
@@ -26,7 +27,9 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
     if (typeof x === "number") return "i" + x + "e";
     if (typeof x === "string") return textEncoder.encode(x).length + ":" + x;
     if (Array.isArray(x)) return "l" + x.map(encode).join("") + "e";
-    return "d" + Object.keys(x).sort().map(function (k) { return encode(k) + encode(x[k]); }).join("") + "e";
+    // As nrepl-sci does, a key with nothing for its value is left out.
+    var keys = Object.keys(x).sort().filter(function (k) { return x[k] != null; });
+    return "d" + keys.map(function (k) { return encode(k) + encode(x[k]); }).join("") + "e";
   }
 
   // The message in `bytes`, and its bencode as [class, text] tokens.
@@ -181,6 +184,9 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
   var shown = [];
   var lists = null;
   var scheduled = false;
+  // Whether what's shown next has a message sent for something someone
+  // did, rather than one the editor asked on its own
+  var sentByHand = false;
 
   function schedule() {
     if (scheduled) return;
@@ -200,8 +206,9 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
     var items = shown.splice(0).slice(-keep).map(function (m) { return build(m[0], m[1]); });
     if (items.length) {
       lists.forEach(function (list, n) {
-        // Messages someone scrolled back to read stay put.
-        var following = list.scrollHeight - list.scrollTop - list.clientHeight < 2;
+        // Messages someone scrolled back to read stay put, unless they've
+        // just sent something.
+        var following = sentByHand || list.scrollHeight - list.scrollTop - list.clientHeight < 2;
         var fragment = document.createDocumentFragment();
         items.forEach(function (li) { fragment.appendChild(n ? li.cloneNode(true) : li); });
         list.appendChild(fragment);
@@ -209,41 +216,70 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
         if (following) list.scrollTop = list.scrollHeight;
       });
     }
+    sentByHand = false;
     // The editor's questions don't move the REPL's text, only what it prints.
     if (printed) {
       printed = false;
-      while (log.childElementCount > keep) log.firstElementChild.remove();
-      log.scrollTop = log.scrollHeight;
+      current.log.scrollTop = current.log.scrollHeight;
     }
   }
 
   // The REPL
 
-  var log = section.querySelector(".repl-log");
-  var codeBox = section.querySelector(".repl-code");
-  var prompt = section.querySelector(".prompt");
-  var interruptButton = section.querySelector(".interrupt");
+  var repl = section.querySelector(".repl");
+  var codeBox = repl.querySelector(".repl-code");
+  var prompt = repl.querySelector(".repl-input .prompt");
+  var interruptButton = repl.querySelector(".interrupt");
   var placeholder = codeBox.dataset.placeholder;
+  // The tabs for the sessions, on the playground's page
+  var tabList = repl.querySelector("[role=tablist]");
+  var tabTemplate = section.querySelector("template[data-tab]");
 
   var worker = null;
   var started = null;
-  var session = null;
-  var ns = "user";
   var nextId = 0;
   var handlers = {};
-  // The id of the eval running, or true while it waits for the server
-  var running = null;
-  var reading = false;
-  var history = [];
-  var back = 0;
-  var draft = "";
-  var printed = false;
   // What the editor asks the server about a symbol, an op at a time (see
   // ask), until code runs, which can change the answers
   var answers = {};
+  // Whether the REPL's text has something new to scroll to
+  var printed = false;
 
-  function print(kind, text) {
-    printed = true;
+  // What was sent from an editor: the entries, how far back in them the
+  // editor is, and what was being written before going back
+  function newHistory() {
+    return { entries: [], back: 0, draft: "" };
+  }
+
+  function remember(history, text) {
+    history.entries.push(text);
+    history.back = history.entries.length;
+    history.draft = "";
+  }
+
+  // One of the REPL's sessions, with its id once the server's made it, its
+  // namespace and text, and its code, sent and being written
+  function newTab(log, id, ns) {
+    return {
+      id: id,
+      ns: ns,
+      log: log,
+      // The id of the eval running, or true while it waits for the server
+      running: null,
+      reading: false,
+      sent: newHistory(),
+      // What's in the editor while another tab's shown
+      code: "",
+      button: null,
+      closing: false
+    };
+  }
+
+  var tabs = [newTab(repl.querySelector(".repl-log"), null, "user")];
+  var current = tabs[0];
+
+  function print(tab, kind, text) {
+    var log = tab.log;
     var last = log.lastElementChild;
     if (last && last.className === kind && kind !== "input") {
       last.append(text);
@@ -253,7 +289,9 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
       pre.className = kind;
       pre.append(text);
       log.appendChild(pre);
+      while (log.childElementCount > keep) log.firstElementChild.remove();
     }
+    if (tab === current) printed = true;
     schedule();
   }
 
@@ -269,27 +307,32 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
 
   var editorReading = false;
 
-  function setPrompt() {
-    prompt.textContent = reading ? "stdin>" : ns + "=>";
-    if (reading !== editorReading) {
-      editorReading = reading;
-      setMode(editor, !reading, reading ? "Type a line, Enter sends it" : placeholder);
+  // Shows what a session's up to: in its tab, and in the prompt, the editor
+  // and the interrupt button when it's the one shown
+  function showState(tab) {
+    if (tab.button) tab.button.dataset.state = tab.reading ? "reading" : tab.running ? "running" : "";
+    if (tab !== current) return;
+    prompt.textContent = tab.reading ? "stdin>" : tab.ns + "=>";
+    if (tab.reading !== editorReading) {
+      editorReading = tab.reading;
+      setMode(editor, !tab.reading, tab.reading ? "Type a line, Enter sends it" : placeholder);
     }
-    interruptButton.hidden = typeof running !== "string";
+    interruptButton.hidden = typeof tab.running !== "string";
   }
 
   function code() {
     return editor.state.doc.toString();
   }
 
-  // Sends `msg` with an id, and the session once there is one, calling
-  // `handle` with each reply until done.
-  function send(msg, handle) {
+  // Sends `msg` with an id, calling `handle` with each reply until done.
+  // Unless the editor sent it on its own, the wire windows go to the end
+  // to show it.
+  function send(msg, handle, onItsOwn) {
     var id = String(++nextId);
     msg.id = id;
-    if (session) msg.session = session;
     if (handle) handlers[id] = handle;
     var bytes = textEncoder.encode(encode(msg));
+    sentByHand = sentByHand || !onItsOwn;
     show("client", parse(bytes));
     worker.postMessage(bytes, [bytes.buffer]);
     return id;
@@ -305,8 +348,8 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
     handle(msg);
   }
 
-  // Starts the server, the first time it's needed, with a session for the
-  // REPL. If it doesn't start, the next try starts it over.
+  // Starts the server, the first time it's needed, with the REPL's first
+  // session. If it doesn't start, the next try starts it over.
   function start() {
     if (started) return started;
     started = new Promise(function (resolve, reject) {
@@ -318,15 +361,19 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
         else if ((reply.status || []).indexOf("done") >= 0) reject(reply.err);
       });
     });
-    started.then(function (id) { session = id; }, function (err) {
-      print("err", (err || "The server didn't start.").trim() + "\n");
+    // Till then, the first tab is the only one.
+    started.then(function (id) {
+      current.id = id;
+      label(current);
+    }, function (err) {
+      print(current, "err", (err || "The server didn't start.").trim() + "\n");
       worker.terminate();
       worker = null;
       started = null;
       handlers = {};
       answers = {};
-      running = null;
-      setPrompt();
+      current.running = null;
+      showState(current);
     });
     return started;
   }
@@ -336,29 +383,35 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
   }
 
   function evaluate(code) {
-    print("input", echo(ns + "=>", highlighted(code)));
-    history.push(code);
-    back = history.length;
-    draft = "";
-    running = true;
+    var tab = current;
+    print(tab, "input", echo(tab.ns + "=>", highlighted(code)));
+    remember(tab.sent, code);
+    tab.running = true;
     whenReady(function () {
-      running = send({ op: "eval", code: code }, function (reply) {
-        if ("out" in reply) print("out", reply.out);
-        if ("err" in reply) print("err", reply.err);
-        if ("value" in reply) print("value", reply.value + "\n");
-        if (reply.ns) ns = reply.ns;
+      tab.running = send({ op: "eval", code: code, session: tab.id }, function (reply) {
+        if ("out" in reply) print(tab, "out", reply.out);
+        // What a closed tab's code says last, as when the server starts
+        // over without isolation, shows in the tab shown.
+        if ("err" in reply) print(tabs.indexOf(tab) >= 0 ? tab : current, "err", reply.err);
+        if ("value" in reply) print(tab, "value", reply.value + "\n");
+        if (reply.ns) tab.ns = reply.ns;
         var status = reply.status || [];
-        if (status.indexOf("need-input") >= 0) reading = true;
-        if (status.indexOf("interrupted") >= 0) print("note", "Interrupted\n");
+        if (status.indexOf("need-input") >= 0) tab.reading = true;
+        if (status.indexOf("interrupted") >= 0) print(tab, "note", "Interrupted\n");
+        // Such as a session that's closed, or a namespace that isn't there
+        if (status.indexOf("error") >= 0) {
+          var errors = status.filter(function (s) { return s !== "error" && s !== "done"; });
+          print(tab, "err", "The server says: " + errors.join(", ") + "\n");
+        }
         if (status.indexOf("done") >= 0) {
-          running = null;
-          reading = false;
+          tab.running = null;
+          tab.reading = false;
           answers = {};
           forgetArguments(editor);
         }
-        if (reply.status || reply.ns) setPrompt();
+        if (reply.status || reply.ns) showState(tab);
       });
-      setPrompt();
+      showState(tab);
     });
   }
 
@@ -367,10 +420,11 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
   // start a server that failed to start; sending code does.
   function ask(op, sym) {
     if (!started) return Promise.resolve({});
-    var key = op + " " + ns + " " + sym;
+    var tab = current;
+    var key = op + " " + tab.ns + " " + sym;
     if (!answers[key]) {
       answers[key] = new Promise(function (resolve) {
-        whenReady(function () { send({ op: op, sym: sym, ns: ns }, resolve); });
+        whenReady(function () { send({ op: op, sym: sym, ns: tab.ns, session: tab.id }, resolve, true); });
       });
     }
     return answers[key];
@@ -378,10 +432,10 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
 
   // Sends a line of input, or the end of it, to the code reading it.
   function sendInput(stdin, kind, text) {
-    print(kind, text);
-    send({ op: "stdin", stdin: stdin });
-    reading = false;
-    setPrompt();
+    print(current, kind, text);
+    send({ op: "stdin", stdin: stdin, session: current.id });
+    current.reading = false;
+    showState(current);
   }
 
   // The longest start all the strings share.
@@ -402,17 +456,18 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
   }
 
   function complete(prefix) {
+    var tab = current;
     var doc = editor.state.doc;
     var at = editor.state.selection.main.head;
     whenReady(function () {
-      send({ op: "complete", prefix: prefix, ns: ns }, function (reply) {
+      send({ op: "complete", prefix: prefix, ns: tab.ns, session: tab.id }, function (reply) {
         var candidates = (reply.completions || []).map(function (c) { return c.candidate; });
         // The code can change while the server's busy with something else.
         if (!candidates.length || editor.state.doc !== doc || editor.state.selection.main.head !== at) return;
         var completion = candidates.length === 1 ? candidates[0] + " " : common(candidates);
         if (completion.length > prefix.length) insertCode(editor, at, completion.slice(prefix.length));
         if (candidates.length > 1) {
-          print("note", candidates.slice(0, 40).join("  ") + (candidates.length > 40 ? "  …" : "") + "\n");
+          print(tab, "note", candidates.slice(0, 40).join("  ") + (candidates.length > 40 ? "  …" : "") + "\n");
         }
       });
     });
@@ -420,20 +475,21 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
 
   function submit() {
     var text = code();
-    if (reading) {
+    if (current.reading) {
       setCode(editor, "");
       sendInput(text + "\n", "input", echo("stdin>", text));
-    } else if (!running && text.trim()) {
+    } else if (!current.running && text.trim()) {
       setCode(editor, "");
       evaluate(text.trim());
     }
   }
 
-  // Up on the code's first line, or Down on its last, goes through what
-  // was sent before.
-  function browse(up) {
+  // Up on the code's first line, or Down on its last, goes through the
+  // history `owner()` gives, if any.
+  function browse(up, owner) {
     return function (view) {
-      if (reading || !history.length) return false;
+      var sent = owner();
+      if (!sent || !sent.entries.length) return false;
       var doc = view.state.doc;
       var selection = view.state.selection.main;
       var atEdge = up
@@ -441,11 +497,15 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
         : doc.lineAt(selection.to).number === doc.lines;
       if (!atEdge) return false;
       // What's being written comes back past the newest entry.
-      if (back === history.length) draft = code();
-      back = Math.max(0, Math.min(history.length, back + (up ? -1 : 1)));
-      setCode(view, back < history.length ? history[back] : draft);
+      if (sent.back === sent.entries.length) sent.draft = doc.toString();
+      sent.back = Math.max(0, Math.min(sent.entries.length, sent.back + (up ? -1 : 1)));
+      setCode(view, sent.back < sent.entries.length ? sent.entries[sent.back] : sent.draft);
       return true;
     };
+  }
+
+  function historyKeys(owner) {
+    return [{ key: "ArrowUp", run: browse(true, owner) }, { key: "ArrowDown", run: browse(false, owner) }];
   }
 
   // The REPL's keys. Each one that doesn't apply leaves the key to the
@@ -455,33 +515,31 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
     // CIDER's REPL does. Brackets close as they open, so a new line takes
     // Shift+Enter, unless something's left open.
     { key: "Enter", run: function () {
-      if (!reading && unfinished(editor.state)) return false;
+      if (!current.reading && unfinished(editor.state)) return false;
       submit();
       return true;
     } },
     // Anywhere there's nothing to complete, Tab moves on, so the REPL
     // doesn't trap the keyboard.
     { key: "Tab", run: function () {
-      var prefix = !reading && completable();
+      var prefix = !current.reading && completable();
       if (!prefix) return false;
       complete(prefix);
       return true;
     } },
     // The end of the input, as in a terminal
     { key: "Ctrl-d", run: function () {
-      if (!reading || editor.state.doc.length) return false;
+      if (!current.reading || editor.state.doc.length) return false;
       sendInput("", "note", "End of input\n");
       return true;
-    } },
-    { key: "ArrowUp", run: browse(true) },
-    { key: "ArrowDown", run: browse(false) }
-  ];
+    } }
+  ].concat(historyKeys(function () { return current.reading ? null : current.sent; }));
 
   var editor = createEditor(codeBox, prompt.id, placeholder, keys, ask);
 
   // A click anywhere in the REPL but on its text, or a button, puts the
   // cursor in the code, as in a terminal.
-  section.querySelector(".repl").addEventListener("click", function (event) {
+  repl.addEventListener("click", function (event) {
     if (event.target.closest("pre, button") || !getSelection().isCollapsed) return;
     editor.focus();
   });
@@ -491,7 +549,9 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
   editor.contentDOM.addEventListener("focus", function () { start(); });
 
   interruptButton.addEventListener("click", function () {
-    if (typeof running === "string") send({ op: "interrupt", "interrupt-id": running });
+    if (typeof current.running === "string") {
+      send({ op: "interrupt", session: current.id, "interrupt-id": current.running });
+    }
   });
 
   section.querySelectorAll("[data-example]").forEach(function (button) {
@@ -501,9 +561,90 @@ import { createEditor, forgetArguments, highlighted, insertCode, setCode, setMod
       return;
     }
     button.addEventListener("click", function () {
-      if (running) return;
+      if (current.running) return;
       evaluate(button.dataset.example);
       editor.focus();
     });
   });
+
+  // The sessions' tabs, on the playground's page. + clones the session
+  // shown into a new one, and × closes one, while there are two or more.
+
+  function label(tab) {
+    if (!tab.button) return;
+    tab.button.textContent = tab.id ? tab.id.slice(0, 8) : "session";
+    tab.button.title = tab.id ? "Session " + tab.id : "The server makes the session once it starts.";
+  }
+
+  function openTabs() {
+    return tabs.filter(function (tab) { return !tab.closing; });
+  }
+
+  function showClosable() {
+    tabList.classList.toggle("one-open", openTabs().length < 2);
+  }
+
+  function addTab(tab) {
+    var item = tabTemplate.content.firstElementChild.cloneNode(true);
+    tab.button = item.querySelector("[role=tab]");
+    tab.button.setAttribute("aria-selected", String(tab === current));
+    tab.button.addEventListener("click", function () { switchTo(tab); });
+    item.querySelector(".close-session").addEventListener("click", function () { closeTab(tab); });
+    tabList.appendChild(item);
+    showClosable();
+    label(tab);
+  }
+
+  function switchTo(tab) {
+    if (tab === current) return;
+    current.code = code();
+    current.log.hidden = true;
+    current.button.setAttribute("aria-selected", "false");
+    current = tab;
+    tab.log.hidden = false;
+    tab.log.scrollTop = tab.log.scrollHeight;
+    tab.button.setAttribute("aria-selected", "true");
+    setCode(editor, tab.code);
+    showState(tab);
+    editor.focus();
+  }
+
+  function cloneTab() {
+    var from = current;
+    whenReady(function () {
+      send({ op: "clone", session: from.id }, function (reply) {
+        if (!reply["new-session"]) return;
+        var log = from.log.cloneNode(false);
+        log.hidden = true;
+        repl.insertBefore(log, repl.querySelector(".repl-input"));
+        var tab = newTab(log, reply["new-session"], from.ns);
+        tabs.push(tab);
+        addTab(tab);
+        switchTo(tab);
+      });
+    });
+  }
+
+  // A tab goes once the server's closed its session, which stops what it's
+  // evaluating. Till then it's on its way out, and isn't shown.
+  function closeTab(tab) {
+    var open = openTabs();
+    var i = open.indexOf(tab);
+    if (i < 0 || open.length < 2) return;
+    tab.closing = true;
+    tab.button.parentNode.classList.add("closing");
+    showClosable();
+    if (tab === current) switchTo(open[i + 1] || open[i - 1]);
+    send({ op: "close", session: tab.id }, function (reply) {
+      if ((reply.status || []).indexOf("done") < 0) return;
+      tabs.splice(tabs.indexOf(tab), 1);
+      tab.button.parentNode.remove();
+      tab.log.remove();
+    });
+  }
+
+  if (tabList) {
+    addTab(current);
+    repl.querySelector(".clone").addEventListener("click", cloneTab);
+  }
 })();
