@@ -4,7 +4,7 @@
 // own keys, and they go first.
 import { EditorView, drawSelection, keymap, placeholder } from "@codemirror/view";
 import { Compartment, EditorState, Prec, Transaction } from "@codemirror/state";
-import { HighlightStyle, ensureSyntaxTree, syntaxHighlighting } from "@codemirror/language";
+import { HighlightStyle, ensureSyntaxTree, syntaxHighlighting, syntaxTree } from "@codemirror/language";
 import { history, historyKeymap } from "@codemirror/commands";
 import { highlightCode, tags } from "@lezer/highlight";
 import { builtin_keymap, default_extensions, paredit_keymap, syntax } from "@nextjournal/clojure-mode";
@@ -43,9 +43,35 @@ var paredit = paredit_keymap.filter(function (binding) { return taken.indexOf(bi
 // Shift+Enter starts a new line where Enter would send the code.
 var newline = paredit_keymap.find(function (binding) { return binding.key === "Enter"; }).run;
 
+function enclosing(node, name) {
+  while (node && node.name !== name) node = node.parent;
+  return node;
+}
+
+// A quote typed in a string: at its end, it steps over the one closing it,
+// as in paredit, and after a backslash, it's the quote being escaped.
+// clojure-mode escapes every quote typed in a string, even those.
+function quoteInString(view) {
+  var range = view.state.selection.main;
+  if (!range.empty) return false;
+  var head = range.head;
+  var tree = syntaxTree(view.state);
+  var quote = tree.resolveInner(head, 1);
+  if (quote.name === "\"" && quote.parent.name === "String" &&
+      quote.to === quote.parent.to && quote.from > quote.parent.from) {
+    view.dispatch({ selection: { anchor: quote.to }, userEvent: "select" });
+    return true;
+  }
+  var string = enclosing(tree.resolveInner(head, -1), "String");
+  if (!string || /\\*$/.exec(view.state.sliceDoc(string.from + 1, head))[0].length % 2 === 0) return false;
+  view.dispatch({ changes: { from: head, insert: "\"" }, selection: { anchor: head + 1 }, userEvent: "input.type" });
+  return true;
+}
+
 // Clojure, or a line typed for code that reads input, which is just text.
 var clojure = [
   default_extensions,
+  Prec.highest(keymap.of([{ key: "\"", run: quoteInString }])),
   keymap.of([{ key: "Shift-Enter", run: newline }].concat(paredit))
 ];
 var mode = new Compartment();
