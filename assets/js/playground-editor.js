@@ -70,7 +70,8 @@ function enclosing(node, name) {
 
 // A quote typed in a string: at its end, it steps over the one closing it,
 // as in paredit, and after a backslash, it's the quote being escaped.
-// clojure-mode escapes every quote typed in a string, even those.
+// clojure-mode escapes every quote typed in a string, even those:
+// https://github.com/nextjournal/clojure-mode/issues/63
 function quoteInString(view) {
   var range = view.state.selection.main;
   if (!range.empty) return false;
