@@ -43,6 +43,9 @@ groups:
       - name: neorepl
         url: https://github.com/nrepl/neorepl
         what: Clojure and friends
+      - name: clojure-cli.repl
+        url: https://github.com/clojure/clojure-cli.repl
+        what: the Clojure team's
       - name: REPL-y
         url: https://github.com/trptcolin/reply
         what: behind lein repl
@@ -55,6 +58,9 @@ groups:
       - name: brepl
         url: https://github.com/licht1stein/brepl
         what: Babashka
+      - name: bb repl --connect
+        url: https://github.com/babashka/babashka
+        what: built into Babashka
       - name: shevek
         url: https://git.sr.ht/~technomancy/shevek/
         what: written in Fennel
@@ -67,12 +73,30 @@ groups:
       - name: Babashka
         url: https://book.babashka.org/#_nrepl
         what: native Clojure scripting
+      - name: nbb
+        url: https://github.com/babashka/nbb
+        what: Clojure scripting on Node.js
       - name: nrepl-cljs
         url: https://github.com/djblue/nrepl-cljs
         what: ClojureScript
+      - name: sci.nrepl
+        url: https://github.com/babashka/sci.nrepl
+        what: scittle, in the browser
+      - name: nrepl-sci
+        url: https://github.com/nrepl/nrepl-sci
+        what: SCI in a web page
       - name: clr.tools.nrepl
         url: https://github.com/clojure/clr.tools.nrepl
         what: ClojureCLR
+      - name: Basilisp
+        url: https://github.com/basilisp-lang/basilisp
+        what: Clojure on Python
+      - name: jank
+        url: https://github.com/jank-lang/jank
+        what: native Clojure with C++ interop
+      - name: let-go
+        url: https://github.com/nooga/let-go
+        what: almost Clojure, in Go
       - name: nrepl-beam
         url: https://github.com/nrepl/nrepl-beam
         what: Erlang and Elixir
