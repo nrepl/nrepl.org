@@ -1,0 +1,3 @@
+{{- /* Text that isn't markdown, with the apostrophes markdown's text gets:
+       {{ partial "curly.html" "It's here" }} */ -}}
+{{- return replace . "'" "’" -}}

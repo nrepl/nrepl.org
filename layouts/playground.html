@@ -45,7 +45,7 @@
   <noscript><p>The playground runs in your browser, so it needs JavaScript.</p></noscript>
   {{- with partialCached "playground-worker.html" . }}
   <div class="playground-app" data-playground data-worker="{{ .RelPermalink }}">
-    <p class="isolation-note">{{ $.Params.isolationNote }}</p>
+    <p class="isolation-note">{{ partial "curly.html" $.Params.isolationNote }}</p>
     {{ partial "playground-examples.html" }}
     <div class="playground-windows">
       {{ partial "playground-repl.html" (dict "sessions" true) }}

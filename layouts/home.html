@@ -12,8 +12,8 @@
   <main id="main" class="text">
     <section class="hero" data-pane>
       <h1 class="logo">{{ (resources.Get "img/logo.svg").Content | safeHTML }}</h1>
-      <p class="tagline">{{ .Params.tagline }}</p>
-      <p class="intro">{{ .Params.intro }}</p>
+      <p class="tagline">{{ partial "curly.html" .Params.tagline }}</p>
+      <p class="intro">{{ partial "curly.html" .Params.intro }}</p>
       <p class="command-label">{{ .Params.startLabel }}:</p>
       <div class="command">
         <span class="prompt" aria-hidden="true">$</span>
@@ -21,7 +21,7 @@
         <button type="button" class="copy" data-copy="{{ $start }}">copy</button>
       </div>
       <p class="version">Latest release: <a href="{{ $gh.releaseURL }}">{{ $gh.version }}</a>,
-        and <a href="{{ $p.changelog }}">what's new in {{ delimit (first 2 (split $gh.version ".")) "." }}</a>.</p>
+        and <a href="{{ $p.changelog }}">what’s new in {{ delimit (first 2 (split $gh.version ".")) "." }}</a>.</p>
       {{ partial "exchange.html" (dict "key" .Params.heroPane "caption" .Params.heroCaption) }}
     </section>
 
@@ -51,13 +51,13 @@
     {{ partial "playground.html" . }}
 
     <section class="block" id="clients" data-pane>
-      <h2>Who's on the line</h2>
-      <p>{{ $clients.intro }}</p>
+      <h2>Who’s on the line</h2>
+      <p>{{ partial "curly.html" $clients.intro }}</p>
       {{- range $clients.groups }}
       <h3>{{ .name }}</h3>
       <ul class="clients">
         {{- range .items }}
-        <li><a href="{{ .url }}">{{ .name }}</a> <span>{{ .what }}</span></li>
+        <li><a href="{{ .url }}">{{ .name }}</a> <span>{{ partial "curly.html" .what }}</span></li>
         {{- end }}
       </ul>
       {{- end }}
@@ -99,7 +99,7 @@
       <h2>Questions</h2>
       <dl class="faq">
         {{- range . }}
-        <dt>{{ .q }}</dt>
+        <dt>{{ partial "curly.html" .q }}</dt>
         <dd>{{ .a | markdownify }}</dd>
         {{- end }}
       </dl>
@@ -116,14 +116,14 @@
       </ul>
 
       <h3 id="funding">Supporting nREPL</h3>
-      <p>{{ $community.supportBlurb }}</p>
+      <p>{{ partial "curly.html" $community.supportBlurb }}</p>
       <ul class="plain">
         {{- range $community.support }}
         <li><a href="{{ .url }}">{{ .name }}</a>{{ if .recommended }} <span class="tag">recommended</span>{{ end }} - {{ .blurb }}</li>
         {{- end }}
       </ul>
       {{- with $community.ecosystem }}
-      <p>{{ $community.ecosystemIntro }}
+      <p>{{ partial "curly.html" $community.ecosystemIntro }}
         {{ range $i, $e := . }}{{ if $i }}, {{ end }}<a href="{{ $e.url }}">{{ $e.name }}</a>{{ end }}.</p>
       {{- end }}
     </section>

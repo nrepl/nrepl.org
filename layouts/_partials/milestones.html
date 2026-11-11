@@ -5,7 +5,7 @@
   </div>
   <ol class="log">
     {{- range hugo.Data.milestones }}
-    <li><time>{{ .date }}</time> <span>{{ .what }}</span></li>
+    <li><time>{{ .date }}</time> <span>{{ partial "curly.html" .what }}</span></li>
     {{- end }}
   </ol>
 </figure>
