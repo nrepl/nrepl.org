@@ -4,7 +4,7 @@
        page, messages can be typed in and sent from it too. */ -}}
 <figure class="wire-figure" data-playground-wire{{ if not .caption }} aria-label="The messages"{{ end }}>
   {{ partial "wire-bar.html" "nrepl-sci" }}
-  <ol class="msgs" data-empty="The messages show up here once you start using the REPL."></ol>
+  <ol class="msgs" tabindex="0" data-empty="The messages show up here once you start using the REPL."></ol>
   {{- if .composer }}
   <div class="composer">
     <p class="composer-examples">
