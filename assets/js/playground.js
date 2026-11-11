@@ -591,10 +591,17 @@ import { createEditor, forgetArguments, highlighted, insertCode, readMessage, se
     tabList.classList.toggle("one-open", openTabs().length < 2);
   }
 
+  // Marks a tab as the one shown, or not. Tab only stops at the one shown,
+  // and the arrows go to the others.
+  function select(tab, on) {
+    tab.button.setAttribute("aria-selected", String(on));
+    tab.button.tabIndex = on ? 0 : -1;
+  }
+
   function addTab(tab) {
     var item = tabTemplate.content.firstElementChild.cloneNode(true);
     tab.button = item.querySelector("[role=tab]");
-    tab.button.setAttribute("aria-selected", String(tab === current));
+    select(tab, tab === current);
     tab.button.addEventListener("click", function () { switchTo(tab); });
     item.querySelector(".close-session").addEventListener("click", function () { closeTab(tab); });
     tabList.appendChild(item);
@@ -602,18 +609,25 @@ import { createEditor, forgetArguments, highlighted, insertCode, readMessage, se
     label(tab);
   }
 
-  function switchTo(tab) {
+  // Shows `tab`, with the cursor in its code, or on the tab itself when
+  // the keyboard's going through the tabs.
+  function switchTo(tab, onTabs) {
     if (tab === current) return;
     current.code = code();
     current.log.hidden = true;
-    current.button.setAttribute("aria-selected", "false");
+    select(current, false);
     current = tab;
     tab.log.hidden = false;
     tab.log.scrollTop = tab.log.scrollHeight;
-    tab.button.setAttribute("aria-selected", "true");
+    select(tab, true);
+    // With more tabs than fit, the one shown could be out of sight. Only
+    // the tabs scroll to it, and not the page.
+    var strip = tabList.getBoundingClientRect();
+    var item = tab.button.parentNode.getBoundingClientRect();
+    tabList.scrollLeft += Math.min(0, item.left - strip.left) + Math.max(0, item.right - strip.right);
     setCode(editor, tab.code);
     showState(tab);
-    editor.focus();
+    (onTabs ? tab.button : editor).focus();
   }
 
   function cloneTab() {
@@ -653,6 +667,14 @@ import { createEditor, forgetArguments, highlighted, insertCode, readMessage, se
   if (tabList) {
     addTab(current);
     repl.querySelector(".clone").addEventListener("click", cloneTab);
+    // Left and Right go from tab to tab, as they do in any list of tabs.
+    tabList.addEventListener("keydown", function (event) {
+      var step = { ArrowLeft: -1, ArrowRight: 1 }[event.key];
+      if (!step || event.target.getAttribute("role") !== "tab") return;
+      var open = openTabs();
+      event.preventDefault();
+      switchTo(open[(open.indexOf(current) + step + open.length) % open.length], true);
+    });
   }
 
   // Messages typed in, on the playground's page, sent as they are. Their
