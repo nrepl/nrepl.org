@@ -235,8 +235,9 @@ function lookup(ask) {
 // `label`, with the placeholder `text`. `keys` are CodeMirror key bindings,
 // which go before the editor's own. With `ask(op, sym)`, which sends the
 // server the op about the symbol and gives a promise of its reply, it
-// shows what the server says about the code.
-export function createEditor(parent, label, text, keys, ask) {
+// shows what the server says about the code. `changed`, if given, is
+// called when what's in the editor changes.
+export function createEditor(parent, label, text, keys, ask, changed) {
   return new EditorView({
     parent: parent,
     state: EditorState.create({
@@ -247,6 +248,7 @@ export function createEditor(parent, label, text, keys, ask) {
         syntaxHighlighting(highlighting),
         // While it reads input, there's no syntax tree, and nothing to ask.
         ask ? [eldoc(ask), lookup(ask)] : [],
+        changed ? EditorView.updateListener.of(function (update) { if (update.docChanged) changed(); }) : [],
         keymap.of(builtin_keymap.concat(historyKeymap)),
         history(),
         drawSelection(),

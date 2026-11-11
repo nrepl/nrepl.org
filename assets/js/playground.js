@@ -679,7 +679,7 @@ import { createEditor, forgetArguments, highlighted, insertCode, readMessage, se
 
   // Messages typed in, on the playground's page, sent as they are. Their
   // replies only show in the wire window, and what's wrong with one that
-  // isn't a message shows under it.
+  // isn't a message shows under it, until it's edited.
 
   var composerBox = section.querySelector(".composer-code");
   var composerError = section.querySelector(".composer-error");
@@ -708,7 +708,7 @@ import { createEditor, forgetArguments, highlighted, insertCode, readMessage, se
         if (text && sendMessage(text)) setCode(view, "");
         return true;
       } }
-    ].concat(historyKeys(function () { return messages; })));
+    ].concat(historyKeys(function () { return messages; })), null, function () { composerError.textContent = ""; });
     composer.contentDOM.addEventListener("focus", function () { start(); });
     section.querySelectorAll("[data-message]").forEach(function (button) {
       button.addEventListener("click", function () {
