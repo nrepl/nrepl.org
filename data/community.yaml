@@ -1,6 +1,6 @@
 help:
   - name: "#nrepl on Clojurians Slack"
-    url: http://clojurians.net/
+    url: https://clojurians.net/
     blurb: The best place to get hold of the maintainers.
   - name: GitHub Discussions
     url: https://github.com/nrepl/nrepl/discussions
