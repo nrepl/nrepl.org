@@ -472,7 +472,9 @@ dl.faq dd { margin: 0.3rem 0 0; }
 .playground .msgs { max-height: 26rem; overflow: auto; }
 
 /* The playground's own page: the REPL and its messages side by side, as
-   tall as the screen allows, or one above the other on small screens */
+   tall as the screen allows, or one above the other on small screens. On a
+   screen too short for them under the text, they keep a height that's
+   usable, and the page scrolls. */
 
 .playground-page { max-width: 1280px; margin: 0 auto; padding: 48px 16px 24px; }
 .playground-page > p { max-width: 760px; }
@@ -485,9 +487,9 @@ dl.faq dd { margin: 0.3rem 0 0; }
 .playground-windows .msgs { flex: 1; overflow: auto; }
 
 @media (min-width: 900px) {
-  .playground-page { display: flex; flex-direction: column; height: calc(100vh - 58px); min-height: 40rem; padding: 40px 24px 24px; }
-  .js .playground-app { flex: 1; min-height: 0; }
-  .playground-windows { flex: 1; min-height: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
+  .playground-page { display: flex; flex-direction: column; min-height: calc(100vh - 58px); padding: 40px 24px 24px; }
+  .js .playground-app { flex: 1 0 auto; }
+  .playground-windows { flex: 1 0 24rem; min-height: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: minmax(0, 1fr); }
   .playground-windows > .repl, .playground-windows > .wire-figure { height: auto; }
 }
 
